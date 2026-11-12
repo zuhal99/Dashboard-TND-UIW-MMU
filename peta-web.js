@@ -48,7 +48,7 @@ window.PetaWeb={pasang:function(C){
 var parse=function(v){return typeof v==='string'?JSON.parse(v):v;};
 var latar=function(){var b=document.querySelector('.pa-latar[aria-pressed="true"]');var k=b?b.getAttribute('data-latar'):'sat';return LATAR[k]?k:'sat';};
 var inScope=function(d,s){var U=C.ref().U2U;return (s.up3==='Semua'||U.get(d.ulp)===s.up3)&&(s.ulp==='Semua'||d.ulp===s.ulp)&&(s.pyl==='Semua'||d.penyulang===s.pyl);};
-var isSkel=function(d){var r=C.ref();return r.SKEL.has(r.U2U.get(d.ulp));};
+var isSkel=function(d){var r=C.ref();return r.SKU?r.SKU.has(d.ulp):r.SKEL.has(r.U2U.get(d.ulp));};
 var styleOf=function(d){return C.LAPIS[d.jenis]||C.LAPIS[d.lapis]||{k:'gardu',s:'o',f:'#fff',c:'#14263A',r:2.6};};
 var f6=function(v){return (+v).toFixed(6);};
 
@@ -288,7 +288,7 @@ dash.draw('pa-profil-ulp',function(host){
   li(perUp3?'Pilih UP3 di filter atau klik barisnya untuk melihat profil per ULP.':'Klik baris ULP untuk memilihnya di peta; klik lagi untuk melepas.');
   li('Kapasitas trafo adalah jumlah kapasitas trafo distribusi menurut kode KAPASITAS di SHP (tabel kode dari UP3).');
   li('Beban puncak adalah jumlah beban puncak penyulang pada Oktober 2026 (20 kV, faktor daya 0,95).');
-  li('Switching mencakup LBS, PMCB, recloser dan FCO. Tanda — berarti data lapisan itu belum diterima (data UP3 Tual dan Masohi belum memuat JTM, gardu dan trafo).');
+  li('Switching mencakup LBS, PMCB, recloser dan FCO. Tanda — berarti data lapisan itu belum diterima (UP3 Tual belum memuat JTM, gardu dan trafo; UP3 Masohi belum memuat gardu dan trafo, serta JTM ULP Piru dan Kairatu).');
   host.replaceChildren(tb,catat);
 });
 dash.draw('peta-aset',{
