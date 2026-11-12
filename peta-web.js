@@ -247,6 +247,42 @@ function legendPyl(st){
   else kids.push(el('span','pa-lgrow',rows.length+' penyulang. Pilih ULP untuk melihat daftar warnanya; nama penyulang tampil di peta saat diperbesar.'));
   el0.replaceChildren.apply(el0,kids);
 }
+/* ---------- panel profil aset per ULP (pengganti analisis beban, permintaan Zuhal 12 Nov 2026) ---------- */
+dash.draw('pa-profil-ulp',function(host){
+  var g=C.rekap(),bb=dash.data('beban_penyulang');
+  if(g.status!=='ok'||!g.data){host.textContent=g.status==='error'?'Gagal memuat data aset':'Memuat…';return;}
+  var s=TD.asetScope(),K=(window.__KAPASITAS||{}).ulp||{};
+  var num=function(v){return v===''||v==null||isNaN(+v)?null:+v;};
+  var by={};
+  g.data.forEach(function(d){if(d.ulp==='Semua'||d.penyulang==='Semua')return;if(s.up3!=='Semua'&&d.up3!==s.up3)return;
+    var o=by[d.ulp]||(by[d.ulp]={ulp:d.ulp,up3:d.up3,jtm:null,sw:0,mw:null,kva:null,trafo:null,pyl:0});o.pyl++;
+    var j=num(d.jtm_km);if(j!=null)o.jtm=(o.jtm||0)+j;
+    ['lbs','pmcb','recloser','fco','switching_lain'].forEach(function(k){var v=num(d[k]);if(v)o.sw+=v;});});
+  if(bb.status==='ok'&&bb.data)bb.data.forEach(function(d){var o=by[d.ulp];if(!o||(s.up3!=='Semua'&&d.up3!==s.up3))return;var i=+d.arus_a;if(!isFinite(i))return;
+    o.mw=(o.mw||0)+Math.sqrt(3)*(+d.tegangan_kv||20)*i*(+d.faktor_daya||0.95)/1000;});
+  Object.keys(by).forEach(function(u){var k=K[u];if(k&&k.up3===by[u].up3){by[u].kva=k.kva;by[u].trafo=k.trafo;by[u].kbaca=k.terbaca;}});
+  var rows=Object.keys(by).map(function(u){return by[u];}).sort(function(a,b){return a.up3.localeCompare(b.up3)||a.ulp.localeCompare(b.ulp,'id');});
+  var M=[['jtm','Panjang JTM','km',TD.loc.format(',.1f')],['kva','Kapasitas gardu','kVA',TD.loc.format(',.0f')],['mw','Beban puncak','MW',TD.loc.format(',.2f')],['sw','Switching','unit',TD.loc.format(',.0f')]];
+  var mx={};M.forEach(function(m){mx[m[0]]=d3.max(rows,function(r){return r[m[0]];})||1;});
+  var tb=el('table','pw-prof');var th=el('tr');th.append(el('th',null,'ULP'));M.forEach(function(m){var h=el('th');h.append(document.createTextNode(m[1]),el('small',null,m[2]));th.append(h);});
+  var thead=el('thead');thead.append(th);tb.append(thead);var tbody=el('tbody');
+  var cell=function(r,m){var td=el('td');var v=r[m[0]];if(v==null){td.append(el('span','pw-na','—'));return td;}
+    td.append(el('b',null,m[3](v)));var bar=el('i','pw-bar pw-'+m[0]);bar.style.width=Math.max(3,100*v/mx[m[0]])+'%';var tr=el('span','pw-track');tr.append(bar);td.append(tr);return td;};
+  var tot={ulp:'Total',jtm:null,kva:null,mw:null,sw:0};
+  rows.forEach(function(r){var tr=el('tr');if(s.ulp===r.ulp)tr.className='pw-on';tr.tabIndex=0;tr.title='Klik untuk memilih ULP '+r.ulp;
+    var c0=el('td','pw-ulp');c0.append(el('b',null,r.ulp));c0.append(el('small',null,(s.up3==='Semua'?'UP3 '+r.up3+' · ':'')+r.pyl+' penyulang'));tr.append(c0);
+    M.forEach(function(m){tr.append(cell(r,m));var v=r[m[0]];if(v!=null)tot[m[0]]=(tot[m[0]]||0)+v;});
+    var pick=function(){dash.setParams({up3_aset:r.up3,ulp_aset:s.ulp===r.ulp?null:r.ulp,pyl_aset:null});var sel=document.getElementById('up3-aset');if(sel)sel.value=r.up3;};
+    tr.onclick=pick;tr.onkeydown=function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick();}};tbody.append(tr);});
+  tb.append(tbody);
+  if(rows.length>1){var tf=el('tfoot'),tr=el('tr');tr.append(el('td','pw-ulp','Total'));M.forEach(function(m){tr.append(el('td',null,tot[m[0]]==null?'—':m[3](tot[m[0]])));});tf.append(tr);tb.append(tf);}
+  var catat=el('ol','td-note pw-profcat');
+  var li=function(t){catat.append(el('li',null,t));};
+  li('Kapasitas gardu adalah jumlah kapasitas trafo distribusi, diperkirakan dari nilai rugi-rugi trafo menurut SPLN D3.002-1:2007, karena kode KAPASITAS di SHP belum punya tabel arti kode.');
+  li('Beban puncak adalah jumlah beban puncak penyulang per ULP pada Oktober 2026 (20 kV, faktor daya 0,95).');
+  li('Switching mencakup LBS, PMCB, recloser dan FCO. Tanda — berarti data lapisan itu belum diterima (UP3 Tual baru berisi switching dan tiang).');
+  host.replaceChildren(tb,catat);
+});
 dash.draw('peta-aset',{
 mount:function(host){
   var wrap=el('div','pw-map');wrap.setAttribute('role','application');wrap.setAttribute('aria-label','Peta jaringan JTM dan aset distribusi');
