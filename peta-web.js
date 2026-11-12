@@ -251,35 +251,40 @@ function legendPyl(st){
 dash.draw('pa-profil-ulp',function(host){
   var g=C.rekap(),bb=dash.data('beban_penyulang');
   if(g.status!=='ok'||!g.data){host.textContent=g.status==='error'?'Gagal memuat data aset':'Memuat…';return;}
-  var s=TD.asetScope(),K=(window.__KAPASITAS||{}).ulp||{};
+  var s=TD.asetScope(),perUp3=s.up3==='Semua';
+  var hd=host.closest('.pa-bcol');var h2=hd&&hd.querySelector('.pa-bh2');if(h2)h2.textContent=perUp3?'Profil aset per UP3':'Profil aset per ULP UP3 '+s.up3;
   var num=function(v){return v===''||v==null||isNaN(+v)?null:+v;};
+  var kunci=function(d){return perUp3?d.up3:d.ulp;};
   var by={};
-  g.data.forEach(function(d){if(d.ulp==='Semua'||d.penyulang==='Semua')return;if(s.up3!=='Semua'&&d.up3!==s.up3)return;
-    var o=by[d.ulp]||(by[d.ulp]={ulp:d.ulp,up3:d.up3,jtm:null,sw:0,mw:null,kva:null,trafo:null,pyl:0});o.pyl++;
+  g.data.forEach(function(d){if(d.ulp==='Semua'||d.penyulang==='Semua')return;if(!perUp3&&d.up3!==s.up3)return;
+    var k=kunci(d);var o=by[k]||(by[k]={nama:k,up3:d.up3,ulp:perUp3?null:d.ulp,jtm:null,gd:null,sw:0,mw:null,pyl:0,ulps:{}});o.pyl++;o.ulps[d.ulp]=1;
     var j=num(d.jtm_km);if(j!=null)o.jtm=(o.jtm||0)+j;
+    var gd=num(d.gardu_distribusi);if(gd!=null)o.gd=(o.gd||0)+gd;
     ['lbs','pmcb','recloser','fco','switching_lain'].forEach(function(k){var v=num(d[k]);if(v)o.sw+=v;});});
-  if(bb.status==='ok'&&bb.data)bb.data.forEach(function(d){var o=by[d.ulp];if(!o||(s.up3!=='Semua'&&d.up3!==s.up3))return;var i=+d.arus_a;if(!isFinite(i))return;
+  if(bb.status==='ok'&&bb.data)bb.data.forEach(function(d){if(!perUp3&&d.up3!==s.up3)return;var o=by[kunci(d)];if(!o)return;var i=+d.arus_a;if(!isFinite(i))return;
     o.mw=(o.mw||0)+Math.sqrt(3)*(+d.tegangan_kv||20)*i*(+d.faktor_daya||0.95)/1000;});
-  Object.keys(by).forEach(function(u){var k=K[u];if(k&&k.up3===by[u].up3){by[u].kva=k.kva;by[u].trafo=k.trafo;by[u].kbaca=k.terbaca;}});
-  var rows=Object.keys(by).map(function(u){return by[u];}).sort(function(a,b){return a.up3.localeCompare(b.up3)||a.ulp.localeCompare(b.ulp,'id');});
-  var M=[['jtm','Panjang JTM','km',TD.loc.format(',.1f')],['kva','Kapasitas gardu','kVA',TD.loc.format(',.0f')],['mw','Beban puncak','MW',TD.loc.format(',.2f')],['sw','Switching','unit',TD.loc.format(',.0f')]];
+  var rows=Object.keys(by).map(function(u){return by[u];}).sort(function(a,b){return a.nama.localeCompare(b.nama,'id');});
+  var M=[['jtm','Panjang JTM','km',TD.loc.format(',.1f')],['gd','Gardu distribusi','unit',TD.loc.format(',.0f')],['mw','Beban puncak','MW',TD.loc.format(',.2f')],['sw','Switching','unit',TD.loc.format(',.0f')]];
   var mx={};M.forEach(function(m){mx[m[0]]=d3.max(rows,function(r){return r[m[0]];})||1;});
-  var tb=el('table','pw-prof');var th=el('tr');th.append(el('th',null,'ULP'));M.forEach(function(m){var h=el('th');h.append(document.createTextNode(m[1]),el('small',null,m[2]));th.append(h);});
+  var tb=el('table','pw-prof');var th=el('tr');th.append(el('th',null,perUp3?'UP3':'ULP'));M.forEach(function(m){var h=el('th');h.append(document.createTextNode(m[1]),el('small',null,m[2]));th.append(h);});
   var thead=el('thead');thead.append(th);tb.append(thead);var tbody=el('tbody');
   var cell=function(r,m){var td=el('td');var v=r[m[0]];if(v==null){td.append(el('span','pw-na','—'));return td;}
     td.append(el('b',null,m[3](v)));var bar=el('i','pw-bar pw-'+m[0]);bar.style.width=Math.max(3,100*v/mx[m[0]])+'%';var tr=el('span','pw-track');tr.append(bar);td.append(tr);return td;};
-  var tot={ulp:'Total',jtm:null,kva:null,mw:null,sw:0};
-  rows.forEach(function(r){var tr=el('tr');if(s.ulp===r.ulp)tr.className='pw-on';tr.tabIndex=0;tr.title='Klik untuk memilih ULP '+r.ulp;
-    var c0=el('td','pw-ulp');c0.append(el('b',null,r.ulp));c0.append(el('small',null,(s.up3==='Semua'?'UP3 '+r.up3+' · ':'')+r.pyl+' penyulang'));tr.append(c0);
+  var tot={};
+  rows.forEach(function(r){var tr=el('tr');var on=!perUp3&&s.ulp===r.ulp;if(on)tr.className='pw-on';tr.tabIndex=0;
+    tr.title=perUp3?'Klik untuk memilih UP3 '+r.nama:'Klik untuk memilih ULP '+r.nama;
+    var c0=el('td','pw-ulp');c0.append(el('b',null,r.nama));c0.append(el('small',null,(perUp3?Object.keys(r.ulps).length+' ULP · ':'')+r.pyl+' penyulang'));tr.append(c0);
     M.forEach(function(m){tr.append(cell(r,m));var v=r[m[0]];if(v!=null)tot[m[0]]=(tot[m[0]]||0)+v;});
-    var pick=function(){dash.setParams({up3_aset:r.up3,ulp_aset:s.ulp===r.ulp?null:r.ulp,pyl_aset:null});var sel=document.getElementById('up3-aset');if(sel)sel.value=r.up3;};
+    var pick=function(){var sel=document.getElementById('up3-aset');
+      if(perUp3){dash.setParams({up3_aset:r.up3,ulp_aset:null,pyl_aset:null});if(sel)sel.value=r.up3;}
+      else dash.setParams({ulp_aset:on?null:r.ulp,pyl_aset:null});};
     tr.onclick=pick;tr.onkeydown=function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick();}};tbody.append(tr);});
   tb.append(tbody);
   if(rows.length>1){var tf=el('tfoot'),tr=el('tr');tr.append(el('td','pw-ulp','Total'));M.forEach(function(m){tr.append(el('td',null,tot[m[0]]==null?'—':m[3](tot[m[0]])));});tf.append(tr);tb.append(tf);}
   var catat=el('ol','td-note pw-profcat');
   var li=function(t){catat.append(el('li',null,t));};
-  li('Kapasitas gardu adalah jumlah kapasitas trafo distribusi, diperkirakan dari nilai rugi-rugi trafo menurut SPLN D3.002-1:2007, karena kode KAPASITAS di SHP belum punya tabel arti kode.');
-  li('Beban puncak adalah jumlah beban puncak penyulang per ULP pada Oktober 2026 (20 kV, faktor daya 0,95).');
+  li(perUp3?'Pilih UP3 di filter atau klik barisnya untuk melihat profil per ULP.':'Klik baris ULP untuk memilihnya di peta; klik lagi untuk melepas.');
+  li('Beban puncak adalah jumlah beban puncak penyulang pada Oktober 2026 (20 kV, faktor daya 0,95).');
   li('Switching mencakup LBS, PMCB, recloser dan FCO. Tanda — berarti data lapisan itu belum diterima (UP3 Tual baru berisi switching dan tiang).');
   host.replaceChildren(tb,catat);
 });
