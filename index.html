@@ -15,7 +15,11 @@ body{font-family:var(--font-anthropic-sans);-webkit-text-size-adjust:100%}
 .web-foot{max-width:1600px;margin:0 auto;padding:12px 16px 28px;font-size:12px;color:#5B6B7D;border-top:1px solid #D7E2EC}
 </style>
 <script></script>
+<link rel="stylesheet" href="vendor/leaflet/leaflet.css?v=1.9.4">
+<link rel="stylesheet" href="peta-web.css?v=c6ae84c1a1">
 <script src="d3.min.js"></script>
+<script src="vendor/leaflet/leaflet.js?v=1.9.4"></script>
+<script src="peta-web.js?v=777c5750f7"></script>
 <script>window.__SOURCES={"ai_dist_kontrak":{"file":"data/ai_dist_kontrak.csv","format":"csv","v":"242acdd2a7"},"ai_dist_prk":{"file":"data/ai_dist_prk.csv","format":"csv","v":"d6f9f42c0a"},"anggaran":{"file":"data/anggaran.csv","format":"csv","v":"6a0837af27"},"ao_prk":{"file":"data/ao_prk.csv","format":"csv","v":"19904e16c0"},"aset":{"file":"data/aset.csv","format":"csv","v":"8678bf91d4"},"beban_penyulang":{"file":"data/beban_penyulang.csv","format":"csv","v":"dfef2c1f77"},"epm_rinci":{"file":"data/epm_rinci.csv","format":"csv","v":"80b6a38032"},"gis_dasar":{"file":"data/gis_dasar.json","format":"json","v":"9dcf2fa0dc"},"gis_jtm":{"file":"data/gis_jtm.json","format":"json","v":"8a332bb658"},"gis_rekap":{"file":"data/gis_rekap.csv","format":"csv","v":"e89b0579a9"},"gis_tiang":{"file":"data/gis_tiang.json","format":"json","v":"45c50eb5ec"},"gis_tiang_tual":{"file":"data/gis_tiang_tual.json","format":"json","v":"153be7b92f"},"gis_titik":{"file":"data/gis_titik.json","format":"json","v":"d0573b9e7c"},"kinerja":{"file":"data/kinerja.csv","format":"csv","v":"a6d2e53db1"},"master_kpi":{"file":"data/master_kpi.csv","format":"csv","v":"9d2cc3c987"},"sat_z10":{"file":"data/sat_z10.json","format":"json","v":"b434f2bc85"},"sat_z10_tual":{"file":"data/sat_z10_tual.json","format":"json","v":"308ac6207f"},"sat_z12":{"file":"data/sat_z12.json","format":"json","v":"4365dede82"},"sat_z12_tual":{"file":"data/sat_z12_tual.json","format":"json","v":"90420b6049"},"sat_z13_dobo":{"file":"data/sat_z13_dobo.json","format":"json","v":"46eb6d5425"},"sat_z13_elat":{"file":"data/sat_z13_elat.json","format":"json","v":"426df0742e"},"sat_z13_jailolo":{"file":"data/sat_z13_jailolo.json","format":"json","v":"4a7701cf8e"},"sat_z13_maba":{"file":"data/sat_z13_maba.json","format":"json","v":"42b305ba4b"},"sat_z13_sofifi":{"file":"data/sat_z13_sofifi.json","format":"json","v":"19cec606d2"},"sat_z13_tual":{"file":"data/sat_z13_tual.json","format":"json","v":"509c986ebb"},"sat_z13_weda":{"file":"data/sat_z13_weda.json","format":"json","v":"1d5f557b59"}};</script>
 <script src="runtime.js"></script>
 </head>
@@ -600,10 +604,11 @@ padding-block:0 24px; padding-left:max(16px,env(safe-area-inset-left,0px)); padd
 <label><input type="checkbox" data-lapis="trafo"><i class="pa-sw trafo"></i>Trafo distribusi</label>
 <label><input type="checkbox" data-lapis="phb"><i class="pa-sw phb"></i>PHB TR</label>
 <label><input type="checkbox" data-lapis="tiang"><i class="pa-sw tiang"></i>Tiang TM</label>
+<label><input type="checkbox" data-lapis="label" checked><i class="pa-sw lbl"></i>Nama tempat dan jalan</label>
 </fieldset>
 </span>
 <span class="pa-segs"><span class="kp-seg pa-warnaseg" role="group" aria-label="Warna jaringan"><button type="button" class="kp-segbtn pa-warna" data-warna="ulp" aria-pressed="true">Warna ULP</button><button type="button" class="kp-segbtn pa-warna" data-warna="beban" aria-pressed="false">Warna beban</button></span>
-<span class="kp-seg pa-latarseg" role="group" aria-label="Latar peta"><button type="button" class="kp-segbtn pa-latar" data-latar="sat" aria-pressed="true">Satelit</button><button type="button" class="kp-segbtn pa-latar" data-latar="polos" aria-pressed="false">Polos</button></span></span>
+<span class="kp-seg pa-latarseg" role="group" aria-label="Latar peta"><button type="button" class="kp-segbtn pa-latar" data-latar="sat" aria-pressed="true">Satelit</button><button type="button" class="kp-segbtn pa-latar" data-latar="jalan" aria-pressed="false">Jalan</button><button type="button" class="kp-segbtn pa-latar" data-latar="polos" aria-pressed="false">Polos</button></span></span>
 </div>
 <div class="pa-stage">
 <div class="pa-map" data-draw="peta-aset" data-source="gis_dasar gis_jtm gis_titik gis_rekap sat_z10"></div>
@@ -634,7 +639,7 @@ padding-block:0 24px; padding-left:max(16px,env(safe-area-inset-left,0px)); padd
 </div>
 </div>
 </div>
-<p class="td-note pa-hint-line">Geser peta untuk berpindah; perbesar dengan tombol +/−, cubit di HP, atau Ctrl + gulir. Klik aset atau lokasi di peta untuk kartu detail (Street View dan citra Google). Klik batang grafik atau baris tabel untuk menyorot penyulang.</p>
+<p class="td-note pa-hint-line">Geser peta untuk berpindah; perbesar dengan tombol +/−, cubit di HP, atau Ctrl + gulir. Gardu, trafo dan tiang TM muncul saat peta diperbesar. Klik aset atau lokasi di peta untuk kartu detail (Street View dan citra Google). Klik batang grafik atau baris tabel untuk menyorot penyulang.</p>
 
 <div class="td-sec" id="daftar-aset">
 <h2>Rekap aset per penyulang</h2>
@@ -654,12 +659,12 @@ padding-block:0 24px; padding-left:max(16px,env(safe-area-inset-left,0px)); padd
 <li>Nama ULP Sofifi disimpulkan dari kode OWNER_ASET (41520 Jailolo, 41530 Sofifi, 41540 Maba, 41550 Weda) dan menunggu konfirmasi.</li>
 <li>Panjang JTM memakai atribut PANJANG_HA. Panjang menurut geometri garis berbeda sekitar 0,2%.</li>
 <li>Jenis switching Sofifi dibaca dari nama perangkat (DESCRIPTIO dan NAMA_OPERA): LBS (manual, motorized dan double switching), PMCB, Recloser, dan FCO (cut out). Belum ada perangkat yang bernama recloser di SHP Sofifi. Switching Tual dibaca dari klasifikasi dan nama; PMCB Tual berklasifikasi LBS dan dibedakan dari namanya. Gardu hubung mencakup gardu KIT TR.</li>
-<li>Latar satelit memakai EOxCloudless 2016 oleh EOX IT Services GmbH (berisi data Copernicus Sentinel 2016 yang dimodifikasi), lisensi CC BY 4.0. Citra 2016 dipilih karena bebas dipakai, sedangkan citra tahun yang lebih baru hanya untuk penggunaan non-komersial. Resolusinya sekitar 10 m, sehingga detail tiang dan bangunan dilihat lewat tombol citra Google di kartu detail.</li>
+<li>Latar peta di versi web memakai layanan ubin Esri: Satelit (World Imagery, sumber Esri, Maxar, Earthstar Geographics), Jalan (World Street Map) dan Polos (Light Gray Canvas), dengan nama tempat dan jalan dari lapisan referensi Esri. Citra satelit cukup tajam untuk melihat bangunan dan jalan, tetapi tanggal pemotretannya berbeda-beda per lokasi, sehingga bangunan atau jalan baru bisa belum tampak.</li>
 <li>Geodatabase UP3 Tual baru berisi lapisan switching dan tiang. JTM, gardu distribusi, trafo, PHB TR dan gardu hubung belum ada, sehingga tampil “—”, dan jaringan Tual di peta digambarkan dari titik tiang TM berwarna ULP.</li>
 <li>Penyulang UP3 Tual masih berupa kode angka dari atribut tiang TM. Tiang TM tanpa kode (36%) dikelompokkan sebagai “(tanpa kode)”. Penyulang dan ULP switching Tual diambil dari tiang TM terdekat (paling jauh 60 m). Empat tiang tanpa koordinat atau berkoordinat di luar wilayah tidak dimuat.</li>
 <li>Nama ULP Tual disimpulkan dari kode lokasi (41310 Tual, 41320 Elat, 41330 Dobo) dan menunggu konfirmasi. Tiang tanpa kode ULP ditempatkan menurut pulau letaknya.</li>
 <li>Beban penyulang UP3 Sofifi adalah beban puncak Oktober 2026 dalam ampere di pangkal penyulang, dikirim 11 November 2026. Nama di tabel (misalnya KOTA JAILOLO) dicocokkan dengan nama SHP (Jailolo Kota). BICOLI disimpulkan sebagai Bicoli Sowoli, dan KEDI adalah satu angka gabungan untuk Kedi Kota, Kedi Selatan dan Kedi Utara. Daya dihitung dengan tegangan 20 kV dan faktor daya 0,95.</li>
-<li>Latar polos memakai garis pantai Natural Earth yang bersifat perkiraan, sehingga memudar saat peta diperbesar. Kondisi aset dari Maximo belum dimuat.</li>
+<li>Kondisi aset dari Maximo belum dimuat.</li>
 </ol>
 </details>
 </div>
@@ -2610,7 +2615,8 @@ const parse=(v)=>typeof v==='string'?JSON.parse(v):v;
 const bounds=(pts)=>{let x0=Infinity,y0=Infinity,x1=-Infinity,y1=-Infinity;for(const [x,y] of pts){if(x<x0)x0=x;if(x>x1)x1=x;if(y<y0)y0=y;if(y>y1)y1=y;}return [x0,y0,x1,y1];};
 const niceKm=(km)=>{const n=[0.5,1,2,5,10,20,50,100];for(const v of n)if(v>=km)return v;return 100;};
 
-dash.draw('peta-aset',{
+if(window.PetaWeb&&window.L)PetaWeb.pasang({PETA_UP3,TIANG,LAPIS,ORDER,lapisOn,rekap,bebanIdx,bcol,bebanTxt,ulpColor,warnaBeban,ref:()=>({U2U,SKEL})});
+dash.draw(window.PetaWeb&&window.L?'peta-aset-kanvas':'peta-aset',{
 mount(el){
 const cv=document.createElement('canvas');cv.setAttribute('role','img');cv.setAttribute('aria-label','Peta jaringan JTM dan titik aset distribusi');
 const msg=document.createElement('div');msg.className='pa-msg';msg.textContent='Memuat peta…';
