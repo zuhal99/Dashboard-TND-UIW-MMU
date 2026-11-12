@@ -1,0 +1,41 @@
+periode,jenis_beban,up3,ulp,sistem,penyulang_sumber,penyulang,arus_a,tegangan_kv,faktor_daya,pencocokan,diterima
+2026-10,puncak,Sofifi,Jailolo,Jailolo,KOTA JAILOLO,Jailolo Kota,33.9,20,0.95,cocok,2026-11-11
+2026-10,puncak,Sofifi,Jailolo,Jailolo,SELATAN JAILOLO,Jailolo Selatan,30.7,20,0.95,cocok,2026-11-11
+2026-10,puncak,Sofifi,Jailolo,Jailolo,TIMUR JAILOLO,Jailolo Timur,16.5,20,0.95,cocok,2026-11-11
+2026-10,puncak,Sofifi,Jailolo,Jailolo,UTARA JAILOLO,Jailolo Utara,58,20,0.95,cocok,2026-11-11
+2026-10,puncak,Sofifi,Jailolo,Ibu,SELATAN IBU,Ibu Selatan,16.6,20,0.95,cocok,2026-11-11
+2026-10,puncak,Sofifi,Jailolo,Ibu,KOTA IBU,Ibu Kota,16,20,0.95,cocok,2026-11-11
+2026-10,puncak,Sofifi,Jailolo,Ibu,UTARA IBU,Ibu Utara,17,20,0.95,cocok,2026-11-11
+2026-10,puncak,Sofifi,Jailolo,Kedi,KEDI,,10.2,20,0.95,"gabungan sistem Kedi; SHP memuat Kedi Kota, Kedi Selatan, Kedi Utara",2026-11-11
+2026-10,puncak,Sofifi,Sofifi,Sofifi,EXPRESS SOFIFI,Sofifi Express,70.7,20,0.95,cocok,2026-11-11
+2026-10,puncak,Sofifi,Sofifi,Sofifi,KOTA SOFIFI,Sofifi Kota,41.7,20,0.95,cocok,2026-11-11
+2026-10,puncak,Sofifi,Sofifi,Sofifi,KUSU SOFIFI,Sofifi Kusu,29.7,20,0.95,cocok,2026-11-11
+2026-10,puncak,Sofifi,Sofifi,Sofifi,SELATAN SOFIFI,Sofifi Selatan,41.8,20,0.95,cocok,2026-11-11
+2026-10,puncak,Sofifi,Sofifi,Sofifi,UTARA SOFIFI,Sofifi Utara,29.8,20,0.95,cocok,2026-11-11
+2026-10,puncak,Sofifi,Weda,Weda,KOTA WEDA,Weda Kota,60.6,20,0.95,cocok,2026-11-11
+2026-10,puncak,Sofifi,Weda,Weda,NUSLIKO WEDA,Weda Nusliko,78.5,20,0.95,cocok,2026-11-11
+2026-10,puncak,Sofifi,Weda,Weda,POLRES WEDA,Weda Polres,47.6,20,0.95,cocok,2026-11-11
+2026-10,puncak,Sofifi,Weda,Weda,UTARA WEDA,Weda Utara,36.6,20,0.95,cocok,2026-11-11
+2026-10,puncak,Sofifi,Weda,Maffa,LOLEO MAFFA,Maffa Loleo,32.6,20,0.95,cocok,2026-11-11
+2026-10,puncak,Sofifi,Weda,Maffa,FIDA MAFFA,Maffa Fida,5.7,20,0.95,cocok,2026-11-11
+2026-10,puncak,Sofifi,Weda,Patani,BANEMO PATANI,Patani Banemo,20.7,20,0.95,cocok,2026-11-11
+2026-10,puncak,Sofifi,Weda,Patani,TEPELEO PATANI,Patani Tepeleo,19.6,20,0.95,cocok,2026-11-11
+2026-10,puncak,Sofifi,Weda,Gebe,KAPALEO GEBE,Gebe Kapaleo,12.6,20,0.95,cocok,2026-11-11
+2026-10,puncak,Sofifi,Weda,Gebe,PANTURA GEBE,Gebe Pantura,1.4,20,0.95,cocok,2026-11-11
+2026-10,puncak,Sofifi,Weda,Gebe,GALANGAN GEBE,Gebe Galangan,2.4,20,0.95,cocok,2026-11-11
+2026-10,puncak,Sofifi,Maba,Maba,KOTA MABA,Maba Kota,1.5,20,0.95,cocok,2026-11-11
+2026-10,puncak,Sofifi,Maba,Maba,SANGAJI MABA,Maba Sangaji,2.5,20,0.95,cocok,2026-11-11
+2026-10,puncak,Sofifi,Maba,Maba,SOAGIMALAHA MABA,Maba Soagimalaha,21.5,20,0.95,cocok,2026-11-11
+2026-10,puncak,Sofifi,Maba,Buli,EXPRES BULI,Buli Express,43.5,20,0.95,cocok (ejaan EXPRES dibaca Express),2026-11-11
+2026-10,puncak,Sofifi,Maba,Buli,KOTA BULI,Buli Kota,25.7,20,0.95,cocok,2026-11-11
+2026-10,puncak,Sofifi,Maba,Buli,SOSOLAT,Buli Sosolat,15.6,20,0.95,nama tanpa sistem,2026-11-11
+2026-10,puncak,Sofifi,Maba,Buli,MABAPURA BULI,Buli Mabapura,62.6,20,0.95,cocok,2026-11-11
+2026-10,puncak,Sofifi,Maba,Subaim,BARAT SUBAIM,Subaim Barat,4.6,20,0.95,cocok,2026-11-11
+2026-10,puncak,Sofifi,Maba,Subaim,TIMUR SUBAIM,Subaim Timur,57.55,20,0.95,cocok,2026-11-11
+2026-10,puncak,Sofifi,Maba,Lolobata,FOLI LOLOBATA,Lolobata Foli,4.7,20,0.95,cocok,2026-11-11
+2026-10,puncak,Sofifi,Maba,Lolobata,MABO LOLOBATA,Lolobata Mabo,57.65,20,0.95,cocok,2026-11-11
+2026-10,puncak,Sofifi,Maba,Lolobata,NYAOLAKO LOLOBATA,Lolobata Nyaolako,3.65,20,0.95,cocok,2026-11-11
+2026-10,puncak,Sofifi,Maba,Bicoli,BICOLI,Bicoli Sowoli,8.65,20,0.95,disimpulkan: satu-satunya penyulang Bicoli lain di SHP,2026-11-11
+2026-10,puncak,Sofifi,Maba,Bicoli,GOTOWASI BICOLI,Bicoli Gotowasi,5.55,20,0.95,cocok,2026-11-11
+2026-10,puncak,Sofifi,Maba,Wasileo,PATLEAN WASILEO,Wasileo Patlean,7.55,20,0.95,cocok,2026-11-11
+2026-10,puncak,Sofifi,Maba,Wasileo,DOROSAGU WASILEO,Wasileo Dorosagu,5.55,20,0.95,cocok,2026-11-11
