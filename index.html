@@ -16,10 +16,10 @@ body{font-family:var(--font-anthropic-sans);-webkit-text-size-adjust:100%}
 </style>
 <script></script>
 <link rel="stylesheet" href="vendor/leaflet/leaflet.css?v=1.9.4">
-<link rel="stylesheet" href="peta-web.css?v=c6ae84c1a1">
+<link rel="stylesheet" href="peta-web.css?v=d1a4c396b7">
 <script src="d3.min.js"></script>
 <script src="vendor/leaflet/leaflet.js?v=1.9.4"></script>
-<script src="peta-web.js?v=777c5750f7"></script>
+<script src="peta-web.js?v=3b604ccc1a"></script>
 <script>window.__SOURCES={"ai_dist_kontrak":{"file":"data/ai_dist_kontrak.csv","format":"csv","v":"242acdd2a7"},"ai_dist_prk":{"file":"data/ai_dist_prk.csv","format":"csv","v":"d6f9f42c0a"},"anggaran":{"file":"data/anggaran.csv","format":"csv","v":"6a0837af27"},"ao_prk":{"file":"data/ao_prk.csv","format":"csv","v":"19904e16c0"},"aset":{"file":"data/aset.csv","format":"csv","v":"8678bf91d4"},"beban_penyulang":{"file":"data/beban_penyulang.csv","format":"csv","v":"dfef2c1f77"},"epm_rinci":{"file":"data/epm_rinci.csv","format":"csv","v":"80b6a38032"},"gis_dasar":{"file":"data/gis_dasar.json","format":"json","v":"9dcf2fa0dc"},"gis_jtm":{"file":"data/gis_jtm.json","format":"json","v":"8a332bb658"},"gis_rekap":{"file":"data/gis_rekap.csv","format":"csv","v":"e89b0579a9"},"gis_tiang":{"file":"data/gis_tiang.json","format":"json","v":"45c50eb5ec"},"gis_tiang_tual":{"file":"data/gis_tiang_tual.json","format":"json","v":"153be7b92f"},"gis_titik":{"file":"data/gis_titik.json","format":"json","v":"d0573b9e7c"},"kinerja":{"file":"data/kinerja.csv","format":"csv","v":"a6d2e53db1"},"master_kpi":{"file":"data/master_kpi.csv","format":"csv","v":"9d2cc3c987"},"sat_z10":{"file":"data/sat_z10.json","format":"json","v":"b434f2bc85"},"sat_z10_tual":{"file":"data/sat_z10_tual.json","format":"json","v":"308ac6207f"},"sat_z12":{"file":"data/sat_z12.json","format":"json","v":"4365dede82"},"sat_z12_tual":{"file":"data/sat_z12_tual.json","format":"json","v":"90420b6049"},"sat_z13_dobo":{"file":"data/sat_z13_dobo.json","format":"json","v":"46eb6d5425"},"sat_z13_elat":{"file":"data/sat_z13_elat.json","format":"json","v":"426df0742e"},"sat_z13_jailolo":{"file":"data/sat_z13_jailolo.json","format":"json","v":"4a7701cf8e"},"sat_z13_maba":{"file":"data/sat_z13_maba.json","format":"json","v":"42b305ba4b"},"sat_z13_sofifi":{"file":"data/sat_z13_sofifi.json","format":"json","v":"19cec606d2"},"sat_z13_tual":{"file":"data/sat_z13_tual.json","format":"json","v":"509c986ebb"},"sat_z13_weda":{"file":"data/sat_z13_weda.json","format":"json","v":"1d5f557b59"}};</script>
 <script src="runtime.js"></script>
 </head>
@@ -607,7 +607,7 @@ padding-block:0 24px; padding-left:max(16px,env(safe-area-inset-left,0px)); padd
 <label><input type="checkbox" data-lapis="label" checked><i class="pa-sw lbl"></i>Nama tempat dan jalan</label>
 </fieldset>
 </span>
-<span class="pa-segs"><span class="kp-seg pa-warnaseg" role="group" aria-label="Warna jaringan"><button type="button" class="kp-segbtn pa-warna" data-warna="ulp" aria-pressed="true">Warna ULP</button><button type="button" class="kp-segbtn pa-warna" data-warna="beban" aria-pressed="false">Warna beban</button></span>
+<span class="pa-segs"><span class="kp-seg pa-warnaseg" role="group" aria-label="Warna jaringan"><button type="button" class="kp-segbtn pa-warna" data-warna="ulp" aria-pressed="true">Warna ULP</button><button type="button" class="kp-segbtn pa-warna" data-warna="penyulang" aria-pressed="false">Warna penyulang</button></span>
 <span class="kp-seg pa-latarseg" role="group" aria-label="Latar peta"><button type="button" class="kp-segbtn pa-latar" data-latar="sat" aria-pressed="true">Satelit</button><button type="button" class="kp-segbtn pa-latar" data-latar="jalan" aria-pressed="false">Jalan</button><button type="button" class="kp-segbtn pa-latar" data-latar="polos" aria-pressed="false">Polos</button></span></span>
 </div>
 <div class="pa-stage">

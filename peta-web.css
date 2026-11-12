@@ -33,3 +33,6 @@
   .pa-map.pw-host .leaflet-control-attribution{font-size:9.5px}
   .pa-stage .pa-legend-in{bottom:40px}
 }
+.pa-legend-in .pw-lgpyl{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:1px 10px;max-height:150px;overflow:hidden;width:100%}
+.pa-legend-in .pw-lgpyl>span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pa-stage .pa-legend-in{max-width:min(380px,calc(100% - 64px))}
