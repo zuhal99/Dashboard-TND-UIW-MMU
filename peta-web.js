@@ -64,8 +64,8 @@ function shape(ctx,s,x,y,r){
 
 function describe(h){
   if(!h)return ['Lokasi dipilih','','',''];
-  if(h.type==='pt'){var d=h.q.d;var KP=window.__KAPASITAS||{};var kv=d.lapis==='Gardu distribusi'?(KP.gardu||{})[d.nama]:d.lapis==='Trafo distribusi'?(KP.trafo||{})[d.nama]:null;
-    return [d.nama||d.lapis,(d.jenis&&d.jenis!==d.lapis?d.jenis+' ('+d.lapis.toLowerCase()+')':d.lapis)+(kv?', kapasitas trafo '+TD.loc.format(',')(kv)+' kVA':'')+(d.th_buat?', dibangun '+d.th_buat:''),'Penyulang '+d.penyulang+', ULP '+d.ulp,C.bebanTxt(d.penyulang,d.ulp)];}
+  if(h.type==='pt'){var d=h.q.d;var KP=window.__KAPASITAS||{};var kv=d.lapis==='Gardu distribusi'?(KP.gardu||{})[d.nama]:d.lapis==='Trafo distribusi'?(KP.trafo||{})[d.nama]:null;var mk=d.lapis==='Gardu distribusi'?(KP.merk_gardu||{})[d.nama]:d.lapis==='Trafo distribusi'?(KP.merk_trafo||{})[d.nama]:null;
+    return [d.nama||d.lapis,(d.jenis&&d.jenis!==d.lapis?d.jenis+' ('+d.lapis.toLowerCase()+')':d.lapis)+(kv?', kapasitas trafo '+TD.loc.format(',')(kv)+' kVA':'')+(mk?', merk trafo '+mk:'')+(d.th_buat?', dibangun '+d.th_buat:''),'Penyulang '+d.penyulang+', ULP '+d.ulp,C.bebanTxt(d.penyulang,d.ulp)];}
   if(h.type==='tiang'){var t=h.q.d;return ['Tiang TM','Penyulang '+t.penyulang,'ULP '+t.ulp,C.bebanTxt(t.penyulang,t.ulp)];}
   var j=h.d;return ['JTM penyulang '+j.penyulang,(j.nama||'Ruas JTM')+', ±'+TD.loc.format(',.2f')(+j.panjang_km)+' km','ULP '+j.ulp,C.bebanTxt(j.penyulang,j.ulp)];
 }
