@@ -64,7 +64,8 @@ function shape(ctx,s,x,y,r){
 
 function describe(h){
   if(!h)return ['Lokasi dipilih','','',''];
-  if(h.type==='pt'){var d=h.q.d;return [d.nama||d.lapis,(d.jenis&&d.jenis!==d.lapis?d.jenis+' ('+d.lapis.toLowerCase()+')':d.lapis)+(d.th_buat?', dibangun '+d.th_buat:''),'Penyulang '+d.penyulang+', ULP '+d.ulp,C.bebanTxt(d.penyulang,d.ulp)];}
+  if(h.type==='pt'){var d=h.q.d;var KP=window.__KAPASITAS||{};var kv=d.lapis==='Gardu distribusi'?(KP.gardu||{})[d.nama]:d.lapis==='Trafo distribusi'?(KP.trafo||{})[d.nama]:null;
+    return [d.nama||d.lapis,(d.jenis&&d.jenis!==d.lapis?d.jenis+' ('+d.lapis.toLowerCase()+')':d.lapis)+(kv?', kapasitas trafo '+TD.loc.format(',')(kv)+' kVA':'')+(d.th_buat?', dibangun '+d.th_buat:''),'Penyulang '+d.penyulang+', ULP '+d.ulp,C.bebanTxt(d.penyulang,d.ulp)];}
   if(h.type==='tiang'){var t=h.q.d;return ['Tiang TM','Penyulang '+t.penyulang,'ULP '+t.ulp,C.bebanTxt(t.penyulang,t.ulp)];}
   var j=h.d;return ['JTM penyulang '+j.penyulang,(j.nama||'Ruas JTM')+', ±'+TD.loc.format(',.2f')(+j.panjang_km)+' km','ULP '+j.ulp,C.bebanTxt(j.penyulang,j.ulp)];
 }
@@ -257,14 +258,15 @@ dash.draw('pa-profil-ulp',function(host){
   var kunci=function(d){return perUp3?d.up3:d.ulp;};
   var by={};
   g.data.forEach(function(d){if(d.ulp==='Semua'||d.penyulang==='Semua')return;if(!perUp3&&d.up3!==s.up3)return;
-    var k=kunci(d);var o=by[k]||(by[k]={nama:k,up3:d.up3,ulp:perUp3?null:d.ulp,jtm:null,gd:null,sw:0,mw:null,pyl:0,ulps:{}});o.pyl++;o.ulps[d.ulp]=1;
+    var k=kunci(d);var o=by[k]||(by[k]={nama:k,up3:d.up3,ulp:perUp3?null:d.ulp,jtm:null,gd:null,kva:null,sw:0,mw:null,pyl:0,ulps:{}});o.pyl++;o.ulps[d.ulp]=1;
     var j=num(d.jtm_km);if(j!=null)o.jtm=(o.jtm||0)+j;
     var gd=num(d.gardu_distribusi);if(gd!=null)o.gd=(o.gd||0)+gd;
+    if(!o.kvaDone)o.kvaDone={};var KU=((window.__KAPASITAS||{}).ulp||{})[d.ulp];if(KU&&KU.up3===d.up3&&!o.kvaDone[d.ulp]){o.kvaDone[d.ulp]=1;o.kva=(o.kva||0)+KU.kva;}
     ['lbs','pmcb','recloser','fco','switching_lain'].forEach(function(k){var v=num(d[k]);if(v)o.sw+=v;});});
   if(bb.status==='ok'&&bb.data)bb.data.forEach(function(d){if(!perUp3&&d.up3!==s.up3)return;var o=by[kunci(d)];if(!o)return;var i=+d.arus_a;if(!isFinite(i))return;
     o.mw=(o.mw||0)+Math.sqrt(3)*(+d.tegangan_kv||20)*i*(+d.faktor_daya||0.95)/1000;});
   var rows=Object.keys(by).map(function(u){return by[u];}).sort(function(a,b){return a.nama.localeCompare(b.nama,'id');});
-  var M=[['jtm','Panjang JTM','km',TD.loc.format(',.1f')],['gd','Gardu distribusi','unit',TD.loc.format(',.0f')],['mw','Beban puncak','MW',TD.loc.format(',.2f')],['sw','Switching','unit',TD.loc.format(',.0f')]];
+  var M=[['jtm','Panjang JTM','km',TD.loc.format(',.1f')],['gd','Gardu distribusi','unit',TD.loc.format(',.0f')],['kva','Kapasitas trafo','kVA',TD.loc.format(',.0f')],['mw','Beban puncak','MW',TD.loc.format(',.2f')],['sw','Switching','unit',TD.loc.format(',.0f')]];
   var mx={};M.forEach(function(m){mx[m[0]]=d3.max(rows,function(r){return r[m[0]];})||1;});
   var tb=el('table','pw-prof');var th=el('tr');th.append(el('th',null,perUp3?'UP3':'ULP'));M.forEach(function(m){var h=el('th');h.append(document.createTextNode(m[1]),el('small',null,m[2]));th.append(h);});
   var thead=el('thead');thead.append(th);tb.append(thead);var tbody=el('tbody');
@@ -284,6 +286,7 @@ dash.draw('pa-profil-ulp',function(host){
   var catat=el('ol','td-note pw-profcat');
   var li=function(t){catat.append(el('li',null,t));};
   li(perUp3?'Pilih UP3 di filter atau klik barisnya untuk melihat profil per ULP.':'Klik baris ULP untuk memilihnya di peta; klik lagi untuk melepas.');
+  li('Kapasitas trafo adalah jumlah kapasitas trafo distribusi menurut kode KAPASITAS di SHP (tabel kode dari UP3).');
   li('Beban puncak adalah jumlah beban puncak penyulang pada Oktober 2026 (20 kV, faktor daya 0,95).');
   li('Switching mencakup LBS, PMCB, recloser dan FCO. Tanda — berarti data lapisan itu belum diterima (UP3 Tual baru berisi switching dan tiang).');
   host.replaceChildren(tb,catat);
@@ -296,6 +299,7 @@ mount:function(host){
   var zn=el('div','pa-hint pa-zn');zn.hidden=true;
   host.replaceChildren(wrap,msg,tip,hint,zn);host.classList.add('pw-host');
   var map=L.map(wrap,{zoomControl:false,minZoom:4,maxZoom:20,zoomSnap:0.25,zoomDelta:1,wheelPxPerZoomLevel:90,worldCopyJump:false,center:[-2.5,129.5],zoom:6,attributionControl:true,tap:true});
+  wrap._pwmap=map;
   map.attributionControl.setPrefix('<a href="https://leafletjs.com" target="_blank" rel="noopener">Leaflet</a>');
   L.control.scale({imperial:false,position:'bottomright',maxWidth:110}).addTo(map);
   map.createPane('pwlabel').style.zIndex=350;
