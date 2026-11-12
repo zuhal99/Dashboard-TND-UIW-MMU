@@ -288,7 +288,7 @@ dash.draw('pa-profil-ulp',function(host){
   li(perUp3?'Pilih UP3 di filter atau klik barisnya untuk melihat profil per ULP.':'Klik baris ULP untuk memilihnya di peta; klik lagi untuk melepas.');
   li('Kapasitas trafo adalah jumlah kapasitas trafo distribusi menurut kode KAPASITAS di SHP (tabel kode dari UP3).');
   li('Beban puncak adalah jumlah beban puncak penyulang pada Oktober 2026 (20 kV, faktor daya 0,95).');
-  li('Switching mencakup LBS, PMCB, recloser dan FCO. Tanda — berarti data lapisan itu belum diterima (UP3 Tual baru berisi switching dan tiang).');
+  li('Switching mencakup LBS, PMCB, recloser dan FCO. Tanda — berarti data lapisan itu belum diterima (data UP3 Tual dan Masohi belum memuat JTM, gardu dan trafo).');
   host.replaceChildren(tb,catat);
 });
 dash.draw('peta-aset',{
