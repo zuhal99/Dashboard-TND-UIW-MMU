@@ -19,7 +19,7 @@ body{font-family:var(--font-anthropic-sans);-webkit-text-size-adjust:100%}
 <link rel="stylesheet" href="peta-web.css?v=d1a4c396b7">
 <script src="d3.min.js"></script>
 <script src="vendor/leaflet/leaflet.js?v=1.9.4"></script>
-<script src="peta-web.js?v=3b604ccc1a"></script>
+<script src="peta-web.js?v=297755bd82"></script>
 <script>window.__SOURCES={"ai_dist_kontrak":{"file":"data/ai_dist_kontrak.csv","format":"csv","v":"242acdd2a7"},"ai_dist_prk":{"file":"data/ai_dist_prk.csv","format":"csv","v":"d6f9f42c0a"},"anggaran":{"file":"data/anggaran.csv","format":"csv","v":"6a0837af27"},"ao_prk":{"file":"data/ao_prk.csv","format":"csv","v":"19904e16c0"},"aset":{"file":"data/aset.csv","format":"csv","v":"8678bf91d4"},"beban_penyulang":{"file":"data/beban_penyulang.csv","format":"csv","v":"dfef2c1f77"},"epm_rinci":{"file":"data/epm_rinci.csv","format":"csv","v":"80b6a38032"},"gis_dasar":{"file":"data/gis_dasar.json","format":"json","v":"9dcf2fa0dc"},"gis_jtm":{"file":"data/gis_jtm.json","format":"json","v":"8a332bb658"},"gis_rekap":{"file":"data/gis_rekap.csv","format":"csv","v":"e89b0579a9"},"gis_tiang":{"file":"data/gis_tiang.json","format":"json","v":"45c50eb5ec"},"gis_tiang_tual":{"file":"data/gis_tiang_tual.json","format":"json","v":"153be7b92f"},"gis_titik":{"file":"data/gis_titik.json","format":"json","v":"d0573b9e7c"},"kinerja":{"file":"data/kinerja.csv","format":"csv","v":"a6d2e53db1"},"master_kpi":{"file":"data/master_kpi.csv","format":"csv","v":"9d2cc3c987"},"sat_z10":{"file":"data/sat_z10.json","format":"json","v":"b434f2bc85"},"sat_z10_tual":{"file":"data/sat_z10_tual.json","format":"json","v":"308ac6207f"},"sat_z12":{"file":"data/sat_z12.json","format":"json","v":"4365dede82"},"sat_z12_tual":{"file":"data/sat_z12_tual.json","format":"json","v":"90420b6049"},"sat_z13_dobo":{"file":"data/sat_z13_dobo.json","format":"json","v":"46eb6d5425"},"sat_z13_elat":{"file":"data/sat_z13_elat.json","format":"json","v":"426df0742e"},"sat_z13_jailolo":{"file":"data/sat_z13_jailolo.json","format":"json","v":"4a7701cf8e"},"sat_z13_maba":{"file":"data/sat_z13_maba.json","format":"json","v":"42b305ba4b"},"sat_z13_sofifi":{"file":"data/sat_z13_sofifi.json","format":"json","v":"19cec606d2"},"sat_z13_tual":{"file":"data/sat_z13_tual.json","format":"json","v":"509c986ebb"},"sat_z13_weda":{"file":"data/sat_z13_weda.json","format":"json","v":"1d5f557b59"}};</script>
 <script src="runtime.js"></script>
 </head>
@@ -314,9 +314,22 @@ padding-block:0 24px; padding-left:max(16px,env(safe-area-inset-left,0px)); padd
 
 <div class="td">
 <header class="td-head" id="judul">
+<svg class="tw-hiasan" viewBox="0 0 440 150" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+<g opacity=".28" fill="#06294A"><path d="M10 128c30-22 52-30 78-26 18 3 26 14 44 14 24 0 30-20 56-20 30 0 40 26 66 32H10z"/><path d="M250 132c18-14 30-20 48-18 14 2 22 10 36 10s24-12 40-10c16 2 24 12 40 18z"/></g>
+<g fill="none" stroke="#9FE0EA" stroke-width="1.6" opacity=".55"><path d="M0 136c22-8 44-8 66 0s44 8 66 0 44-8 66 0 44 8 66 0 44-8 66 0 44 8 66 0 22-4 44-2"/><path d="M30 146c22-6 44-6 66 0s44 6 66 0 44-6 66 0 44 6 66 0 44-6 66 0"/></g>
+<g transform="translate(338 22)">
+<path d="M8 40C-6 18 10-2 34 4" fill="none" stroke="#3E8E4E" stroke-width="3"/>
+<path d="M34 4c10-12 30-10 36 2-12 8-26 8-36-2z" fill="#4FA35F"/><path d="M30 6c-6-14 4-26 18-26 2 14-6 24-18 26z" fill="#3E8E4E"/>
+<circle cx="40" cy="56" r="30" fill="#F2DE8A"/><path d="M40 26a30 30 0 0 1 0 60" fill="#E7CC6A"/>
+<path d="M40 30c-14 0-22 12-22 26s8 26 22 26" fill="#F7EBC0"/>
+<ellipse cx="44" cy="56" rx="15" ry="18" fill="#5A341C"/>
+<g fill="none" stroke="#C8372D" stroke-width="3.2" stroke-linecap="round"><path d="M34 42c6 4 4 10 10 12s6 10 0 14"/><path d="M48 40c-4 6 4 10 0 16s4 10-2 16"/><path d="M56 48c-6 2-4 8-10 10"/><path d="M32 60c6-2 8 4 14 2"/></g>
+</g>
+<g transform="translate(296 70) rotate(-28)" fill="#7A4A2A"><rect x="0" y="0" width="4" height="34" rx="2"/><circle cx="2" cy="-2" r="5"/><rect x="10" y="6" width="4" height="30" rx="2" transform="rotate(14 12 6)"/><circle cx="13" cy="4" r="4.5" transform="rotate(14 12 6)"/></g>
+</svg>
 <div class="td-eyebrow">PLN UIW Maluku dan Maluku Utara · Bidang Transmisi dan Distribusi</div>
 <div class="td-titlerow">
-<h1 class="td-title">Monitoring Bidang T&amp;D</h1>
+<h1 class="td-title">Monitoring Bidang T<span class="tw-amp">&amp;</span>D</h1>
 <span class="td-badge">DATA CONTOH, KECUALI KINERJA EPM, ANGGARAN, DAN PETA ASET SOFIFI DAN TUAL</span>
 </div>
 </header>
@@ -2927,7 +2940,8 @@ return best;
 </script>
 
 </div>
-<footer class="web-foot">Data kinerja EPM terakhir diperbarui 12 November 2026 pukul 09.00 WIT. Dashboard ini juga tersedia di Claude; isi keduanya sama.</footer>
+<link rel="stylesheet" href="tema-web.css?v=2fcbb6de61">
+<footer class="web-foot">Data kinerja EPM terakhir diperbarui 12 November 2026 pukul 09.00 WIT. Dashboard ini juga tersedia di Claude; isi keduanya sama.<span class="tw-maluku">PLN UIW Maluku dan Maluku Utara, menerangi negeri seribu pulau.</span></footer>
 <script>__mulai();</script>
 </body>
 </html>

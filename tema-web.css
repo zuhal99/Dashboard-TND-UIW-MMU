@@ -1,0 +1,61 @@
+/* Tema web "Laut dan Rempah Maluku" untuk dashboard T&D (hanya versi web).
+   Warna PLN tetap utama; aksen dari laut Maluku (biru tosca), pala (merah fuli) dan cengkih (cokelat),
+   pita bermotif tenun ikat Tanimbar. */
+:root{
+  --tw-laut:#0B7A8C; --tw-laut-muda:#E3F3F5; --tw-dalam:#06294A; --tw-fuli:#C8372D; --tw-cengkih:#7A4A2A; --tw-pasir:#F6F4EE;
+  --tw-tenun:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='12' viewBox='0 0 36 12'%3E%3Crect width='36' height='12' fill='%2306294A'/%3E%3Cpath d='M0 6 6 0 12 6 6 12Z' fill='%23FFD100'/%3E%3Cpath d='M3 6 6 3 9 6 6 9Z' fill='%23C8372D'/%3E%3Cpath d='M12 12 18 6 24 12ZM12 0 18 6 24 0Z' fill='%230B7A8C'/%3E%3Cpath d='M24 6 30 0 36 6 30 12Z' fill='%23FFD100'/%3E%3Cpath d='M27 6 30 3 33 6 30 9Z' fill='%23C8372D'/%3E%3Ccircle cx='18' cy='6' r='1.3' fill='%23fff'/%3E%3C/svg%3E");
+}
+html,body{background:var(--tw-pasir)}
+#dash-root .td{gap:var(--cds-gap-lg)}
+
+/* ---------- kepala halaman ---------- */
+#dash-root .td .td-head{position:relative;overflow:hidden;isolation:isolate;
+  background:linear-gradient(115deg,var(--tw-dalam) 0%,#0A4E86 42%,var(--pln-blue) 72%,var(--tw-laut) 100%);
+  border-bottom:0;padding-top:18px;padding-bottom:26px;gap:6px}
+#dash-root .td .td-head::before{content:"";position:absolute;inset:0;z-index:-1;opacity:.13;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='40' viewBox='0 0 160 40'%3E%3Cpath d='M0 20c20-12 40-12 60 0s40 12 60 0 30-9 40-4' fill='none' stroke='%23fff' stroke-width='1.4'/%3E%3Cpath d='M0 34c20-10 40-10 60 0s40 10 60 0 30-8 40-3' fill='none' stroke='%23fff' stroke-width='1'/%3E%3C/svg%3E") 0 0/160px 40px}
+#dash-root .td .td-head::after{content:"";position:absolute;left:0;right:0;bottom:0;height:10px;background:var(--tw-tenun) 0 0/30px 10px;border-top:2px solid var(--pln-yellow)}
+#dash-root .tw-hiasan{position:absolute;right:-6px;top:10px;height:calc(100% - 22px);max-height:150px;z-index:-1;opacity:.95;pointer-events:none}
+#dash-root .tw-brand{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:4px}
+#dash-root .tw-logo{display:flex;align-items:center;justify-content:center;background:#fff;border-radius:8px;padding:5px 9px;height:40px;box-sizing:border-box;box-shadow:0 2px 6px rgba(0,0,0,.18)}
+#dash-root .tw-logo img{height:30px;width:auto;display:block}
+#dash-root .tw-logo.tw-kosong{background:rgba(255,255,255,.12);border:1.5px dashed rgba(255,255,255,.6);color:#fff;font-size:11px;box-shadow:none;min-width:96px}
+#dash-root .tw-sep{width:1px;height:30px;background:rgba(255,255,255,.35)}
+#dash-root .td .td-head .td-eyebrow{color:#CFE8F3;letter-spacing:.08em}
+#dash-root .td .td-title{font-family:var(--font-anthropic-sans);font-weight:700;font-size:clamp(1.35rem,2.6vw,1.85rem);letter-spacing:-.01em;color:#fff}
+#dash-root .td .td-title .tw-amp{color:var(--pln-yellow)}
+#dash-root .tw-tagline{font-size:12.5px;color:#E6F3F8;opacity:.92;max-width:52ch}
+#dash-root .td .td-head .td-badge{background:rgba(0,0,0,.18)}
+
+/* ---------- tab ---------- */
+#dash-root .td-controls{border-bottom:0;padding:0;position:sticky;top:0;z-index:1500;background:var(--tw-pasir);padding:6px 0;margin-top:-6px}
+#dash-root .td-tabs{gap:6px;background:#fff;border:1px solid var(--color-border-line);border-radius:999px;padding:4px;box-shadow:0 1px 3px rgba(6,41,74,.06)}
+#dash-root .td-tab{border-radius:999px;padding:7px 16px;color:#33465A;font-weight:500}
+#dash-root .td-tab:hover{background:var(--tw-laut-muda);border-color:transparent;color:var(--tw-dalam)}
+#dash-root .td-tab[aria-selected="true"]{background:var(--pln-blue);color:#fff;border-color:var(--pln-blue);box-shadow:inset 0 -3px 0 var(--pln-yellow)}
+#dash-root .td-scope{color:#4A5B6D}
+
+/* ---------- kartu dan bagian ---------- */
+#dash-root .td-tile,#dash-root .td-card{background:#fff;border-color:#E2E8EE;box-shadow:0 1px 2px rgba(6,41,74,.05),0 4px 14px rgba(6,41,74,.05);border-radius:10px}
+#dash-root .td-tile{border-top:0;position:relative;overflow:hidden}
+#dash-root .td-tile::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(90deg,var(--pln-blue),var(--tw-laut) 70%,var(--pln-yellow))}
+#dash-root .td-sec h2,#dash-root .pa-bh2{color:var(--tw-dalam)}
+#dash-root .td-sec>h2::after{content:"";display:block;width:42px;height:3px;border-radius:2px;margin-top:5px;background:linear-gradient(90deg,var(--pln-yellow),var(--tw-fuli))}
+#dash-root .td-table th{background:var(--tw-laut-muda);color:#2C4A5E}
+#dash-root .kp-segbtn[aria-pressed="true"]{background:var(--pln-blue)}
+#dash-root .pa-map{border-radius:10px}
+
+/* ---------- kaki halaman ---------- */
+.web-foot{position:relative;border-top:0;padding-top:22px;color:#4A5B6D}
+.web-foot::before{content:"";position:absolute;left:16px;right:16px;top:0;height:8px;border-radius:4px;background:var(--tw-tenun) 0 0/24px 8px;opacity:.9}
+.web-foot .tw-maluku{display:block;margin-top:4px;color:var(--tw-cengkih);font-style:italic}
+
+@media (max-width:640px){
+  #dash-root .tw-hiasan{opacity:.35;height:100%}
+  #dash-root .tw-logo{height:34px;padding:4px 7px}
+  #dash-root .tw-logo img{height:24px}
+  #dash-root .td-tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  #dash-root .td-tabs::-webkit-scrollbar{display:none}
+  #dash-root .td-tab{flex:none;padding:7px 13px}
+}
+@media print{#dash-root .td-controls{position:static}}
