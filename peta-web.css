@@ -1,0 +1,35 @@
+/* Peta Aset versi web (Leaflet). Melengkapi gaya .pa-* dari halaman dashboard. */
+.pa-stage .pa-map.pw-host{isolation:isolate;background:#16304A}
+.pa-map.pw-host .pw-map{position:absolute;inset:0;font:inherit;background:#16304A}
+.pa-map.pw-host .pw-map.pw-sat .leaflet-tile-pane{filter:saturate(1.08) contrast(1.04)}
+.pa-map.pw-host .pw-net{position:absolute;left:0;top:0;pointer-events:none}
+.pa-map.pw-host .pa-msg{z-index:900;background:rgba(244,248,251,.55)}
+.pa-map.pw-host .pa-msg[hidden]{display:none}
+.pa-map.pw-host .pa-tip{z-index:950}
+.pa-map.pw-host .pa-hint{z-index:960}
+.pa-map.pw-host .pa-zn{top:12px;bottom:auto;max-width:calc(100% - 120px);text-align:center}
+.pa-stage .pa-zoom{z-index:1000}
+.pa-stage .pa-legend-in{z-index:1000;bottom:30px;align-items:flex-start;text-align:left}
+.pa-stage .pa-legend-in [data-tiang-mark]{display:none!important}
+.pa-legend-in .pw-lgsym{display:flex;justify-content:flex-start;align-self:stretch;flex-wrap:wrap;gap:3px 10px;align-items:center;margin-top:3px;padding-top:4px;border-top:1px solid var(--color-border-line);color:var(--color-fg)}
+.pa-legend-in .pw-lgsym[hidden]{display:none}
+.pa-legend-in .pw-lgsym>span{display:inline-flex;align-items:center;gap:4px}
+.pa-legend-in .pw-lgsym .pa-sw{margin:0}
+.pa-sw.lbl{width:14px;height:10px;border:0;background:none;position:relative}
+.pa-sw.lbl::before{content:"Aa";position:absolute;inset:-3px 0 0 0;font-size:10px;font-weight:600;color:#14263A;line-height:14px}
+/* kontrol Leaflet */
+.pa-map.pw-host .leaflet-control-attribution{font-size:10.5px;line-height:1.35;background:rgba(255,255,255,.85);color:#14263A;max-width:calc(100% - 16px);white-space:normal;text-align:right}
+.pa-map.pw-host .leaflet-control-attribution a{color:#08508A}
+.pa-map.pw-host .leaflet-control-scale{margin-right:8px;margin-bottom:4px}
+.pa-map.pw-host .leaflet-control-scale-line{border-color:#14263A;color:#14263A;background:rgba(255,255,255,.85);font-size:11px}
+.pa-map.pw-host .leaflet-container{font:inherit}
+.pa-map.pw-host .leaflet-container a.leaflet-popup-close-button{width:28px;height:28px;font-size:20px;line-height:26px;color:#5B6B7D}
+/* kartu detail */
+.pw-pop .leaflet-popup-content-wrapper{border-radius:10px;box-shadow:0 6px 18px rgba(10,40,70,.25);padding:0}
+.pw-pop .leaflet-popup-content{margin:10px 12px;font-size:12px;line-height:1.4;color:var(--color-fg)}
+.pa-map .pw-pop .pa-pin.pw-pin{position:static;width:auto;border:0;box-shadow:none;padding:0;background:transparent}
+.pa-map .pw-pop .pa-pinact a.pri{color:#fff}
+@media (max-width:560px){
+  .pa-map.pw-host .leaflet-control-attribution{font-size:9.5px}
+  .pa-stage .pa-legend-in{bottom:40px}
+}
