@@ -184,14 +184,30 @@ function openPop(st,h,ll){
   box.append(el('span','pa-koord',(h&&h.type==='jtm'?'Titik pada ruas: ':'Koordinat: ')+f6(lat)+', '+f6(lon)));
   var act=el('div','pa-pinact');var llt=f6(lat)+','+f6(lon);
   var ln=function(txt,href,cls){var a=el('a',cls,txt);a.href=href;a.target='_blank';a.rel='noopener noreferrer';return a;};
-  act.append(ln('Street View','https://www.google.com/maps/@?api=1&map_action=pano&viewpoint='+llt,'pri'),
+  var KEY=window.__GMAPS_KEY,svUrl='https://www.google.com/maps/@?api=1&map_action=pano&viewpoint='+llt;
+  if(KEY){/* Street View langsung di kartu (Maps Embed API, konsep 1 pilihan Zuhal 13 Nov 2026) */
+    var sv=el('div','pw-sv');var fr=document.createElement('iframe');
+    fr.src='https://www.google.com/maps/embed/v1/streetview?key='+encodeURIComponent(KEY)+'&location='+llt+'&fov=90&language=id&region=ID';
+    fr.title='Street View '+t[0];fr.loading='lazy';fr.allow='fullscreen';fr.referrerPolicy='strict-origin-when-cross-origin';fr.setAttribute('allowfullscreen','');
+    var gb=el('button','pw-svbtn','⤢ Perbesar');gb.type='button';
+    var stage=st.map.getContainer().closest('.pa-stage');
+    var setBesar=function(on){var cw=sv.offsetWidth;sv.classList.toggle('besar',on);var w=st.map.getSize();
+      sv.style.width=on?Math.max(cw,Math.min(620,w.x-140))+'px':'';sv.style.height=on?Math.max(170,Math.min(360,w.y-330))+'px':'';
+      gb.textContent=on?'⤡ Perkecil':'⤢ Perbesar';if(stage)stage.classList.toggle('pw-svbesar',on);
+      pop.options.maxWidth=on?sv.offsetWidth+2:Math.min(340,w.x-60);pop.update();if(pop._adjustPan)pop._adjustPan();};
+    gb.onclick=function(){setBesar(!sv.classList.contains('besar'));};
+    sv.append(fr,gb);box.append(sv);
+  }
+  act.append(ln(KEY?'Street View di tab baru':'Street View',svUrl,KEY?null:'pri'),
     ln('Google Maps','https://www.google.com/maps/@?api=1&map_action=map&center='+llt+'&zoom=19&basemap=satellite'));
   var zb=el('button',null,'Perbesar ke sini');zb.type='button';zb.onclick=function(){st.map.flyTo([lat,lon],Math.max(st.map.getZoom(),17),{duration:0.8});};act.append(zb);
   if(h&&h.penyulang){var on=TD.asetScope().pyl===h.penyulang;var fb=el('button',null,on?'Lepas sorotan penyulang':'Sorot penyulang '+h.penyulang);fb.type='button';
     fb.onclick=function(){st.map.closePopup();dash.setParams({pyl_aset:on?null:h.penyulang});};act.append(fb);}
   box.append(act);
-  box.append(el('span','pa-pinnote','Street View dan Google Maps dibuka di tab baru. Ketersediaan Street View bergantung pada cakupan Google di lokasi ini.'));
-  L.popup({className:'pw-pop',maxWidth:290,minWidth:220,autoPanPadding:[48,48],closeButton:true}).setLatLng([lat,lon]).setContent(box).openOn(st.map);
+  box.append(el('span','pa-pinnote',KEY?'Street View diambil dari titik foto Google terdekat. Bila lokasi belum terjangkau, bingkai menampilkan pesan dari Google. Geser gambar untuk melihat sekeliling.':'Street View dan Google Maps dibuka di tab baru. Ketersediaan Street View bergantung pada cakupan Google di lokasi ini.'));
+  var pop=L.popup({className:'pw-pop'+(KEY?' pw-pop-sv':''),maxWidth:KEY?Math.min(340,st.map.getSize().x-60):290,minWidth:220,autoPanPadding:[48,48],closeButton:true}).setLatLng([lat,lon]).setContent(box).openOn(st.map);
+  if(KEY&&st.map.getSize().x<560){var sg0=st.map.getContainer().closest('.pa-stage');if(sg0)sg0.classList.add('pw-svbesar');}
+  if(KEY)pop.on('remove',function(){var sg=st.map.getContainer().closest('.pa-stage');if(sg)sg.classList.remove('pw-svbesar');});
   later(st);
 }
 
