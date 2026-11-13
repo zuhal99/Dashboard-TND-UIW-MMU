@@ -1,0 +1,49 @@
+/* Asisten "Tanya Data" (versi web) */
+.tq-root{position:fixed;right:18px;bottom:18px;z-index:3000;font-family:var(--font-anthropic-sans,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif);font-size:14px;color:#16313F;display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+.tq-fab{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:999px;padding:11px 18px 11px 14px;background:#216279;color:#fff;font:inherit;font-weight:600;cursor:pointer;box-shadow:0 6px 18px rgba(22,49,63,.28);border-bottom:3px solid #FFC000}
+.tq-fab:hover{background:#1A5164}
+.tq-fab:focus-visible,.tq-x:focus-visible,.tq-go:focus-visible,.tq-chip:focus-visible,.tq-send:focus-visible{outline:2px solid #0C9CB4;outline-offset:2px}
+.tq-open .tq-fab{display:none}
+.tq-panel{width:390px;max-width:calc(100vw - 32px);height:min(600px,calc(100vh - 110px));background:#fff;border:1px solid #D3E5EA;border-radius:14px;box-shadow:0 14px 40px rgba(22,49,63,.25);display:flex;flex-direction:column;overflow:hidden}
+.tq-panel[hidden]{display:none}
+.tq-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 12px 10px 16px;background:#216279;color:#fff;border-bottom:3px solid #FFC000}
+.tq-head b{display:block;font-size:15px}
+.tq-head span{display:block;font-size:12px;opacity:.85}
+.tq-x{border:0;background:transparent;color:#fff;font-size:24px;line-height:1;width:34px;height:34px;border-radius:8px;cursor:pointer}
+.tq-x:hover{background:rgba(255,255,255,.15)}
+.tq-log{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:10px;background:#F4F8F9;overscroll-behavior:contain}
+.tq-msg{max-width:100%;border-radius:12px;padding:9px 12px;line-height:1.45;word-wrap:break-word}
+.tq-q{align-self:flex-end;max-width:85%;background:#2E75B6;color:#fff;border-bottom-right-radius:4px}
+.tq-a{align-self:stretch;background:#fff;border:1px solid #D3E5EA;border-bottom-left-radius:4px}
+.tq-judul{font-weight:700;color:#216279;margin-bottom:4px}
+.tq-isi p{margin:4px 0}
+.tq-h{margin:10px 0 2px;font-size:13px;color:#216279}
+.tq-ul{margin:4px 0;padding-left:18px}
+.tq-ul li{margin:2px 0}
+.tq-tblwrap{overflow-x:auto;margin:6px 0}
+.tq-tbl{border-collapse:collapse;width:100%;font-size:12.5px}
+.tq-tbl th,.tq-tbl td{padding:4px 6px;border-bottom:1px solid #E3EEF2;text-align:left;white-space:nowrap}
+.tq-tbl th{color:#5B6B7D;font-weight:600;background:#F0F8FA}
+.tq-tbl .n{text-align:right;font-variant-numeric:tabular-nums}
+.tq-tbl tr.hi td{background:#FFF6D6;font-weight:600}
+.tq-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:1px}
+.tq-src{margin-top:6px;font-size:11.5px;color:#5B6B7D}
+.tq-acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.tq-go{border:1px solid #216279;background:#fff;color:#216279;border-radius:999px;padding:5px 11px;font:inherit;font-size:12.5px;font-weight:600;cursor:pointer}
+.tq-go:hover{background:#E6F8FA}
+.tq-chip{border:1px solid #BFDDE5;background:#E6F8FA;color:#16313F;border-radius:999px;padding:5px 10px;font:inherit;font-size:12.5px;cursor:pointer;text-align:left}
+.tq-chip:hover{background:#D3F1F5}
+.tq-tunggu{color:#5B6B7D;font-style:italic}
+.tq-a a{color:#2E75B6}
+.tq-form{display:flex;gap:8px;padding:10px;border-top:1px solid #D3E5EA;background:#fff}
+.tq-in{flex:1;min-width:0;border:1px solid #BFD3DB;border-radius:999px;padding:9px 14px;font:inherit;font-size:16px;color:#16313F;background:#fff}
+.tq-in:focus{outline:none;border-color:#0C9CB4;box-shadow:0 0 0 3px rgba(12,156,180,.18)}
+.tq-send{flex:none;width:40px;height:40px;border:0;border-radius:50%;background:#216279;color:#FFC000;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+.tq-send:hover{background:#1A5164}
+@media (max-width:640px){
+  .tq-root{right:12px;bottom:12px}
+  .tq-fab{padding:10px 14px 10px 12px}
+  .tq-open{left:0;right:0;bottom:0}
+  .tq-panel{width:100vw;max-width:100vw;height:82vh;height:82dvh;border-radius:14px 14px 0 0;border-left:0;border-right:0;border-bottom:0}
+}
+@media print{.tq-root{display:none}}
