@@ -29,7 +29,14 @@
 .pw-pop .leaflet-popup-content{margin:10px 12px;font-size:12px;line-height:1.4;color:var(--color-fg)}
 .pa-map .pw-pop .pa-pin.pw-pin{position:static;width:auto;border:0;box-shadow:none;padding:0;background:transparent}
 .pa-map .pw-pop .pa-pinact a.pri{color:#fff}
+/* Street View di dalam kartu */
+.pa-map .pw-pop .pw-sv{position:relative;width:300px;height:170px;max-width:calc(100vw - 80px);margin:8px 0 6px;border-radius:8px;overflow:hidden;background:#DDE6EC;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+.pa-map .pw-pop .pw-sv iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.pa-map .pw-pop .pw-svbtn{position:absolute;right:6px;bottom:6px;z-index:2;font:inherit;font-size:11.5px;color:#fff;background:rgba(0,0,0,.62);border:0;border-radius:5px;padding:4px 8px;cursor:pointer}
+.pa-map .pw-pop .pw-svbtn:hover{background:rgba(0,0,0,.8)}
+.pa-stage.pw-svbesar .pa-legend-in{display:none}
 @media (max-width:560px){
+  .pa-map .pw-pop .pw-sv{width:calc(100vw - 96px);height:150px}
   .pa-map.pw-host .leaflet-control-attribution{font-size:9.5px}
   .pa-stage .pa-legend-in{bottom:40px}
 }
