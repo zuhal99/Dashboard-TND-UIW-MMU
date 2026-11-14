@@ -62,7 +62,11 @@ function shape(ctx,s,x,y,r){
   else {ctx.moveTo(x,y-r*1.2);ctx.lineTo(x+r*1.05,y+r*0.8);ctx.lineTo(x-r*1.05,y+r*0.8);ctx.closePath();}
 }
 
-function describe(h){
+function describe(h){var t=describe0(h);
+  if(h&&window.HIW){var dd=h.type==='jtm'?h.d:h.q.d;var x=HIW.txt(dd.penyulang,dd.ulp);if(x)t.push(x);}
+  return t;
+}
+function describe0(h){
   if(!h)return ['Lokasi dipilih','','',''];
   if(h.type==='pt'){var d=h.q.d;var KP=window.__KAPASITAS||{};var kv=d.lapis==='Gardu distribusi'?(KP.gardu||{})[d.nama]:d.lapis==='Trafo distribusi'?(KP.trafo||{})[d.nama]:null;var mk=d.lapis==='Gardu distribusi'?(KP.merk_gardu||{})[d.nama]:d.lapis==='Trafo distribusi'?(KP.merk_trafo||{})[d.nama]:null;
     return [d.nama||d.lapis,(d.jenis&&d.jenis!==d.lapis?d.jenis+' ('+d.lapis.toLowerCase()+')':d.lapis)+(kv?', kapasitas trafo '+TD.loc.format(',')(kv)+' kVA':'')+(mk?', merk trafo '+mk:'')+(d.th_buat?', dibangun '+d.th_buat:''),'Penyulang '+d.penyulang+', ULP '+d.ulp,C.bebanTxt(d.penyulang,d.ulp)];}
@@ -89,7 +93,7 @@ function paint(st){
   var filtered=s.up3!=='Semua'||s.ulp!=='Semua'||s.pyl!=='Semua';
   ctx.lineJoin='round';ctx.lineCap='round';
   var line=function(f){ctx.beginPath();ctx.moveTo(X(f[0]),Y(f[1]));for(var i=2;i<f.length;i+=2)ctx.lineTo(X(f[i]),Y(f[i+1]));ctx.stroke();};
-  var lw=clamp(1.4+(z-9)*0.5,1.4,5)+(s.pyl!=='Semua'?1:0)+(st.pw?0.8:0);
+  var lw=clamp(1.4+(z-9)*0.5,1.4,5)+(s.pyl!=='Semua'?1:0)+(st.pw||st.hi?0.8:0);
   if(C.lapisOn('jtm')){
     if(filtered){ctx.strokeStyle=sat?'rgba(255,255,255,.45)':'rgba(91,107,125,.45)';ctx.lineWidth=Math.max(1,lw*0.5);st.jtm.forEach(function(l){if(!inScope(l.d,s))line(l.f);});}
     ctx.strokeStyle=sat?'rgba(255,255,255,.92)':'rgba(255,255,255,.95)';ctx.lineWidth=lw+(sat?2.6:2);
@@ -136,8 +140,8 @@ function paint(st){
     var up={};(st.lbl||[]).forEach(function(b){var u=C.ref().U2U.get(b.ulp);if(!u||(s.up3!=='Semua'&&u!==s.up3))return;(up[u]=up[u]||[]).push(b);});
     Object.keys(up).forEach(function(u){var v=up[u];label('UP3 '+u,X(d3.mean(v,function(b){return b.x;})),Y(d3.mean(v,function(b){return b.y;}))-18,'#08508A');});
   } else if(s.pyl==='Semua'){
-    if(z<=13.5)(st.lbl||[]).forEach(function(b){if(inScope({ulp:b.ulp,penyulang:''},{up3:s.up3,ulp:s.ulp,pyl:'Semua'}))label('ULP '+b.ulp,X(b.x),Y(b.y)-14,st.pw?'#14263A':st.col(b.ulp));});
-    if(st.pw&&z>=11)labelPyl(st,ctx,X,Y,W,H);
+    if(z<=13.5)(st.lbl||[]).forEach(function(b){if(inScope({ulp:b.ulp,penyulang:''},{up3:s.up3,ulp:s.ulp,pyl:'Semua'}))label('ULP '+b.ulp,X(b.x),Y(b.y)-14,st.pw||st.hi?'#14263A':st.col(b.ulp));});
+    if((st.pw||st.hi)&&z>=11)labelPyl(st,ctx,X,Y,W,H);
   } else if(st.pylLbl){label(s.pyl,X(st.pylLbl[0]),Y(st.pylLbl[1])-16,'#08508A');}
   /* petunjuk zoom */
   var pesan=[];
@@ -181,6 +185,7 @@ function openPop(st,h,ll){
   st.pin={x:x,y:y};st.tip.hidden=true;
   var t=describe(h);var box=el('div','pa-pin pw-pin');
   box.append(el('b',null,t[0]));t.slice(1).forEach(function(s){if(s)box.append(el('span',null,s));});
+  if(h&&h.type&&window.HIW&&HIW.aktif()){var hd=h.type==='jtm'?h.d:h.q.d;var mn=HIW.mini(hd.penyulang,hd.ulp);if(mn)box.append(mn);}
   box.append(el('span','pa-koord',(h&&h.type==='jtm'?'Titik pada ruas: ':'Koordinat: ')+f6(lat)+', '+f6(lon)));
   var act=el('div','pa-pinact');var llt=f6(lat)+','+f6(lon);
   var ln=function(txt,href,cls){var a=el('a',cls,txt);a.href=href;a.target='_blank';a.rel='noopener noreferrer';return a;};
@@ -252,13 +257,14 @@ function labelPyl(st,ctx,X,Y,W,H){
     var t=a.d.penyulang,w=ctx.measureText(t).width+8,r=[x-w/2,y-8,x+w/2,y+8];
     if(boxes.some(function(b){return !(r[2]<b[0]||b[2]<r[0]||r[3]<b[1]||b[3]<r[1]);}))return;boxes.push(r);
     ctx.lineWidth=4;ctx.strokeStyle='rgba(255,255,255,.95)';ctx.strokeText(t,x,y);ctx.fillStyle='#14263A';ctx.fillText(t,x,y);
-    ctx.beginPath();ctx.arc(r[0]-1,y,4,0,Math.PI*2);ctx.fillStyle=st.pcol(a.d);ctx.fill();ctx.lineWidth=1.2;ctx.strokeStyle='#fff';ctx.stroke();});
+    ctx.beginPath();ctx.arc(r[0]-1,y,4,0,Math.PI*2);ctx.fillStyle=st.lc(a.d);ctx.fill();ctx.lineWidth=1.2;ctx.strokeStyle='#fff';ctx.stroke();});
 }
 function legendPyl(st){
-  if(!st.pw)return;var box=st.host.closest('.pa-stage');var el0=box&&box.querySelector('.pa-lgu');if(!el0)return;
+  if(!st.pw&&!st.hi)return;var box=st.host.closest('.pa-stage');var el0=box&&box.querySelector('.pa-lgu');if(!el0)return;
   var s=st.s,seen={},rows=[];
   st.jtm.concat(tiangRows(st,true)).forEach(function(o){var d=o.d;if(!inScope(d,s))return;var k=d.ulp+'|'+d.penyulang;if(seen[k])return;seen[k]=1;rows.push(d);});
   rows.sort(function(a,b){return a.ulp.localeCompare(b.ulp,'id')||a.penyulang.localeCompare(b.penyulang,'id',{numeric:true});});
+  if(st.hi){HIW.legend(el0,rows);return;}
   var kids=[el('b','pa-lgtt','Warna jaringan per penyulang')];
   if(rows.length<=24){var r=el('span','pa-lgrow pw-lgpyl');rows.forEach(function(d){var sp=el('span');var i=el('i');i.style.background=st.pcol(d);sp.append(i,document.createTextNode(d.penyulang));r.append(sp);});kids.push(r);}
   else kids.push(el('span','pa-lgrow',rows.length+' penyulang. Pilih ULP untuk melihat daftar warnanya; nama penyulang tampil di peta saat diperbesar.'));
@@ -360,8 +366,8 @@ update:function(host,st){
   }
   tRes.forEach(function(r){var id=r[0],res=r[1];if(res.status==='ok'&&res.data&&!st.tg[id]){st.tg[id]=res.data.filter(function(d){return isFinite(+d.lon)&&isFinite(+d.lat);}).map(function(d){var P=px0(+d.lon,+d.lat);return {d:d,x:P[0],y:P[1]};});st.lblKey=null;}});
   st.tIds=tIds.filter(function(id){return st.tg[id];});
-  st.col=C.ulpColor(g.data);C.bebanIdx();st.pw=modeWarna()==='penyulang';
-  st.lc=function(d){return st.pw?st.pcol(d):st.col(d.ulp);};
+  st.col=C.ulpColor(g.data);C.bebanIdx();st.pw=modeWarna()==='penyulang';st.hi=modeWarna()==='hi'&&!!window.HIW;
+  st.lc=function(d){return st.hi?HIW.col(d):st.pw?st.pcol(d):st.col(d.ulp);};
   /* posisi label ULP dan penyulang */
   var sk=s.up3+'|'+s.ulp+'|'+s.pyl;
   var lk=sk+'|'+st.tIds.join(',');
