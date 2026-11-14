@@ -208,6 +208,7 @@ function openPop(st,h,ll){
   var zb=el('button',null,'Perbesar ke sini');zb.type='button';zb.onclick=function(){st.map.flyTo([lat,lon],Math.max(st.map.getZoom(),17),{duration:0.8});};act.append(zb);
   if(h&&h.penyulang){var on=TD.asetScope().pyl===h.penyulang;var fb=el('button',null,on?'Lepas sorotan penyulang':'Sorot penyulang '+h.penyulang);fb.type='button';
     fb.onclick=function(){st.map.closePopup();dash.setParams({pyl_aset:on?null:h.penyulang});};act.append(fb);}
+  if(h&&h.penyulang&&window.HIW&&HIW.buka&&HIW.aktif()){var hb=el('button',null,'Tren gangguan');hb.type='button';var hu=(h.type==='jtm'?h.d:h.q.d).ulp;hb.onclick=function(){st.map.closePopup();HIW.buka(h.penyulang,hu);};act.append(hb);}
   box.append(act);
   box.append(el('span','pa-pinnote',KEY?'Street View diambil dari titik foto Google terdekat. Bila lokasi belum terjangkau, bingkai menampilkan pesan dari Google. Geser gambar untuk melihat sekeliling.':'Street View dan Google Maps dibuka di tab baru. Ketersediaan Street View bergantung pada cakupan Google di lokasi ini.'));
   var pop=L.popup({className:'pw-pop'+(KEY?' pw-pop-sv':''),maxWidth:KEY?Math.min(340,st.map.getSize().x-60):290,minWidth:220,autoPanPadding:[48,48],closeButton:true}).setLatLng([lat,lon]).setContent(box).openOn(st.map);
