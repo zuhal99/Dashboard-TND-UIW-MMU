@@ -6,7 +6,7 @@
 (function(){
 'use strict';
 if(!window.dash)return;
-var SHEET='https://docs.google.com/spreadsheets/d/1rzEIhx2K2B3JArbKAz4K7GpCdYYBlkwqAtHXSMYgvuc/edit#gid=1624097882';
+var SHEET='https://docs.google.com/spreadsheets/d/1rzEIhx2K2B3JArbKAz4K7GpCdYYBlkwqAtHXSMYgvuc/edit#gid=2030371538';
 var ST=[
   {k:'Sempurna',c:'#1B8A3A',bg:'#E3F4E8',fg:'#14662C',ket:'0 gangguan'},
   {k:'Sehat',c:'#7DC243',bg:'#EEF7E4',fg:'#3F6E17',ket:'1–3 gangguan'},
@@ -90,7 +90,7 @@ function grafik(r,M){
   for(var m=1;m<=12;m++){var n=r.v[m-1];var c=el('div','hi-mcol'+(m===sel?' on':'')+(M.jalan&&m===M.last?' jalan':''));
     var b=el('i');if(n!=null){b.style.height=Math.max(2,n/mx*100)+'%';b.style.background=SC[stat(n)].c;}
     c.title=BLN[m-1]+': '+(n==null?'belum ada data':n+' gangguan ('+stat(n)+')');
-    var v=el('em',null,n==null?'':String(n));c.append(v,b,el('small',null,BS[m-1].charAt(0)));g.append(c);}
+    var v=el('em',null,n==null?'':String(n));c.append(v,b,el('small','vl',BLN[m-1]));g.append(c);}
   w.append(el('b',null,'Gangguan per bulan '+M.tahun),g);return w;
 }
 
@@ -164,7 +164,7 @@ dash.draw('hi-panel',function(host){
   for(q=1;q<=12;q++){var ks=0,kk=0;rows.forEach(function(x){var t=stat(x.v[q-1]);if(t==='Sakit')ks++;if(t==='Kronis')kk++;});
     var c=el('button','hi-tcol'+(q===m?' on':'')+(M.jalan&&q===M.last?' jalan':''));c.type='button';c.disabled=q>M.last;
     var bx=el('span','bx');var a=el('i');a.style.height=(kk/mxT*100)+'%';a.style.background=SC.Kronis.c;var b2=el('i');b2.style.height=(ks/mxT*100)+'%';b2.style.background=SC.Sakit.c;bx.append(b2,a);
-    c.title=BLN[q-1]+': '+kk+' kronis, '+ks+' sakit';c.append(el('em',null,q<=M.last?String(ks+kk):''),bx,el('small',null,BS[q-1]));
+    c.title=BLN[q-1]+': '+kk+' kronis, '+ks+' sakit';c.append(el('em',null,q<=M.last?String(ks+kk):''),bx,el('small','vl',BLN[q-1]));
     (function(qq){c.onclick=function(){pilihBulan=qq;repaint();};})(q);tg.append(c);}
   tr.append(tg);kids.push(tr);
   /* perlu perhatian */
