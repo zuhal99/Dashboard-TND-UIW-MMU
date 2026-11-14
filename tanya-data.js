@@ -123,7 +123,7 @@
     dash.setLink(hal);
     setTimeout(function(){ try {
       var pn = Array.prototype.find.call(document.querySelectorAll('.td-panel'), function(x){ return !x.closest('[hidden]'); });
-      var bar = document.querySelector('.td-controls'), off = bar ? bar.getBoundingClientRect().height + 8 : 8;
+      var bar = Array.prototype.find.call(document.querySelectorAll('.sb-top, .td-controls'), function(x){ return x.getBoundingClientRect().height > 0; }), off = bar ? bar.getBoundingClientRect().height + 8 : 8;
       if (pn) window.scrollTo({top:Math.max(0, pn.getBoundingClientRect().top + window.scrollY - off), behavior:'smooth'});
     } catch (e) {} }, 60);
   }
