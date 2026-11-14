@@ -25,7 +25,7 @@ function warnaPenyulang(st,sk){
   st.jtm.forEach(function(l){var k=key(l.d);grow(k,l.b[0],l.b[1]);grow(k,l.b[2],l.b[3]);});
   st.pts.forEach(function(q){grow(key(q.d),q.x,q.y);});
   sk.forEach(function(q){grow(key(q.d),q.x,q.y);});
-  var ks=Object.keys(box).filter(function(k){return k.split('|')[1]!=='(tanpa kode)';});
+  var ks=Object.keys(box).filter(function(k){var p=k.split('|')[1];return p!=='(tanpa kode)'&&p!=='(tanpa penyulang)';});
   var gap=256/40075*3; /* ±3 km pada skala z0 */
   var dekat=function(a,b){return !(a[2]+gap<b[0]||b[2]+gap<a[0]||a[3]+gap<b[1]||b[3]+gap<a[1]);};
   var nb={};ks.forEach(function(a){nb[a]=ks.filter(function(b){return b!==a&&dekat(box[a],box[b]);});});
@@ -302,9 +302,9 @@ dash.draw('pa-profil-ulp',function(host){
   var catat=el('ol','td-note pw-profcat');
   var li=function(t){catat.append(el('li',null,t));};
   li(perUp3?'Pilih UP3 di filter atau klik barisnya untuk melihat profil per ULP.':'Klik baris ULP untuk memilihnya di peta; klik lagi untuk melepas.');
-  li('Kapasitas trafo adalah jumlah kapasitas trafo distribusi menurut kode KAPASITAS di SHP (tabel kode dari UP3).');
+  li('Kapasitas trafo adalah jumlah kapasitas trafo distribusi dari kolom KAPASITAS (Sofifi: kode menurut tabel dari UP3; Tual: kVA).');
   li('Beban puncak adalah jumlah beban puncak penyulang pada Oktober 2026 (20 kV, faktor daya 0,95).');
-  li('Switching mencakup LBS, PMCB, recloser dan FCO. Tanda — berarti data lapisan itu belum diterima (UP3 Tual belum memuat JTM, gardu dan trafo; UP3 Masohi belum memuat gardu dan trafo, serta JTM ULP Piru dan Kairatu).');
+  li('Switching mencakup LBS, PMCB, recloser dan FCO. Tanda — berarti data lapisan itu belum diterima (UP3 Masohi belum memuat gardu dan trafo, serta JTM ULP Piru dan Kairatu).');
   host.replaceChildren(tb,catat);
 });
 dash.draw('peta-aset',{
@@ -369,7 +369,7 @@ update:function(host,st){
   if(st.pcolKey!==pk){st.pcolKey=pk;st.pcol=warnaPenyulang(st,tiangRows(st,true));
     var an={};st.jtm.forEach(function(l){var k=l.d.ulp+'|'+l.d.penyulang;if(!an[k]||l.f.length>an[k].n){var mi=Math.floor(l.f.length/4)*2;an[k]={d:l.d,x:l.f[mi],y:l.f[mi+1],n:l.f.length};}});
     var sg2={};tiangRows(st,true).forEach(function(q){var k=q.d.ulp+'|'+q.d.penyulang;if(an[k]&&an[k].n)return;(sg2[k]=sg2[k]||[]).push(q);});
-    Object.keys(sg2).forEach(function(k){var v=sg2[k];if(v[0].d.penyulang==='(tanpa kode)')return;an[k]={d:v[0].d,x:d3.median(v,function(q){return q.x;}),y:d3.median(v,function(q){return q.y;}),n:0};});
+    Object.keys(sg2).forEach(function(k){var v=sg2[k];if(v[0].d.penyulang==='(tanpa kode)'||v[0].d.penyulang==='(tanpa penyulang)')return;an[k]={d:v[0].d,x:d3.median(v,function(q){return q.x;}),y:d3.median(v,function(q){return q.y;}),n:0};});
     st.anchors=Object.keys(an).map(function(k){return an[k];});}
   if(st.lblKey!==lk){st.lblKey=lk;
     var grp={};st.pts.forEach(function(q){if(q.st.k!=='gardu')return;(grp[q.d.ulp]=grp[q.d.ulp]||[]).push(q);});
