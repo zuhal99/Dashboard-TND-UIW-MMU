@@ -422,21 +422,51 @@
     var ai = need('ai_unit'), ao = need('ao_unit'), ep = need('epm_unit'), rin = need('epm_rinci');
     var p2 = rin.filter(function(r){ return r.kode_kpi === 'EPM-P2TL' && /^\d{4}-\d{2}$/.test(r.periode) && r.nilai !== '' && r.nilai != null; }).reduce(function(m, r){ return r.periode > m ? r.periode : m; }, '');
     var f = (document.querySelector('.web-foot') || {}).textContent || '';
-    var m = /Data kinerja EPM terakhir diperbarui (.+? WIT)/.exec(f);
+    var m = /Data kinerja (?:EPM )?terakhir diperbarui (.+? WIT)/.exec(f);
+    var ck = need('capaian_kpi'), sd = ck.find(function(r){ return r.sub_bidang === 'Ophardist' && r.sumber === 'asli'; });
+    var contohSb = Array.from(new Set(ck.filter(function(r){ return r.sumber !== 'asli'; }).map(function(r){ return r.sub_bidang; })));
     var sus = ep.find(function(r){ return r.kode_kpi === 'EPM-SUSUT'; }), gm = ep.find(function(r){ return r.kode_kpi === 'EPM-GM'; });
     var X = indeksAset(), dimuat = Array.from(new Set(Array.from(X.U2U.values())));
     var li = [
       'Anggaran Investasi (LKAI 2026): posisi <b>' + tgl((ai[0] || {}).posisi) + '</b>',
       'Anggaran Operasi (Monitoring AO): posisi <b>' + tgl((ao[0] || {}).posisi) + '</b>',
-      'Kinerja EPM: ' + (m ? 'diperbarui <b>' + esc(m[1]) + '</b>; ' : '') + (sus ? 'susut s.d. ' + per(sus.periode) : '') + (gm ? ', penggantian meter s.d. ' + per(gm.periode) : '') + (p2 ? ', P2TL s.d. ' + per(p2) : ''),
+      'Kinerja (EPM dan SAIDI SAIFI): ' + (m ? 'diperbarui <b>' + esc(m[1]) + '</b>; ' : '') + (sus ? 'susut s.d. ' + per(sus.periode) : '') + (gm ? ', penggantian meter s.d. ' + per(gm.periode) : '') + (p2 ? ', P2TL s.d. ' + per(p2) : '') + (sd ? ', SAIDI dan SAIFI s.d. ' + per(sd.periode) : ''),
       'Peta Aset: data GIS UP3 ' + dimuat.join(', ') + '; UP3 lain belum dimuat',
-      'Rensisdist, Ophardist dan Transmisi: masih data contoh'
+      contohSb.length ? contohSb.join(', ') + ': masih data contoh' : ''
     ];
-    return jawab({judul:'Tanggal data di dashboard', isi:'<ul class="tq-ul">' + li.map(function(x){ return '<li>' + x + '</li>'; }).join('') + '</ul><p>Kinerja EPM diperiksa otomatis setiap pagi pukul 06.34 WIT.</p>'});
+    return jawab({judul:'Tanggal data di dashboard', isi:'<ul class="tq-ul">' + li.filter(Boolean).map(function(x){ return '<li>' + x + '</li>'; }).join('') + '</ul><p>Kinerja EPM dan SAIDI SAIFI diperiksa otomatis setiap pagi pukul 06.34 WIT.</p>'});
   }
-  function jwbContoh(sb){
-    return jawab({judul:'Kinerja ' + sb, isi:'<p>Data kinerja ' + esc(sb) + ' di dashboard masih <b>data contoh</b>, belum data asli, sehingga belum dapat dijawab. Data asli akan dimuat setelah spreadsheet kinerja ' + esc(sb) + ' diterima.</p>',
-      tautan:[{label:'Lihat tab ' + sb, params:{hal:sb}}]});
+  function jwbSubBidang(sb, t, units, rank, low){
+    var ck = need('capaian_kpi').filter(function(r){ return r.sub_bidang === sb; });
+    var asli = ck.filter(function(r){ return r.sumber === 'asli'; });
+    if (!asli.length)
+      return jawab({judul:'Kinerja ' + sb, isi:'<p>Data kinerja ' + esc(sb) + ' di dashboard masih <b>data contoh</b>, belum data asli, sehingga belum dapat dijawab. Data asli akan dimuat setelah spreadsheet kinerja ' + esc(sb) + ' diterima.</p>',
+        tautan:[{label:'Lihat tab ' + sb, params:{hal:sb}}]});
+    var kodes = Array.from(new Set(asli.map(function(r){ return r.kode_kpi; })));
+    var pilih = kodes.filter(function(k){ var n = (asli.find(function(r){ return r.kode_kpi === k; }) || {}).nama_kpi || ''; return t.indexOf(' ' + n.toLowerCase() + ' ') >= 0; });
+    if (pilih.length) kodes = pilih;
+    var us = units.filter(function(u){ return UP3.indexOf(u) >= 0 || u === 'UIW'; });
+    var dg = function(v, s){ return s && /kali/.test(s) ? nf(v, 3) : nf(v, 2); };
+    var isi = '', per0 = '';
+    kodes.forEach(function(k){
+      var rs = asli.filter(function(r){ return r.kode_kpi === k; }), m = rs[0];
+      per0 = per(m.periode);
+      var nm = '<h4 class="tq-h">' + esc(m.nama_kpi) + ' (' + esc(m.satuan) + '), kumulatif s.d. ' + per0 + '</h4>';
+      if (us.length && !rank) {
+        isi += nm + us.map(function(u){ var r = rs.find(function(x){ return x.up3 === u; });
+          return r ? '<p>' + dot(r.status) + '<b>' + esc(u) + '</b>: realisasi <b>' + dg(r.realisasi, r.satuan) + '</b> terhadap target ' + dg(r.target, r.satuan) + ', capaian <b>' + pc(r.capaian) + '</b> (' + r.status + ').</p>' : '<p><b>' + esc(u) + '</b>: tidak ada data.</p>'; }).join('');
+      } else {
+        var worst = /(saidi|saifi) (tertinggi|terbesar|paling (tinggi|besar))/.test(t);
+        var s = rs.filter(function(r){ return r.up3 !== 'UIW'; }).sort(function(a, b){ return worst ? b.realisasi - a.realisasi : (low ? a.capaian - b.capaian : b.capaian - a.capaian); });
+        var uiw = rs.find(function(r){ return r.up3 === 'UIW'; }), top = s[0];
+        isi += nm + '<p>' + (rank ? (worst ? esc(m.nama_kpi) + ' tertinggi: <b>' + esc(top.up3) + '</b> (' + dg(top.realisasi, top.satuan) + ' ' + esc(top.satuan) + ', capaian ' + pc(top.capaian) + ').' : (low ? 'Capaian terendah' : 'Capaian tertinggi') + ': <b>' + esc(top.up3) + '</b> (' + pc(top.capaian) + ').') : (uiw ? 'UIW: realisasi <b>' + dg(uiw.realisasi, uiw.satuan) + '</b> terhadap target ' + dg(uiw.target, uiw.satuan) + ', capaian <b>' + pc(uiw.capaian) + '</b>.' : '')) + '</p>' +
+          tabel(['UP3', 'Realisasi', 'Target', 'Capaian'], s.map(function(r){ return {u:r.up3, cells:[dot(r.status) + esc(r.up3), dg(r.realisasi, r.satuan), dg(r.target, r.satuan), pc(r.capaian)]}; }), function(r){ return rank && r.u === top.up3; });
+      }
+    });
+    var lain = ck.some(function(r){ return r.sumber !== 'asli'; });
+    return jawab({judul:'Kinerja ' + sb + (per0 ? ', s.d. ' + per0 : ''), isi:isi,
+      sumber:(sb === 'Ophardist' ? 'Spreadsheet SAIDI SAIFI 2026, sheet REAL VS TARGET 2026 (kumulatif)' : 'Spreadsheet kinerja ' + sb) + '. Capaian = 2 − realisasi ÷ target; hijau ≥ 100%, kuning 95% s.d. < 100%, merah < 95%.' + (lain ? ' KPI ' + sb + ' lainnya masih data contoh.' : ''),
+      tautan:[{label:'Lihat tab ' + sb + (us.length === 1 && us[0] !== 'UIW' ? ' (' + us[0] + ')' : ''), params:{hal:sb, up3_kin:us.length === 1 && us[0] !== 'UIW' ? us[0] : null}}]});
   }
   function jwbRingkasUnit(u){
     var isi = '', ai = need('ai_unit'), ao = need('ao_unit'), ep = need('epm_unit');
@@ -454,13 +484,13 @@
       sumber:'LKAI 2026, Monitoring AO dan sheet Kinerja EPM.',
       tautan:[{label:'Anggaran', params:{hal:'ai', up3_ai:AIU[u] || u}}].concat(UP3.indexOf(u) >= 0 ? [{label:'EPM', params:{hal:'EPM', up3_epm:u}}] : [])});
   }
-  var CONTOH = ['Berapa serapan AI Ambon?', 'Unit dengan penyerapan AI terendah', 'Kontrak AI Sofifi yang belum dibayar', 'Sisa AO terbesar', 'Susut Masohi', 'Penggantian meter per UP3', 'P2TL Ternate', 'Panjang JTM ULP Weda', 'Penyulang dengan beban tertinggi', 'Gardu SFF001', 'Kapan data diperbarui?'];
+  var CONTOH = ['Berapa serapan AI Ambon?', 'Unit dengan penyerapan AI terendah', 'Kontrak AI Sofifi yang belum dibayar', 'Sisa AO terbesar', 'Susut Masohi', 'Penggantian meter per UP3', 'P2TL Ternate', 'SAIDI per UP3', 'Panjang JTM ULP Weda', 'Penyulang dengan beban tertinggi', 'Gardu SFF001', 'Kapan data diperbarui?'];
   function jwbBantuan(awal){
     return jawab({judul:awal ? 'Halo, saya asisten data dashboard.' : 'Maaf, pertanyaan itu belum saya kenali.',
       isi:'<p>' + (awal ? 'Saya menjawab dari data yang tampil di dashboard ini, tanpa AI, dengan mengenali kata kunci. ' : 'Coba sebut topik dan unitnya, misalnya "serapan AI Ambon" atau "susut Masohi". ') + 'Topik yang bisa ditanyakan:</p><ul class="tq-ul">' +
         '<li>Anggaran Investasi (AI): pagu, terkontrak, terbayar, kontrak belum dibayar, peringkat unit</li>' +
         '<li>Anggaran Operasi (AO): pagu, terbayar, prognosa, sisa</li>' +
-        '<li>Kinerja EPM: susut, penggantian meter, P2TL</li>' +
+        '<li>Kinerja EPM: susut, penggantian meter, P2TL; Ophardist: SAIDI, SAIFI</li>' +
         '<li>Aset: JTM, gardu, kVA, switching, tiang per UP3, ULP atau penyulang; beban penyulang; info gardu menurut kodenya</li>' +
         '<li>Tanggal pembaruan data</li></ul>',
       chips:CONTOH});
@@ -474,8 +504,8 @@
     var low = /(terendah|terkecil|terburuk|tersedikit|terpendek|paling (rendah|kecil|sedikit|lambat|pendek|buruk)|\srendah\s)/.test(t);
     if (/^\s*(halo|hai|hi|selamat \w+|bantuan|tolong|help|menu|bisa apa|apa saja)\b/.test(t.trim()) && t.trim().split(' ').length <= 4) return jwbBantuan(true);
     if (/(kapan|diperbarui|pembaruan|update|tanggal data|posisi data|data terakhir)/.test(t)) return jwbTanggal();
-    var sb = /rensisdist/.test(t) ? 'Rensisdist' : /ophardist|operasi pemeliharaan/.test(t) ? 'Ophardist' : /transmisi/.test(t) ? 'Transmisi' : null;
-    if (sb) return jwbContoh(sb);
+    var sb = /rensisdist/.test(t) ? 'Rensisdist' : /(ophardist|operasi pemeliharaan|saidi|saifi)/.test(t) ? 'Ophardist' : /transmisi/.test(t) ? 'Transmisi' : null;
+    if (sb) return jwbSubBidang(sb, t, units, rank, low);
     var g = (/(gardu|\sgd|\sgh\s|trafo|kva)/.test(t) || /\b[a-z]{3}\s?\d{2,3}\b/i.test(raw)) ? cariGardu(raw) : null;
     if (g) return jwbGardu(g);
     if (/(beban|puncak|\smw\s|\sarus\s|ampere|kw per gardu)/.test(t)) return jwbBeban(t, units, rank, low);
