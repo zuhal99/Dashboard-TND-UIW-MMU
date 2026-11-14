@@ -2,9 +2,8 @@ kode_kpi,nama_kpi,sub_bidang,satuan,polaritas,sifat_nilai,level,target_tahunan,b
 RS01,Realisasi kontrak investasi distribusi,Rensisdist,%,naik,kumulatif,UP3,100,8.33,R/T,contoh
 RS02,Penyelesaian rencana sistem distribusi,Rensisdist,%,naik,kumulatif,UIW,100,8.33,R/T,contoh
 RS03,Rasio trafo berbeban di atas 80%,Rensisdist,%,turun,bulanan,UP3,8,8.33,T/R,contoh
-OP01,SAIDI,Ophardist,menit/plg,turun,kumulatif,UP3,420,8.33,T/R,contoh
-OP02,SAIFI,Ophardist,kali/plg,turun,kumulatif,UP3,9.5,8.33,T/R,contoh
-OP03,Gangguan penyulang per 100 kms,Ophardist,kali,turun,kumulatif,UP3,14,8.33,T/R,contoh
+OP01,SAIDI,Ophardist,menit/plg,turun,kumulatif,UP3,81.35,,2-R/T,asli
+OP02,SAIFI,Ophardist,kali/plg,turun,kumulatif,UP3,2.58,,2-R/T,asli
 TR01,Gangguan transmisi,Transmisi,kali,turun,kumulatif,UIW,12,8.33,T/R,contoh
 TR02,Availability transmisi,Transmisi,%,naik,bulanan,UIW,99.5,8.33,R/T,contoh
 TR03,Realisasi pemeliharaan transmisi,Transmisi,%,naik,kumulatif,UIW,100,8.33,R/T,contoh

@@ -55,7 +55,7 @@
     var nav = document.getElementById('navigasi'); if (!nav) return;
     var menu = daftarMenu(); if (!menu.length) return;
     var logos = Array.prototype.map.call(document.querySelectorAll('.tw-brand .tw-logo img'), function(i){ return '<span class="sb-logo"><img src="' + i.getAttribute('src') + '" alt="' + (i.getAttribute('alt') || '') + '"></span>'; }).join('');
-    var foot = ((document.querySelector('.web-foot') || {}).textContent || '').match(/Data kinerja EPM terakhir diperbarui (.+? WIT)/);
+    var foot = ((document.querySelector('.web-foot') || {}).textContent || '').match(/Data kinerja (?:EPM )?terakhir diperbarui (.+? WIT)/);
     side = el('aside', 'sb-side');
     side.id = 'sb-side'; side.setAttribute('aria-label', 'Menu dashboard');
     side.innerHTML = '<div class="sb-head">' + (logos ? '<div class="sb-brand">' + logos + '</div>' : '') +
@@ -63,7 +63,7 @@
       '<button type="button" class="sb-x" aria-label="Tutup menu">' + ic('tutup') + '</button></div>' +
       '<nav class="sb-nav" aria-label="Halaman"></nav>' +
       '<div class="sb-bot">' + (document.querySelector('.tq-fab') ? '<button type="button" class="sb-tanya">' + ic('tanya') + '<span>Tanya Data</span></button>' : '') +
-      (foot ? '<div class="sb-upd">Data EPM diperbarui ' + foot[1] + '</div>' : '') + '</div>';
+      (foot ? '<div class="sb-upd">Data kinerja diperbarui ' + foot[1] + '</div>' : '') + '</div>';
     var nv = side.querySelector('.sb-nav'), g = null;
     menu.forEach(function(m){
       if (m.grup !== g) { g = m.grup; nv.appendChild(el('div', 'sb-g', g)); }
