@@ -22,6 +22,8 @@ var pilihBulan=null;   /* bulan pilihan pengguna (1-12); null = bawaan */
 var tab='profil';
 var semua=false;       /* daftar perlu perhatian: tampilkan semua */
 var cache={src:null};
+var det=null,lastPyl='Semua',semuaG=false;  /* penyulang yang dibuka di panel rincian */
+var gc={src:null};
 
 function stat(n){return n==null?null:n===0?'Sempurna':n<=3?'Sehat':n<=9?'Sakit':'Kronis';}
 function key(s){return String(s||'').toUpperCase().replace(/[^A-Z0-9]/g,'');}
@@ -34,7 +36,7 @@ function model(){
   if(r.status!=='ok'||!r.data)return null;
   if(cache.src===r.data)return cache;
   var rows=r.data.map(function(d){var v=[];for(var m=1;m<=12;m++){var x=d['b'+(m<10?'0':'')+m];v.push(x===''||x==null?null:+x);}
-    return {up3:d.up3,ulp:d.ulp,nama:d.peta_penyulang||judul(d.penyulang),peta:!!d.peta_penyulang,pu:d.peta_ulp||d.ulp,v:v,tahun:+d.tahun||null};});
+    return {up3:d.up3,ulp:d.ulp,kp:key(d.penyulang),nama:d.peta_penyulang||judul(d.penyulang),peta:!!d.peta_penyulang,pu:d.peta_ulp||d.ulp,v:v,tahun:+d.tahun||null};});
   var aktif=rows.filter(function(x){return x.v.some(function(n){return n!=null;});});
   var last=0;for(var m=1;m<=12;m++){if(aktif.length&&aktif.every(function(x){return x.v[m-1]!=null;}))last=m;}
   var th=rows.length?rows[0].tahun:null;
@@ -128,6 +130,10 @@ dash.draw('hi-panel',function(host){
   var M=model();var r=dash.data('health_index');
   if(!M){host.textContent=r.status==='error'?'Gagal memuat data health index':'Memuat…';return;}
   var s=TD.asetScope(),perUp3=s.up3==='Semua',m=bulan(M),prev=m-1;
+  if(s.pyl!==lastPyl){lastPyl=s.pyl;semuaG=false;det=null;
+    if(s.pyl!=='Semua')det=M.rows.filter(function(x){return x.peta&&key(x.nama)===key(s.pyl)&&(perUp3||x.up3===s.up3)&&(s.ulp==='Semua'||key(x.pu)===key(s.ulp));})[0]||{up3:s.up3,ulp:s.ulp,pu:s.ulp,kp:key(s.pyl),nama:s.pyl,peta:true,v:[],kosong:true};}
+  if(det&&!perUp3&&det.up3!==s.up3&&!det.kosong)det=null;
+  if(det){host.replaceChildren.apply(host,rincian(det,M,s,host));return;}
   var rows=M.rows.filter(function(x){return (perUp3||x.up3===s.up3)&&(s.ulp==='Semua'||key(x.pu)===key(s.ulp)||key(x.ulp)===key(s.ulp));});
   var kids=[];
   var hd=el('div','hi-phd');var ht=el('div');
@@ -181,23 +187,109 @@ dash.draw('hi-panel',function(host){
       var tn=el('span','hi-tr');tn.append(el('b',null,n+' gangguan'));
       if(p!=null){var d=n-p;var sp=el('span',d>0?'dn':d<0?'up':'eq',d>0?'▲ '+d+' dari '+BS[prev-1]:d<0?'▼ '+(-d)+' dari '+BS[prev-1]:'sama dengan '+BS[prev-1]);tn.append(el('br'),sp);}
       li.append(a,z,tn);
-      if(x.peta){li.tabIndex=0;li.classList.add('klik');li.title='Sorot penyulang '+x.nama+' di peta';
-        var go=function(){pilih({up3_aset:x.up3,ulp_aset:x.pu,pyl_aset:x.nama});var mp=document.getElementById('peta');if(mp&&mp.scrollIntoView)mp.scrollIntoView({behavior:'smooth',block:'start'});};
-        li.onclick=go;li.onkeydown=function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}};}
+      li.tabIndex=0;li.classList.add('klik');li.title='Lihat tren gangguan dan penyebab penyulang '+x.nama;
+      var go=function(){buka(x,host);};
+      li.onclick=go;li.onkeydown=function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}};
       ls.append(li);});
     sec2.append(ls);
     if(bur.length>LIM){var mb=el('button','pa-more',semua?'Tampilkan '+LIM+' teratas saja':'Tampilkan semua ('+bur.length+' penyulang)');mb.type='button';mb.onclick=function(){semua=!semua;repaint();};sec2.append(mb);}
   }
   kids.push(sec2);
-  /* rincian penyulang terpilih */
-  if(s.pyl!=='Semua'){var rp=M.idx[key(s.ulp!=='Semua'?s.ulp:'')+'|'+key(s.pyl)]||Object.keys(M.idx).map(function(k){return M.idx[k];}).filter(function(x){return key(x.nama)===key(s.pyl)&&(perUp3||x.up3===s.up3);})[0];
-    var sec3=el('div','hi-sel');sec3.append(el('p','hi-h3','Penyulang '+s.pyl));
-    if(rp)sec3.append(grafik(rp,M));else sec3.append(el('p','hi-cat','Penyulang ini belum ada di sheet health index.'));
-    kids.splice(1,0,sec3);}
   var ft=el('div','hi-foot');ft.append(el('span',null,'Sumber: sheet HEALTH INDEX, spreadsheet Gangguan Distribusi APKT. Baris "FEEDER …" dijumlahkan dengan penyulang yang sama namanya.'));
   var lk=el('a',null,'Buka spreadsheet ↗');lk.href=SHEET;lk.target='_blank';lk.rel='noopener noreferrer';ft.append(lk);kids.push(ft);
   host.replaceChildren.apply(host,kids);
 });
+
+/* ---------- rincian penyulang (konsep 2 pilihan Zuhal 14 Nov 2026) ---------- */
+var CA=[['Pohon','#0C9CB4'],['Benda Asing','#2E75B6'],['Binatang','#B740DC'],['Layangan / Kawat','#F4625E'],['Lainnya','#216279'],['Dalam investigasi','#C3CCD5']];
+var CC={};CA.forEach(function(c){CC[c[0]]=c[1];});
+function grupSebab(c){return c==='Dalam Investigasi'?'Dalam investigasi':CC[c]?c:'Lainnya';}
+function gangguan(){var r=dash.data('gangguan_penyulang');if(r.status!=='ok'||!r.data)return r.status==='error'?'error':null;
+  if(gc.src===r.data)return gc;var idx={};
+  r.data.forEach(function(d){var k=key(d.up3)+'|'+key(d.ulp)+'|'+key(d.penyulang);(idx[k]=idx[k]||[]).push(d);});
+  gc={src:r.data,idx:idx};return gc;}
+function buka(x,host){det=x;semuaG=false;
+  if(x.peta){lastPyl=x.nama;pilih({up3_aset:x.up3,ulp_aset:x.pu,pyl_aset:x.nama});}else repaint();
+  var col=document.querySelector('.pa-bcol#profil-ulp')||document.querySelector('.pa-bcol');
+  var hp=host||(col&&col.querySelector('.hi-pan'));if(hp){hp.scrollTop=0;if(hp.getBoundingClientRect().top<0||hp.getBoundingClientRect().top>window.innerHeight*0.6)(col||hp).scrollIntoView({behavior:'smooth',block:'start'});}}
+HIW.buka=function(pyl,ulp){var M=model();if(!M)return;var x=M.rows.filter(function(r){return r.peta&&key(r.nama)===key(pyl)&&key(r.pu)===key(ulp);})[0];
+  setTab('hi',true);if(x)buka(x);else{lastPyl=pyl;det={up3:'Semua',ulp:ulp,pu:ulp,kp:key(pyl),nama:pyl,peta:true,v:[],kosong:true};dash.setParams({pyl_aset:pyl});buka(det);}};
+var NS='http://www.w3.org/2000/svg';
+function sv(t,a,txt){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;return e;}
+function rincian(x,M,s,host){
+  var m=bulan(M),kids=[],fmt1=function(v){return TD.loc.format(',.1f')(v);};
+  var bk=el('button','hi-back','← Kembali ke ringkasan health index');bk.type='button';
+  bk.onclick=function(){det=null;if(TD.asetScope().pyl!=='Semua'){lastPyl='Semua';pilih({pyl_aset:null});}else repaint();};kids.push(bk);
+  var n=x.v[m-1],st=stat(n);
+  var hd=el('div','hi-phd');var ht=el('div');ht.append(el('b',null,'Penyulang '+x.nama),el('small',null,'ULP '+x.ulp+(x.up3&&x.up3!=='Semua'?' · UP3 '+x.up3:'')+(x.peta?'':' · belum ada di peta')));
+  var hr=el('div','hi-phr');hr.append(st?chip(st,BLN[m-1]+' '+M.tahun):chip('Tanpa data'));if(M.last)hr.append(selBulan(M));hd.append(ht,hr);kids.push(hd);
+  if(M.jalan&&m===M.last)kids.push(el('p','hi-warn','Bulan '+BLN[m-1]+' masih berjalan, jumlah gangguan akan bertambah sampai akhir bulan.'));
+  var G=gangguan(),inc=G&&G!=='error'?(G.idx[key(x.up3)+'|'+key(x.ulp)+'|'+x.kp]||(x.kosong?Object.keys(G.idx).filter(function(k){return k.split('|')[2]===x.kp&&(x.ulp==='Semua'||k.split('|')[1]===key(x.ulp));}).reduce(function(a,k){return a.concat(G.idx[k]);},[]):[])):[];
+  /* angka ringkas */
+  var tot=0,ada=false;for(var q=0;q<M.last;q++)if(x.v[q]!=null){tot+=x.v[q];ada=true;}
+  var sc={};inc.forEach(function(d){if(+d.bulan<=M.last)sc[d.penyebab]=(sc[d.penyebab]||0)+1;});
+  var known=Object.keys(sc).filter(function(k){return k!=='Dalam Investigasi'&&k!=='(kosong)';}).sort(function(a,b){return sc[b]-sc[a];});
+  var tiles=el('div','hi-tiles');
+  var tile=function(nm,t){var b=el('div','hi-tile');b.append(el('div','n',nm),el('div','t',t));tiles.append(b);};
+  tile(ada?fmt(tot):'—','gangguan '+BLN[0]+'–'+BLN[M.last-1]+' '+M.tahun);
+  var p=m>1?x.v[m-2]:null;
+  tile(n!=null?fmt(n):'—','gangguan '+BLN[m-1]+(n!=null&&p!=null?(n>p?' (▲ '+(n-p):n<p?' (▼ '+(p-n):' (sama')+(n!==p?' dari ':' dengan ')+BLN[m-2]+')':''));
+  tile(known.length?known[0]:G?'—':'…',known.length?'penyebab terbanyak yang diketahui ('+sc[known[0]]+' kali)'+(sc['Dalam Investigasi']?'; '+sc['Dalam Investigasi']+' masih dalam investigasi':''):G?(sc['Dalam Investigasi']?sc['Dalam Investigasi']+' gangguan, semuanya masih dalam investigasi':'belum ada data penyebab'):'memuat data penyebab');
+  kids.push(tiles);
+  /* grafik 1: tren gangguan per bulan */
+  var W=Math.max(320,Math.min(560,((host&&host.clientWidth)||540)-26)),H=150,L=34,R=8,T=16,LB=66,cw=(W-L-R)/12;
+  var mx=Math.max(12,d3.max(x.v,function(v){return v||0;})||0);var y=function(v){return T+(H-T-4)*(1-v/mx);};
+  var g1=sv('svg',{viewBox:'0 0 '+W+' '+(H+LB),width:'100%',class:'hi-svg',role:'img','aria-label':'Tren gangguan per bulan penyulang '+x.nama});
+  for(q=0;q<12;q++)if(q===m-1)g1.append(sv('rect',{x:L+q*cw+1,y:T-12,width:cw-2,height:H-T+LB+10,rx:4,fill:'#E6F0F8'}));
+  [[10,'Kronis ≥ 10',SC.Kronis.c],[4,'Sakit ≥ 4',SC.Sakit.c]].forEach(function(t){if(t[0]>mx)return;g1.append(sv('line',{x1:L,x2:W-R,y1:y(t[0]),y2:y(t[0]),stroke:t[2],'stroke-dasharray':'4 3','stroke-width':1}));
+    g1.append(sv('text',{x:L-4,y:y(t[0])+3,'text-anchor':'end','font-size':9.5,fill:t[2]},t[0]));});
+  g1.append(sv('line',{x1:L,x2:W-R,y1:y(0),y2:y(0),stroke:'#CBD5E1'}));g1.append(sv('text',{x:L-4,y:y(0)+3,'text-anchor':'end','font-size':9.5,fill:'#8A97A5'},'0'));
+  for(q=0;q<12;q++){var v=x.v[q],xx=L+q*cw,gq=sv('g',{class:q<M.last?'hi-kol':''});
+    if(v!=null){var r=sv('rect',{x:xx+cw*.2,y:y(v),width:cw*.6,height:Math.max(1.5,y(0)-y(v)),rx:2,fill:SC[stat(v)].c,opacity:M.jalan&&q===M.last-1?.55:1});gq.append(r);
+      gq.append(sv('text',{x:xx+cw/2,y:y(v)-4,'text-anchor':'middle','font-size':10.5,'font-weight':600,fill:'#33465A'},v));}
+    gq.append(sv('text',{transform:'translate('+(xx+cw/2+3.5)+','+(H+4)+') rotate(-90)','text-anchor':'end','font-size':10.5,fill:q<M.last?'#5B6B7D':'#B0BAC5'},BLN[q]));
+    gq.append(sv('title',{},BLN[q]+': '+(v==null?'belum ada data':v+' gangguan ('+stat(v)+')')));
+    if(q<M.last){gq.append(sv('rect',{x:xx,y:0,width:cw,height:H+LB,fill:'transparent'}));(function(qq){gq.onclick=function(){pilihBulan=qq;repaint();};})(q+1);gq.style.cursor='pointer';}
+    g1.append(gq);}
+  var s1=el('div');s1.append(el('p','hi-h3','Tren gangguan per bulan'),g1);kids.push(s1);
+  /* grafik 2: porsi penyebab per bulan */
+  var s2=el('div');s2.append(el('p','hi-h3','Tren penyebab gangguan (porsi per bulan, kolom CAUSE)'));
+  if(G==='error')s2.append(el('p','hi-cat','Gagal memuat data penyebab gangguan.'));
+  else if(!G)s2.append(el('p','hi-cat','Memuat data penyebab…'));
+  else if(!inc.length)s2.append(el('p','hi-cat','Belum ada data penyebab untuk penyulang ini di sheet bulanan.'));
+  else{
+    var pm=[];for(q=0;q<12;q++)pm.push({});var gt={},lain={};
+    inc.forEach(function(d){var b=+d.bulan-1;var gk=grupSebab(d.penyebab);pm[b][gk]=(pm[b][gk]||0)+1;gt[gk]=(gt[gk]||0)+1;if(gk==='Lainnya')lain[d.penyebab]=(lain[d.penyebab]||0)+1;});
+    var lg=el('div','hi-clg');CA.forEach(function(c){if(!gt[c[0]])return;var sp=el('span');var i=el('i');i.style.background=c[1];sp.append(i,document.createTextNode(c[0]+' '),el('b',null,String(gt[c[0]])));
+      if(c[0]==='Lainnya')sp.title=Object.keys(lain).map(function(k){return k+': '+lain[k];}).join(', ');lg.append(sp);});s2.append(lg);
+    var hh=H-T-4,g2=sv('svg',{viewBox:'0 0 '+W+' '+(H+LB),width:'100%',class:'hi-svg',role:'img','aria-label':'Porsi penyebab gangguan per bulan'});
+    for(q=0;q<12;q++)if(q===m-1)g2.append(sv('rect',{x:L+q*cw+1,y:T-12,width:cw-2,height:H-T+LB+10,rx:4,fill:'#E6F0F8'}));
+    [0,50,100].forEach(function(pc){var yy=T+hh*(1-pc/100);g2.append(sv('text',{x:L-4,y:yy+3,'text-anchor':'end','font-size':9.5,fill:'#8A97A5'},pc+'%'));});
+    for(q=0;q<12;q++){var xx2=L+q*cw,tq=0;CA.forEach(function(c){tq+=pm[q][c[0]]||0;});
+      if(tq){var yy=T+hh;CA.forEach(function(c){var v=pm[q][c[0]];if(!v)return;var h=hh*v/tq;yy-=h;var rr=sv('rect',{x:xx2+cw*.2,y:yy,width:cw*.6,height:h,fill:c[1],opacity:M.jalan&&q===M.last-1?.6:1});
+        rr.append(sv('title',{},BLN[q]+' · '+c[0]+': '+v+' dari '+tq+' gangguan ('+Math.round(v/tq*100)+'%)'));g2.append(rr);});}
+      else if(q<M.last)g2.append(sv('text',{x:xx2+cw/2,y:T+hh-4,'text-anchor':'middle','font-size':10,fill:'#8A97A5'},'0'));
+      g2.append(sv('text',{transform:'translate('+(xx2+cw/2+3.5)+','+(H+4)+') rotate(-90)','text-anchor':'end','font-size':10.5,fill:q<M.last?'#5B6B7D':'#B0BAC5'},BLN[q]));}
+    s2.append(g2);
+  }
+  kids.push(s2);
+  /* daftar gangguan */
+  if(G&&G!=='error'&&inc.length){
+    var urut=inc.slice().sort(function(a,b){return (b.tanggal||'').localeCompare(a.tanggal||'')||(b.no_laporan||'').localeCompare(a.no_laporan||'');});
+    var dibln=urut.filter(function(d){return +d.bulan===m;});
+    var daftar=semuaG?dibln:urut.slice(0,5);
+    var s3=el('div');s3.append(el('p','hi-h3',semuaG?'Semua gangguan '+BLN[m-1]+' ('+dibln.length+')':'Lima gangguan terakhir'));
+    var wrap=el('div','hi-tbwrap');var tb=el('table','hi-gtab');var th=el('tr');['Tanggal','Penyebab','Durasi','Sifat'].forEach(function(t){th.append(el('th',null,t));});tb.append(th);
+    daftar.forEach(function(d){var tr=el('tr');tr.append(el('td',null,(d.tanggal||'').split('-').reverse().join('/')),el('td',null,d.penyebab),el('td',null,d.durasi_menit!==''?fmt1(+d.durasi_menit)+' menit':'—'),el('td',null,d.sifat||'—'));
+      tr.title='No. laporan '+d.no_laporan+(d.kelompok_penyebab?' · '+d.kelompok_penyebab:'');tb.append(tr);});
+    wrap.append(tb);s3.append(wrap);
+    if(dibln.length&&!(dibln.length<=5&&!semuaG&&daftar.every(function(d){return +d.bulan===m;}))){var mb=el('button','pa-more',semuaG?'Tampilkan lima terakhir saja':'Tampilkan semua gangguan '+BLN[m-1]+' ('+dibln.length+')');mb.type='button';mb.onclick=function(){semuaG=!semuaG;repaint();};s3.append(mb);}
+    kids.push(s3);
+  }
+  var ft=el('div','hi-foot');ft.append(el('span',null,'Status dan jumlah per bulan dari sheet HEALTH INDEX. Penyebab dari sheet bulanan (kolom CAUSE), dihitung per nomor laporan, sehingga jumlahnya bisa sedikit berbeda.'));
+  var lk=el('a',null,'Buka spreadsheet ↗');lk.href=SHEET;lk.target='_blank';lk.rel='noopener noreferrer';ft.append(lk);kids.push(ft);
+  return kids;
+}
 
 /* ---------- kolom health index di tabel rekap ---------- */
 dash.draw('hi-tabel',function(tb){
