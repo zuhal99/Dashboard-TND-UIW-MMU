@@ -496,6 +496,25 @@
       chips:CONTOH});
   }
 
+  /* Tab Transmisi (transmisi-web.js, data window.__TRS) */
+  function jwbTransmisi(t){
+    var D = window.__TRS, BL = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+    var pr = function(v){ return v == null ? '—' : nf(v, 2) + '%'; }, m = function(v){ return rp(v / 1e9); };
+    var tz = [{label:'Lihat tab Transmisi', params:{hal:'Transmisi'}}];
+    if (/prosis/.test(t) || (/transmisi/.test(t) && /kinerja/.test(t) && !/scada/.test(t)))
+      return jawab({judul:'Kinerja Transmisi dan Prosis', isi:'<p>Kinerja Transmisi dan Prosis <b>belum dimuat</b>: file sumbernya ada di SharePoint PLN dan menunggu diunggah ke proyek. Kinerja Scadatel sudah tersedia di tab Transmisi.</p>', sumber:'Tab Transmisi.', tautan:tz});
+    if (/(anggaran|\sai\s|investasi|\sao\s|operasi|pagu|terbayar|terkontrak|serapan|kontrak)/.test(t)) {
+      var A = D.ao, I = D.ai, kon = I.murni.kontrak + I.lanjutan.kontrak;
+      return jawab({judul:'Anggaran Transmisi', isi:'<h4 class="tq-h">Anggaran Operasi Transmisi</h4><p>AO terbit <b>' + m(A.ao_terbit) + '</b>, terkontrak ' + m(A.terkontrak) + ', terbayar <b>' + m(A.terbayar) + '</b> (' + nf(A.terbayar / A.ao_terbit * 100, 1) + '% dari AO terbit, termasuk hutang usaha 2025 ' + m(A.hutang_terbayar) + ').</p>' +
+        '<h4 class="tq-h">Anggaran Investasi Transmisi</h4><p>Pagu AI Murni <b>' + m(I.murni.ai) + '</b> (AKI ' + m(I.murni.aki) + '), terkontrak ' + m(I.murni.kontrak) + '. Lanjutan ' + m(I.lanjutan.ai) + ', terkontrak ' + m(I.lanjutan.kontrak) + '. Nilai terbayar AI belum tersedia di file sumber.</p>',
+        sumber:'MON AO OPGI DAN GP DLL 2026 (sheet 53 TRS) dan Monitoring AI 2026 Fungsi Transmisi MMU (sheet Timeline dan AKI). Anggaran Transmisi terpisah dari tab Anggaran (Distribusi).', tautan:tz});
+    }
+    var S = D.scada, n = S.bulan_akhir;
+    var rows = S.kumulatif.map(function(p){ return '<tr><td>' + esc(p.nama.replace(' (%)', '')) + '</td><td>' + pr(p.nilai[n - 1]) + '</td></tr>'; }).join('');
+    return jawab({judul:'Kinerja Scadatel, kumulatif s.d. ' + BL[n - 1] + ' 2026', isi:'<div class="tq-tblwrap"><table class="tq-tbl"><thead><tr><th>Parameter</th><th>Kumulatif</th></tr></thead><tbody>' + rows + '</tbody></table></div><p>Target kontrak manajemen Scadatel belum diterima, jadi status warna belum ditampilkan. Kinerja Transmisi dan Prosis menunggu file dari SharePoint.</p>',
+      sumber:'KINERJA SCADA UP3B MALUKU 2026, sheet Kumulatif 0 MMU AVAIL_SCADA (tingkat UIW).', tautan:tz});
+  }
+
   /* ---------- mesin: kenali maksud pertanyaan ---------- */
   function jawabPertanyaan(raw){
     var t = norm(raw);
@@ -504,6 +523,7 @@
     var low = /(terendah|terkecil|terburuk|tersedikit|terpendek|paling (rendah|kecil|sedikit|lambat|pendek|buruk)|\srendah\s)/.test(t);
     if (/^\s*(halo|hai|hi|selamat \w+|bantuan|tolong|help|menu|bisa apa|apa saja)\b/.test(t.trim()) && t.trim().split(' ').length <= 4) return jwbBantuan(true);
     if (/(kapan|diperbarui|pembaruan|update|tanggal data|posisi data|data terakhir)/.test(t)) return jwbTanggal();
+    if (window.__TRS && /(transmisi|scada|scadatel|prosis)/.test(t)) return jwbTransmisi(t);
     var sb = /rensisdist/.test(t) ? 'Rensisdist' : /(ophardist|operasi pemeliharaan|saidi|saifi)/.test(t) ? 'Ophardist' : /transmisi/.test(t) ? 'Transmisi' : null;
     if (sb) return jwbSubBidang(sb, t, units, rank, low);
     var g = (/(gardu|\sgd|\sgh\s|trafo|kva)/.test(t) || /\b[a-z]{3}\s?\d{2,3}\b/i.test(raw)) ? cariGardu(raw) : null;

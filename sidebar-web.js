@@ -95,7 +95,7 @@
     // label "contoh" untuk sub bidang yang datanya masih contoh
     var r; try { r = dash.data('capaian_kpi'); } catch (e) { r = null; }
     if (r && r.status === 'ok') {
-      var c = {}; (r.data || []).forEach(function(d){ if (d.sumber === 'contoh') c[d.sub_bidang] = true; });
+      var c = {}; (r.data || []).forEach(function(d){ if (d.sumber === 'contoh' && (window.__SB_ASLI || []).indexOf(d.sub_bidang) < 0) c[d.sub_bidang] = true; });
       Object.keys(items).forEach(function(k){ var t = items[k].querySelector('.sb-tag'); t.hidden = !c[k]; });
     }
   }
