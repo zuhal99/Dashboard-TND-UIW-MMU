@@ -1,7 +1,10 @@
 /* Asisten "Tanya Data" untuk versi web dashboard T&D (uji coba, tanpa AI).
    Mengenali pertanyaan dengan kata kunci, lalu menjawab dari data yang sama dengan yang tampil di dashboard
-   (dash.data: ai_unit, ai_kontrak, ao_unit, epm_unit, epm_rinci, aset_gis, beban_gis, gis_titik, capaian_kpi,
-   serta window.__KAPASITAS). Tidak ada data yang dikirim ke luar halaman. */
+   (dash.data: ai_unit, ai_kontrak, ai_program, ai_rincian, ao_unit, ao_kegiatan, ao_rincian, epm_unit, epm_bulan,
+   epm_rinci, epm_kategori, capaian_kpi, capaian_bulanan, aset_gis, beban_gis, gis_titik, health_index,
+   gangguan_penyulang, serta window.__KAPASITAS dan window.__TRS). Tidak ada data yang dikirim ke luar halaman.
+   16 Nov 2026: daftar pertanyaan diperluas ke semua aspek dashboard (health index, gangguan, program AI, kegiatan AO,
+   PRK melebihi pagu, nilai per bulan dan tren, Scadatel per parameter, sumber data, arti warna, hal yang perlu perhatian). */
 (function(){
   'use strict';
   if (window.__tanyaData) return; window.__tanyaData = true;
@@ -29,12 +32,26 @@
   var STW = {hijau:'#1E9E5A', kuning:'#D9A400', merah:'#D64541'};
   function stat(c){ return c == null ? '' : (c >= 100 ? 'hijau' : c >= 95 ? 'kuning' : 'merah'); }
   function dot(st){ return st ? '<i class="tq-dot" style="background:' + (STW[st] || '#999') + '" title="' + esc(st) + '"></i>' : ''; }
-  function tabel(head, rows, hi){
-    var h = '<div class="tq-tblwrap"><table class="tq-tbl"><thead><tr>' + head.map(function(x, i){ return '<th' + (i ? ' class="n"' : '') + '>' + x + '</th>'; }).join('') + '</tr></thead><tbody>';
-    rows.forEach(function(r){ h += '<tr' + (hi && hi(r) ? ' class="hi"' : '') + '>' + r.cells.map(function(x, i){ return '<td' + (i ? ' class="n"' : '') + '>' + x + '</td>'; }).join('') + '</tr>'; });
+  function tabel(head, rows, hi, wrap, kiri){
+    var K = kiri || [], kl = function(i, td){ return i === 0 ? (td && wrap ? ' class="w"' : '') : K.indexOf(i) >= 0 ? '' : ' class="n"'; };
+    var h = '<div class="tq-tblwrap"><table class="tq-tbl"><thead><tr>' + head.map(function(x, i){ return '<th' + kl(i) + '>' + x + '</th>'; }).join('') + '</tr></thead><tbody>';
+    rows.forEach(function(r){ h += '<tr' + (hi && hi(r) ? ' class="hi"' : '') + '>' + r.cells.map(function(x, i){ return '<td' + kl(i, true) + '>' + x + '</td>'; }).join('') + '</tr>'; });
     return h + '</tbody></table></div>';
   }
   function jawab(o){ return o; } // {judul, isi(html), sumber, tautan:[{label, params}]}
+  function ul(li){ return '<ul class="tq-ul">' + li.filter(Boolean).map(function(x){ return '<li>' + x + '</li>'; }).join('') + '</ul>'; }
+  function potong(s, n){ s = String(s || ''); return s.length > n ? s.slice(0, n - 1).replace(/\s+\S*$/, '') + '…' : s; }
+  function key(s){ return String(s || '').toUpperCase().replace(/[^A-Z0-9]/g, ''); }
+  function judulN(s){ return String(s || '').toLowerCase().split(' ').map(function(w){ return /\d/.test(w) ? w.toUpperCase() : w.charAt(0).toUpperCase() + w.slice(1); }).join(' '); }
+  // data pilihan: kosong bila gagal dimuat, tetapi tetap menunggu bila masih dimuat
+  function opt(id){ try { return need(id); } catch (e) { if (e === LOADING) throw e; return null; } }
+  /* nama bulan dalam pertanyaan, misalnya "susut Oktober" atau "SAIDI sep" */
+  var BLNK = [['januari','jan'],['februari','pebruari','feb','peb'],['maret','mar'],['april','apr'],['mei'],['juni','jun'],['juli','jul'],['agustus','agu','ags','agt','agst'],['september','sep','sept'],['oktober','okt','oct'],['november','nop','nov'],['desember','des','dec']];
+  function cariBulan(t){
+    for (var i = 0; i < 12; i++) for (var j = 0; j < BLNK[i].length; j++) if (t.indexOf(' ' + BLNK[i][j] + ' ') >= 0) return i + 1;
+    return 0;
+  }
+  function trenQ(t){ return /(tren|per bulan|perbulan|bulanan|setiap bulan|tiap bulan|perkembangan|bulan ke bulan|grafik|riwayat)/.test(t); }
 
   /* ---------- pengenal unit, ULP, penyulang, gardu ---------- */
   function cariUnit(t){
@@ -116,11 +133,27 @@
 
   /* ---------- tautan ke tab ---------- */
   function keTab(params){
-    var hal = params.hal;
-    var o = Object.assign({}, params);
+    var hal = params.hal, o = {};
+    // parameter berawalan _ khusus untuk Tanya Data (membuka panel health index), tidak dikirim ke dash.setParams
+    Object.keys(params).forEach(function(k){ if (k.charAt(0) !== '_') o[k] = params[k]; });
     if (hal === 'ai' || hal === 'ao') o.jenis_ang = hal;
     dash.setParams(o);
     dash.setLink(hal);
+    if (params._hi) {
+      var n = 0;
+      (function bukaHI(){
+        var b = document.querySelector('.pa-warna[data-warna="hi"]'), tb = document.querySelector('.hi-tab[data-tab="hi"]');
+        if ((!b || !tb) && n++ < 15) { setTimeout(bukaHI, 150); return; }
+        try {
+          if (b && b.getAttribute('aria-pressed') !== 'true') b.click();
+          if (tb && tb.getAttribute('aria-selected') !== 'true') tb.click();
+          if (params._hiPyl && window.HIW && HIW.buka) HIW.buka(params._hiPyl, params._hiUlp);
+          var col = document.querySelector('.pa-bcol#profil-ulp') || document.querySelector('.pa-bcol');
+          if (col && !params._hiPyl) col.scrollIntoView({behavior:'smooth', block:'start'});
+        } catch (e) {}
+      })();
+      return;
+    }
     setTimeout(function(){ try {
       var pn = Array.prototype.find.call(document.querySelectorAll('.td-panel'), function(x){ return !x.closest('[hidden]'); });
       var bar = Array.prototype.find.call(document.querySelectorAll('.sb-top, .td-controls'), function(x){ return x.getBoundingClientRect().height > 0; }), off = bar ? bar.getBoundingClientRect().height + 8 : 8;
@@ -138,7 +171,7 @@
     var lab = j === 'Semua' ? 'AI Distribusi' : 'AI Distribusi ' + j.toLowerCase();
     var src = 'LKAI 2026, posisi ' + tgl(tot.posisi);
     var us = units.map(function(u){ return AIU[u] || u; });
-    var kontrakQ = /\s(kontrak|belum (di)?bayar|selesai|lewat|meluncur|fisik)\s/.test(t);
+    var kontrakQ = /\s(kontrak|belum (di)?bayar|selesai|lewat|terlambat|meluncur|fisik)\s/.test(t);
     var unitRows = rows.filter(function(r){ return r.unit !== 'Semua'; });
     if (rank && !us.length) {
       var key = kontrakQ ? 'selesai_belum_bayar_miliar' : (/terkontrak/.test(t) ? 'pct_kontrak' : 'pct_bayar');
@@ -169,10 +202,101 @@
       }
       taut.push({label:'Lihat di tab Anggaran' + (u === 'Semua' ? '' : ' (' + (u === 'UP3B' ? 'UP3B Maluku' : u) + ')'), params:{hal:'ai', up3_ai:u === 'Semua' ? null : u, ai_jenis:j === 'Semua' ? null : j}});
     });
+    var kat = kontrakQ && pick.length === 1 ? katKontrak(t) : null;
+    if (kat) isi += daftarKontrak(kat, pick[0], j);
     if (pick.length === 1 && pick[0] === 'Semua' && !kontrakQ) {
       isi += tabel(['Unit', 'Pagu', '% kontrak', '% bayar'], unitRows.map(function(r){ return {cells:[esc(r.unit), nf(r.pagu_miliar, 2), pc(r.pct_kontrak), pc(r.pct_bayar)]}; }));
     }
-    return jawab({judul: lab + (kontrakQ ? ': kontrak' : ''), isi:isi, sumber:src + '.', tautan:taut.slice(0, 3)});
+    return jawab({judul: lab + (kontrakQ ? ': kontrak' + (kat ? ' ' + kat.nama : '') : ''), isi:isi, sumber:src + '.' + (kat ? ' Daftar diurutkan dari nilai kontrak terbesar.' : ''), tautan:taut.slice(0, 3)});
+  }
+  /* daftar kontrak menurut kategori yang ditanyakan */
+  var KATK = [
+    {re:/\s(lewat|terlambat|melewati|melampaui)\s/, nama:'lewat tanggal selesai', f:function(r){ return r.lewat_tgl_selesai === 'ya'; }},
+    {re:/belum (di)?bayar|belum terbayar/, nama:'selesai tetapi belum dibayar', f:function(r){ return r.kelompok === 'Selesai, belum terbayar'; }},
+    {re:/meluncur|luncur 2027|ke 2027/, nama:'rencana meluncur ke 2027', f:function(r){ return r.meluncur === 'ya'; }},
+    {re:/fisik 0|belum mulai|\s0%\s/, nama:'fisik 0%', f:function(r){ return r.kelompok === 'Fisik 0%'; }},
+    {re:/belum diisi|progres kosong/, nama:'progres belum diisi', f:function(r){ return r.kelompok === 'Belum diisi'; }}
+  ];
+  function katKontrak(t){ for (var i = 0; i < KATK.length; i++) if (KATK[i].re.test(t)) return KATK[i]; return null; }
+  function daftarKontrak(k, u, j){
+    var d = need('ai_kontrak').filter(function(r){ return r.jenis === j && (u === 'Semua' || r.unit === u) && k.f(r); })
+      .sort(function(a, b){ return (b.nilai_jt || 0) - (a.nilai_jt || 0); });
+    if (!d.length) return '<p>Tidak ada kontrak ' + k.nama + (u === 'Semua' ? '' : ' di ' + esc(u)) + '.</p>';
+    var top = d.slice(0, 5);
+    return '<h4 class="tq-h">Kontrak ' + k.nama + ' dengan nilai terbesar (' + top.length + ' dari ' + d.length + ')</h4>' +
+      tabel(['Pekerjaan', 'Rp juta', 'Progres'], top.map(function(r){
+        return {cells:[esc(potong(r.pekerjaan, 90)) + '<small>' + esc((u === 'Semua' ? r.unit + ' · ' : '') + (r.pelaksana || '–') + (r.tgl_selesai ? ' · selesai ' + tgl(r.tgl_selesai) : '')) + '</small>', nf(r.nilai_jt), esc(r.progres || '–')]};
+      }), null, true);
+  }
+  /* program AI */
+  var PROGK = [[/rekonduktor/, 'rekonduktoring'], [/uprating/, 'uprating'], [/kwh meter|peremajaan meter|meter kwh/, 'kwh meter'], [/\sslo\s|laik operasi/, 'laik operasi'],
+    [/dedieselisasi/, 'dedieselisasi'], [/otomatisasi/, 'otomatisasi'], [/manajemen trafo/, 'manajemen trafo'], [/\sjtr\s/, 'perluasan jtr'], [/sirimau|hative/, 'sirimau'],
+    [/evakuasi daya/, 'evakuasi daya gi dan'], [/scadatel/, 'scadatel'], [/digitalisasi distribusi|\sscada\s/, 'distribusi scada'], [/proteksi/, 'proteksi'],
+    [/mutu tegangan/, 'mutu tegangan'], [/rekonfigurasi/, 'rekonfigurasi'], [/registrasi aset/, 'registrasi aset'], [/aset register/, 'aset register'],
+    [/pecah beban|pembebanan/, 'pecah beban'], [/perkuatan gi/, 'perkuatan gi'], [/sarana penunjang|peralatan kerja distribusi/, 'sarana penunjang'],
+    [/vvip|catu daya back/, 'vvip'], [/pemberatan/, 'pemberatan'], [/komponen jaringan/, 'komponen jaringan']];
+  function cariProgram(t){
+    var list = Array.from(new Set(need('ai_program').map(function(r){ return r.program; }))), best = null;
+    list.forEach(function(p){ var l = norm(p).trim(); if (t.indexOf(' ' + l + ' ') >= 0 && (!best || l.length > norm(best).length)) best = p; });
+    if (best) return best;
+    for (var i = 0; i < PROGK.length; i++) if (PROGK[i][0].test(t)) {
+      var s = PROGK[i][1], p = list.find(function(x){ return x.toLowerCase().indexOf(s) >= 0; });
+      if (p) return p;
+    }
+    return null;
+  }
+  function lebih(r){ return !!r.melebihi_pagu && r.melebihi_pagu !== 'tidak'; }
+  function namaAI(u){ return u === 'UP3B' ? 'UP3B Maluku' : u; }
+  function jwbAIProgram(t, units, rank, low, prog){
+    var j = jenisAI(t), d = need('ai_program').filter(function(r){ return r.jenis === j; });
+    var lab = j === 'Semua' ? 'AI Distribusi' : 'AI Distribusi ' + j.toLowerCase();
+    var src = 'LKAI 2026, posisi ' + tgl((need('ai_unit')[0] || {}).posisi) + '. Nilai dalam miliar rupiah.';
+    var us = units.map(function(u){ return AIU[u] || u; });
+    var k2 = /terkontrak|\skontrak\s/.test(t) && !/bayar|serapan|penyerapan/.test(t) ? 'pct_kontrak' : 'pct_bayar';
+    var lbl = k2 === 'pct_kontrak' ? '% terkontrak' : '% terbayar';
+    var link = {label:'Lihat di tab Anggaran', params:{hal:'ai', up3_ai:us.length === 1 ? us[0] : null, ai_jenis:j === 'Semua' ? null : j}};
+    if (prog) {
+      var rs = d.filter(function(r){ return r.program === prog; }), tot = rs.find(function(r){ return r.unit === 'Semua'; });
+      if (!rs.length) return jawab({judul:'Program ' + prog, isi:'<p>Program ini tidak ada di ' + esc(lab) + '.</p>', tautan:[link]});
+      var ur = rs.filter(function(r){ return r.unit !== 'Semua' && (!us.length || us.indexOf(r.unit) >= 0); }).sort(function(a, b){ return b.pagu_miliar - a.pagu_miliar; });
+      var isi = tot ? '<p>Seluruh unit: pagu ' + rp(tot.pagu_miliar) + ', terkontrak ' + rp(tot.terkontrak_miliar) + ' (<b>' + pc(tot.pct_kontrak) + '</b>), terbayar ' + rp(tot.terbayar_miliar) + ' (<b>' + pc(tot.pct_bayar) + '</b>), ' + nf(tot.n_prk) + ' PRK' + (lebih(tot) ? '; <b>ada PRK yang terkontrak melebihi pagu</b>' : '') + '.</p>' : '';
+      isi += ur.length ? tabel(['Unit', 'Pagu', '% kontrak', '% bayar'], ur.map(function(r){ return {cells:[esc(namaAI(r.unit)), nf(r.pagu_miliar, 2), pc(r.pct_kontrak), pc(r.pct_bayar)]}; })) : '<p>Unit yang ditanyakan tidak memiliki pagu program ini.</p>';
+      return jawab({judul:lab + ': ' + prog, isi:isi, sumber:src, tautan:[link]});
+    }
+    var u = us[0] || 'Semua', rs2 = d.filter(function(r){ return r.unit === u && r.pagu_miliar > 0; });
+    if (!rs2.length) return jawab({judul:lab + ' per program', isi:'<p>Tidak ada pagu ' + esc(lab) + ' untuk ' + esc(namaAI(u)) + '.</p>', tautan:[link]});
+    var s = rs2.slice().sort(rank ? function(a, b){ return low ? a[k2] - b[k2] : b[k2] - a[k2]; } : function(a, b){ return b.pagu_miliar - a.pagu_miliar; });
+    var top = s[0], lim = 10;
+    var kal = rank ? (low ? 'Terendah' : 'Tertinggi') + ' menurut ' + lbl + ': <b>' + esc(top.program) + '</b> (' + pc(top[k2]) + ', pagu ' + rp(top.pagu_miliar) + ').'
+                   : 'Pagu terbesar: <b>' + esc(top.program) + '</b> (' + rp(top.pagu_miliar) + ').';
+    return jawab({judul:lab + ' per program' + (u === 'Semua' ? '' : ', ' + namaAI(u)),
+      isi:'<p>' + nf(rs2.length) + ' program. ' + kal + '</p>' +
+        tabel(['Program', 'Pagu', '% kontrak', '% bayar'], s.slice(0, lim).map(function(r){ return {p:r.program, cells:[esc(r.program) + (lebih(r) ? '<small>ada PRK melebihi pagu</small>' : ''), nf(r.pagu_miliar, 2), pc(r.pct_kontrak), pc(r.pct_bayar)]}; }), function(r){ return rank && r.p === top.program; }, true) +
+        (s.length > lim ? '<p>Ditampilkan ' + lim + ' dari ' + s.length + ' program, urut ' + (rank ? lbl + (low ? ' terendah' : ' tertinggi') : 'pagu terbesar') + '.</p>' : ''),
+      sumber:src, tautan:[link]});
+  }
+  /* PRK yang terkontrak melebihi pagu */
+  function jwbMelebihi(t, units, ai, ao){
+    var isi = '', taut = [], src = [];
+    if (ai) {
+      var ua = units.map(function(u){ return AIU[u] || u; });
+      var seen = {}, ra = need('ai_rincian').filter(function(x){
+        if (!lebih(x) || x.unit === 'Semua' || x.jenis === 'Semua' || (ua.length && ua.indexOf(x.unit) < 0)) return false;
+        var k = x.jenis + '|' + x.unit + '|' + x.prk; if (seen[k]) return false; seen[k] = 1; return true; });
+      isi += '<h4 class="tq-h">Anggaran Investasi (AI Distribusi)</h4>' + (ra.length ?
+        tabel(['PRK', 'Pagu', 'Terkontrak', 'Lebih'], ra.map(function(x){ var l = x.terkontrak_jt - x.pagu_jt; return {cells:[esc(x.prk) + '<small>' + esc(namaAI(x.unit) + ' · ' + x.program + ' · ' + x.jenis.toLowerCase()) + '</small>', nf(x.pagu_jt, 1), nf(x.terkontrak_jt, 1), nf(l, 1)]}; }), null, true)
+        : '<p>Tidak ada PRK AI yang terkontrak melebihi pagu' + (ua.length ? ' di unit ini' : '') + '.</p>');
+      src.push('LKAI 2026'); taut.push({label:'Lihat AI', params:{hal:'ai', up3_ai:ua.length === 1 ? ua[0] : null, ai_jenis:null}});
+    }
+    if (ao) {
+      var uo = units.map(function(u){ return AOU[u] || u; });
+      var ro = need('ao_rincian').filter(function(x){ return lebih(x) && (!uo.length || uo.indexOf(x.unit) >= 0); });
+      isi += '<h4 class="tq-h">Anggaran Operasi (AO Distribusi)</h4>' + (ro.length ?
+        tabel(['PRK', 'Pagu', 'Terkontrak', 'Lebih'], ro.map(function(x){ var l = x.terkontrak_jt - x.pagu_jt; return {cells:[esc(x.deskripsi || x.kode) + '<small>' + esc(x.unit + ' · ' + x.kode + (x.kelompok === 'HUTANG USAHA' ? ' · hutang usaha' : '')) + '</small>', nf(x.pagu_jt, 1), nf(x.terkontrak_jt, 1), nf(l, 1)]}; }), null, true)
+        : '<p>Tidak ada PRK AO yang terkontrak melebihi pagu' + (uo.length ? ' di unit ini' : '') + '.</p>');
+      src.push('Monitoring AO (pagu Rekomposisi II)'); taut.push({label:'Lihat AO', params:{hal:'ao', up3_ao:uo.length === 1 ? uo[0] : null, ao_kel:null}});
+    }
+    return jawab({judul:'PRK yang terkontrak melebihi pagu', isi:isi, sumber:src.join(' dan ') + '. Nilai dalam juta rupiah.', tautan:taut});
   }
 
   /* ---------- B. Anggaran Operasi ---------- */
@@ -213,10 +337,40 @@
     }
     return jawab({judul:lab, isi:isi, sumber:src + '.', tautan:taut.slice(0, 3)});
   }
+  /* kegiatan AO */
+  var KEG = [[/\sjtm\s|preventif/, 'Pemeliharaan JTM preventif'], [/keypoint|\sscada\s/, 'Keypoint dan SCADA'], [/yantek|borong/, 'Jasa borong yantek'],
+    [/mapping|pengolahan data/, 'Pengolahan data mapping'], [/\sapp\s|\ssr\s|sambungan rumah/, 'Pemeliharaan APP/SR'], [/sppd|perjalanan dinas/, 'SPPD operasi dan pemeliharaan'],
+    [/hutang usaha 2025/, 'Hutang usaha 2025']];
+  function cariKegiatan(t){ for (var i = 0; i < KEG.length; i++) if (KEG[i][0].test(t)) return KEG[i][1]; return null; }
+  function jwbAOKegiatan(t, units, rank, low, keg){
+    var k = /\smurni\s/.test(t) ? 'MURNI' : /\shutang/.test(t) && keg !== 'Hutang usaha 2025' ? 'HUTANG USAHA' : 'Semua';
+    var d = need('ao_kegiatan').filter(function(r){ return r.kelompok === k; });
+    var posisi = (need('ao_unit')[0] || {}).posisi, src = 'Monitoring AO (pagu Rekomposisi II), posisi ' + tgl(posisi) + '. Nilai dalam miliar rupiah.';
+    var us = units.map(function(u){ return AOU[u] || u; }).filter(function(u){ return u !== 'UP2K'; });
+    var link = {label:'Lihat di tab Anggaran', params:{hal:'ao', up3_ao:us.length === 1 ? us[0] : null, ao_kel:k === 'Semua' ? null : k}};
+    if (keg) {
+      var rs = d.filter(function(r){ return r.kegiatan === keg; }), tot = rs.find(function(r){ return r.up3 === 'Semua'; });
+      var ur = rs.filter(function(r){ return r.up3 !== 'Semua' && (!us.length || us.indexOf(r.up3) >= 0); })
+        .sort(rank ? function(a, b){ return low ? a.pct_bayar - b.pct_bayar : b.pct_bayar - a.pct_bayar; } : function(a, b){ return b.pagu_miliar - a.pagu_miliar; });
+      if (!rs.length) return jawab({judul:'AO ' + keg, isi:'<p>Kegiatan ini tidak ada di AO Distribusi' + (k === 'Semua' ? '' : ' kelompok ' + k.toLowerCase()) + '.</p>', tautan:[link]});
+      var isi = tot ? '<p>Seluruh unit: pagu ' + rp(tot.pagu_miliar) + ', terkontrak <b>' + pc(tot.pct_kontrak) + '</b>, terbayar <b>' + pc(tot.pct_bayar) + '</b> dari pagu' + (tot.pct_kontrak > 100 ? '; nilai terkontrak sudah melebihi pagu' : '') + '.</p>' : '';
+      isi += ur.length ? tabel(['Unit', 'Pagu', '% kontrak', '% bayar'], ur.map(function(r){ return {cells:[esc(r.up3), nf(r.pagu_miliar, 2), pc(r.pct_kontrak), pc(r.pct_bayar)]}; })) : '<p>Unit yang ditanyakan tidak memiliki pagu kegiatan ini.</p>';
+      return jawab({judul:'AO Distribusi: ' + keg, isi:isi, sumber:src, tautan:[link]});
+    }
+    var u = us[0] || 'Semua', rs2 = d.filter(function(r){ return r.up3 === u && r.pagu_miliar > 0; }).sort(function(a, b){ return b.pagu_miliar - a.pagu_miliar; });
+    if (!rs2.length) return jawab({judul:'AO per kegiatan', isi:'<p>Tidak ada pagu AO Distribusi untuk ' + esc(u) + '.</p>', tautan:[link]});
+    var nl = need('ao_rincian').filter(function(x){ return lebih(x) && (u === 'Semua' || x.unit === u); }).length;
+    return jawab({judul:'AO Distribusi per kegiatan' + (u === 'Semua' ? '' : ', ' + u),
+      isi:'<p>Pagu terbesar: <b>' + esc(rs2[0].kegiatan) + '</b> (' + rp(rs2[0].pagu_miliar) + ').' + (nl ? ' Ada ' + nl + ' PRK yang terkontrak melebihi pagu; tanyakan "PRK AO yang melebihi pagu" untuk rinciannya.' : '') + '</p>' +
+        tabel(['Kegiatan', 'Pagu', '% kontrak', '% bayar'], rs2.map(function(r){ return {cells:[esc(r.kegiatan), nf(r.pagu_miliar, 2), pc(r.pct_kontrak), pc(r.pct_bayar)]}; }), null, true),
+      sumber:src, tautan:[link]});
+  }
 
   /* ---------- C. Kinerja EPM ---------- */
   function epmUnitList(units){ var u = units.filter(function(x){ return UP3.indexOf(x) >= 0 || x === 'UIW'; }); return u; }
   function jwbSusut(t, units, rank, low){
+    var bq = cariBulan(t), tq = trenQ(t);
+    if (bq || tq) return jwbEpmBulan('EPM-SUSUT', t, units, bq, tq, rank, low);
     var d = need('epm_unit').filter(function(r){ return r.kode_kpi === 'EPM-SUSUT'; });
     if (!d.length) return jawab({judul:'Susut distribusi', isi:'<p>Data susut belum tersedia.</p>'});
     var p = per(d[0].periode), us = epmUnitList(units);
@@ -247,6 +401,9 @@
   }
   function pc2(v){ return v == null ? '–' : nf(v, 2) + '%'; }
   function jwbGM(t, units, rank, low){
+    if (/(alasan|kategori|jenis|penyebab|rusak|\stua\s|prabayar|pascabayar)/.test(t)) return jwbGMKategori();
+    var bq = cariBulan(t), tq = trenQ(t);
+    if (bq || tq) return jwbEpmBulan('EPM-GM', t, units, bq, tq, rank, low);
     var d = need('epm_unit').filter(function(r){ return r.kode_kpi === 'EPM-GM'; });
     if (!d.length) return jawab({judul:'Penggantian meter', isi:'<p>Data penggantian meter belum tersedia.</p>'});
     var p = per(d[0].periode), us = epmUnitList(units);
@@ -271,42 +428,115 @@
     });
     return jawab({judul:'Penggantian meter, s.d. ' + p, isi:isi, sumber:src + '.' + ket, tautan:taut.slice(0, 3)});
   }
-  function jwbP2TL(t, units, rank, low){
+  /* P2TL: dihitung dari epm_rinci (pelanggaran + kelainan per bulan, target tahunan) */
+  function p2tlModel(){
     var d = need('epm_rinci').filter(function(r){ return r.kode_kpi === 'EPM-P2TL'; });
-    var by = new Map(), last = '';
+    var by = new Map(), last = 0;
     d.forEach(function(r){
-      var o = by.get(r.up3) || {up3:r.up3, kel:0, pel:0, ann:null, bln:''}; by.set(r.up3, o);
+      var o = by.get(r.up3) || {up3:r.up3, ann:null, m:{}}; by.set(r.up3, o);
       var v = r.nilai === '' || r.nilai == null ? null : +r.nilai;
-      if (r.ukuran === 'target_tahunan') o.ann = v;
-      else if (v != null && (r.ukuran === 'kelainan' || r.ukuran === 'pelanggaran')) {
-        if (r.ukuran === 'kelainan') o.kel += v; else o.pel += v;
-        if (r.periode > o.bln) o.bln = r.periode; if (r.periode > last) last = r.periode;
-      }
+      if (r.ukuran === 'target_tahunan') { o.ann = v; return; }
+      if (v == null || (r.ukuran !== 'kelainan' && r.ukuran !== 'pelanggaran')) return;
+      var b = +String(r.periode).slice(5, 7); if (!b) return;
+      var mm = o.m[b] || (o.m[b] = {pel:0, kel:0}); mm[r.ukuran === 'kelainan' ? 'kel' : 'pel'] += v;
+      if (b > last) last = b;
     });
-    var rows = UP3.map(function(u){ return by.get(u); }).filter(Boolean);
-    if (!rows.length) return jawab({judul:'P2TL', isi:'<p>Data P2TL belum tersedia.</p>'});
-    var b = +last.slice(5, 7);
-    rows.forEach(function(o){ o.tot = o.kel + o.pel; o.tk = o.ann ? o.ann * b / 12 : null; o.cap = o.tk ? Math.round(o.tot / o.tk * 1000) / 10 : null; o.pt = o.ann ? Math.round(o.tot / o.ann * 1000) / 10 : null; });
-    var U = {up3:'UIW', kel:sum(rows, function(o){ return o.kel; }), pel:sum(rows, function(o){ return o.pel; }), ann:sum(rows, function(o){ return o.ann; })};
-    U.tot = U.kel + U.pel; U.tk = U.ann * b / 12; U.cap = U.tk ? Math.round(U.tot / U.tk * 1000) / 10 : null; U.pt = U.ann ? Math.round(U.tot / U.ann * 1000) / 10 : null;
-    var p = per(last), us = epmUnitList(units);
-    var src = 'Sheet Kinerja EPM (P2TL), kumulatif Januari s.d. ' + p + ', dalam kWh. Realisasi = pelanggaran + kelainan; capaian = realisasi ÷ (target tahunan × bulan ÷ 12)';
+    var U = {up3:'UIW', ann:0, m:{}};
+    UP3.forEach(function(u){ var x = by.get(u); if (!x) return; U.ann += x.ann || 0;
+      Object.keys(x.m).forEach(function(k){ var a = U.m[k] || (U.m[k] = {pel:0, kel:0}); a.pel += x.m[k].pel; a.kel += x.m[k].kel; }); });
+    return {by:by, U:U, last:last};
+  }
+  function p2tlSd(o, b){
+    var pel = 0, kel = 0; for (var q = 1; q <= b; q++) if (o.m[q]) { pel += o.m[q].pel; kel += o.m[q].kel; }
+    var tot = pel + kel, tk = o.ann ? o.ann * b / 12 : null, bl = o.m[b] || {pel:0, kel:0};
+    return {up3:o.up3, pel:pel, kel:kel, tot:tot, ann:o.ann, tk:tk, cap:tk ? Math.round(tot / tk * 1000) / 10 : null, pt:o.ann ? Math.round(tot / o.ann * 1000) / 10 : null, bln:bl.pel + bl.kel, bpel:bl.pel, bkel:bl.kel};
+  }
+  function jwbP2TL(t, units, rank, low){
+    var P = p2tlModel(), rows0 = UP3.map(function(u){ return P.by.get(u); }).filter(Boolean);
+    if (!rows0.length || !P.last) return jawab({judul:'P2TL', isi:'<p>Data P2TL belum tersedia.</p>'});
+    var b = cariBulan(t), tr = trenQ(t), cat = '';
+    if (b > P.last) { cat = '<p>Data P2TL bulan ' + BLN[b-1] + ' belum ada; data terakhir s.d. ' + BLN[P.last-1] + '.</p>'; b = P.last; }
+    var bb = b || P.last, p = BLN[bb-1] + ' 2026', us = epmUnitList(units);
+    var rows = rows0.map(function(o){ return p2tlSd(o, bb); }), U = p2tlSd(P.U, bb);
+    var src = 'Sheet Kinerja EPM (P2TL), dalam kWh. Realisasi = pelanggaran + kelainan, kumulatif sejak Januari; capaian = realisasi ÷ (target tahunan × bulan ÷ 12)';
+    var link = function(u){ return {label:'Lihat di tab EPM' + (u && u !== 'UIW' ? ' (' + u + ')' : ''), params:{hal:'EPM', up3_epm:u && u !== 'UIW' ? u : null}}; };
+    if (tr) {
+      var u = us[0] || 'UIW', o = u === 'UIW' ? P.U : P.by.get(u);
+      if (!o) return jawab({judul:'P2TL per bulan', isi:'<p>Tidak ada data P2TL untuk ' + esc(u) + '.</p>'});
+      var rs = []; for (var q = 1; q <= P.last; q++) rs.push(p2tlSd(o, q));
+      var mx = rs.reduce(function(m, r, i){ return !m || r.bln > m.r.bln ? {r:r, i:i} : m; }, null);
+      return jawab({judul:'P2TL per bulan, ' + (u === 'UIW' ? 'UIW' : 'UP3 ' + u) + ' 2026',
+        isi:cat + '<p>Bulan dengan kWh P2TL terbesar: <b>' + BLN[mx.i] + '</b> (' + nf(mx.r.bln) + ' kWh). Kumulatif s.d. ' + BLN[P.last-1] + ' <b>' + nf(rs[rs.length-1].tot) + ' kWh</b>' + (o.ann ? ', capaian <b>' + pc(rs[rs.length-1].cap) + '</b>' : '') + '.</p>' +
+          tabel(['Bulan', 'Pelanggaran', 'Kelainan', 'Kumulatif', 'Capaian'], rs.map(function(r, i){ return {b:i + 1, cells:[dot(stat(r.cap)) + BLN[i].slice(0, 3), nf(r.bpel), nf(r.bkel), nf(r.tot), pc(r.cap)]}; }), function(r){ return r.b === b; }),
+        sumber:src + '.', tautan:[link(u)]});
+    }
     if (!us.length || rank) {
       var s = rows.slice().sort(function(a, x){ return low ? a.cap - x.cap : x.cap - a.cap; }), top = s[0];
       var kal = rank ? (low ? 'Capaian terendah' : 'Capaian tertinggi') + ': <b>' + esc(top.up3) + '</b> (' + pc(top.cap) + ').'
-                     : 'UIW: pelanggaran ' + nf(U.pel) + ' kWh dan kelainan ' + nf(U.kel) + ' kWh, total <b>' + nf(U.tot) + ' kWh</b> atau <b>' + pc(U.pt) + '</b> dari target tahunan ' + nf(U.ann) + ' kWh.';
-      return jawab({judul:'P2TL per UP3, s.d. ' + p,
-        isi:'<p>' + kal + '</p>' + tabel(['UP3', 'Pelanggaran', 'Kelainan', 'Capaian'], s.map(function(o){ return {u:o.up3, cells:[dot(stat(o.cap)) + esc(o.up3), nf(o.pel), nf(o.kel), pc(o.cap)]}; }), function(r){ return rank && r.u === top.up3; }),
-        sumber:src + '.', tautan:[{label:'Lihat di tab EPM', params:{hal:'EPM', up3_epm:null}}]});
+                     : 'UIW: pelanggaran ' + nf(U.pel) + ' kWh dan kelainan ' + nf(U.kel) + ' kWh, total <b>' + nf(U.tot) + ' kWh</b> atau <b>' + pc(U.pt) + '</b> dari target tahunan ' + nf(U.ann) + ' kWh' + (b ? '; bulan ' + BLN[b-1] + ' saja ' + nf(U.bln) + ' kWh' : '') + '.';
+      return jawab({judul:'P2TL per UP3, ' + (b ? 'Januari s.d. ' : 's.d. ') + p,
+        isi:cat + '<p>' + kal + '</p>' + (b ? tabel(['UP3', BLN[b-1].slice(0, 3) + ' saja', 'Kumulatif', 'Capaian'], s.map(function(o){ return {u:o.up3, cells:[dot(stat(o.cap)) + esc(o.up3), nf(o.bln), nf(o.tot), pc(o.cap)]}; }), function(r){ return rank && r.u === top.up3; })
+          : tabel(['UP3', 'Pelanggaran', 'Kelainan', 'Capaian'], s.map(function(o){ return {u:o.up3, cells:[dot(stat(o.cap)) + esc(o.up3), nf(o.pel), nf(o.kel), pc(o.cap)]}; }), function(r){ return rank && r.u === top.up3; })),
+        sumber:src + '.', tautan:[link(null)]});
     }
-    var isi = '', taut = [];
+    var isi = cat, taut = [];
     us.forEach(function(u){
-      var o = u === 'UIW' ? U : by.get(u);
+      var o = u === 'UIW' ? U : rows.find(function(x){ return x.up3 === u; });
       if (!o) { isi += '<p><b>' + esc(u) + '</b>: tidak ada data P2TL.</p>'; return; }
-      isi += '<p>' + dot(stat(o.cap)) + '<b>' + esc(u) + '</b>: pelanggaran ' + nf(o.pel) + ' kWh, kelainan ' + nf(o.kel) + ' kWh, total <b>' + nf(o.tot) + ' kWh</b>. Target tahunan ' + (o.ann ? nf(o.ann) + ' kWh, tercapai <b>' + pc(o.pt) + '</b>; capaian terhadap target s.d. ' + p + ' <b>' + pc(o.cap) + '</b>.' : 'belum diisi.') + '</p>';
-      taut.push({label:'Lihat di tab EPM (' + u + ')', params:{hal:'EPM', up3_epm:u === 'UIW' ? null : u}});
+      isi += '<p>' + dot(stat(o.cap)) + '<b>' + esc(u) + '</b>: ' + (b ? 'bulan ' + BLN[b-1] + ' saja ' + nf(o.bln) + ' kWh (pelanggaran ' + nf(o.bpel) + ', kelainan ' + nf(o.bkel) + '); kumulatif ' : '') + 'pelanggaran ' + nf(o.pel) + ' kWh, kelainan ' + nf(o.kel) + ' kWh, total <b>' + nf(o.tot) + ' kWh</b> s.d. ' + p + '. Target tahunan ' + (o.ann ? nf(o.ann) + ' kWh, tercapai <b>' + pc(o.pt) + '</b>; capaian terhadap target s.d. ' + p + ' <b>' + pc(o.cap) + '</b>.' : 'belum diisi.') + '</p>';
+      taut.push(link(u));
     });
     return jawab({judul:'P2TL, s.d. ' + p, isi:isi, sumber:src + '.', tautan:taut.slice(0, 3)});
+  }
+  /* susut dan penggantian meter per bulan (epm_bulan) */
+  function jwbEpmBulan(kode, t, units, b, tr, rank, low){
+    var su = kode === 'EPM-SUSUT', nm = su ? 'Susut distribusi' : 'Penggantian meter';
+    var eu = need('epm_unit').find(function(r){ return r.kode_kpi === kode; }), last = eu ? eu.bulan : 0;
+    var d = need('epm_bulan').filter(function(r){ return r.kode_kpi === kode && r.bulan <= last; });
+    if (!last || !d.length) return jawab({judul:nm, isi:'<p>Data ' + nm.toLowerCase() + ' per bulan belum tersedia.</p>'});
+    var fv = su ? pc2 : function(v){ return nf(v); }, cat = '';
+    if (b > last) { cat = '<p>Data ' + nm.toLowerCase() + ' bulan ' + BLN[b-1] + ' belum ada; data terakhir s.d. ' + BLN[last-1] + '.</p>'; b = last; }
+    var us = epmUnitList(units);
+    var src = 'Sheet Kinerja EPM. ' + (su ? 'Capaian susut = 2 − realisasi kumulatif ÷ target' : 'Target bulanan = target tahunan × bulan ÷ 12; realisasi dan target kumulatif sejak Januari');
+    var link = function(u){ return {label:'Lihat di tab EPM' + (u && u !== 'UIW' ? ' (' + u + ')' : ''), params:{hal:'EPM', up3_epm:u && u !== 'UIW' ? u : null, epm_kpi:kode}}; };
+    if (tr) {
+      var u = us[0] || 'UIW', rs = d.filter(function(r){ return r.up3 === u; }).sort(function(a, x){ return a.bulan - x.bulan; });
+      var mx = null, mn = null;
+      rs.forEach(function(r){ if (r.bulanan == null) return; if (!mx || r.bulanan > mx.bulanan) mx = r; if (!mn || r.bulanan < mn.bulanan) mn = r; });
+      return jawab({judul:nm + ' per bulan, ' + (u === 'UIW' ? 'UIW' : 'UP3 ' + u) + ' 2026',
+        isi:cat + (mx ? '<p>' + (su ? 'Susut bulanan tertinggi ' : 'Penggantian terbanyak ') + '<b>' + BLN[mx.bulan-1] + '</b> (' + fv(mx.bulanan) + '), ' + (su ? 'terendah ' : 'tersedikit ') + '<b>' + BLN[mn.bulan-1] + '</b> (' + fv(mn.bulanan) + ').</p>' : '') +
+          tabel(['Bulan', 'Bulan itu', 'Kumulatif', 'Target', 'Capaian'], rs.map(function(r){ return {b:r.bulan, cells:[dot(stat(r.capaian)) + BLN[r.bulan-1].slice(0, 3), fv(r.bulanan), fv(r.realisasi), fv(r.target), pc(r.capaian)]}; }), function(r){ return r.b === b; }),
+        sumber:src + '.', tautan:[link(u)]});
+    }
+    if (us.length && !rank) {
+      var isi = cat;
+      us.forEach(function(u){ var r = d.find(function(x){ return x.up3 === u && x.bulan === b; });
+        if (!r) { isi += '<p><b>' + esc(u) + '</b>: tidak ada data.</p>'; return; }
+        isi += '<p>' + dot(stat(r.capaian)) + '<b>' + esc(u) + '</b>, ' + BLN[b-1] + ' 2026: ' +
+          (su ? 'susut bulan itu saja <b>' + pc2(r.bulanan) + '</b>; kumulatif Januari s.d. ' + BLN[b-1] + ' <b>' + pc2(r.realisasi) + '</b> terhadap target ' + pc2(r.target)
+              : '<b>' + nf(r.bulanan) + ' meter</b> diganti pada bulan itu; kumulatif s.d. ' + BLN[b-1] + ' <b>' + nf(r.realisasi) + ' meter</b> terhadap target ' + nf(r.target)) +
+          ', capaian <b>' + pc(r.capaian) + '</b>.</p>'; });
+      return jawab({judul:nm + ', ' + BLN[b-1] + ' 2026', isi:isi, sumber:src + '.', tautan:[link(us[0])]});
+    }
+    var s = d.filter(function(r){ return r.bulan === b && r.up3 !== 'UIW'; });
+    var worst = su && /(tertinggi|terbesar|paling (tinggi|besar))/.test(t);
+    s.sort(function(a, x){ return worst ? x.bulanan - a.bulanan : (low ? a.capaian - x.capaian : x.capaian - a.capaian); });
+    var uiw = d.find(function(r){ return r.up3 === 'UIW' && r.bulan === b; }), top = s[0];
+    var kal = rank && top ? (worst ? 'Susut bulan ' + BLN[b-1] + ' tertinggi: <b>' + esc(top.up3) + '</b> (' + pc2(top.bulanan) + ').' : (low ? 'Capaian terendah' : 'Capaian tertinggi') + ': <b>' + esc(top.up3) + '</b> (' + pc(top.capaian) + ').')
+      : uiw ? 'UIW: ' + (su ? 'susut bulan itu ' + pc2(uiw.bulanan) + ', kumulatif <b>' + pc2(uiw.realisasi) + '</b>' : nf(uiw.bulanan) + ' meter pada bulan itu, kumulatif <b>' + nf(uiw.realisasi) + '</b>') + ', capaian <b>' + pc(uiw.capaian) + '</b>.' : '';
+    return jawab({judul:nm + ' per UP3, ' + BLN[b-1] + ' 2026', isi:cat + '<p>' + kal + '</p>' +
+      tabel(['UP3', 'Bulan itu', 'Kumulatif', 'Capaian'], s.map(function(r){ return {u:r.up3, cells:[dot(stat(r.capaian)) + esc(r.up3), fv(r.bulanan), fv(r.realisasi), pc(r.capaian)]}; }), function(r){ return rank && top && r.u === top.up3; }),
+      sumber:src + '.', tautan:[link(null)]});
+  }
+  function jwbGMKategori(){
+    var d = need('epm_kategori');
+    if (!d.length) return jawab({judul:'Alasan penggantian meter', isi:'<p>Data kategori penggantian meter belum tersedia.</p>'});
+    var s = d.slice().sort(function(a, b){ return b.nilai - a.nilai; }), tot = sum(d, function(r){ return r.nilai; });
+    return jawab({judul:'Penggantian meter menurut alasan, ' + (d[0].up3 === 'UIW' ? 'UIW' : d[0].up3) + ' s.d. ' + per(d[0].periode),
+      isi:'<p>Total ' + nf(tot) + ' meter. Terbanyak: <b>' + esc(s[0].kategori) + '</b> (' + nf(s[0].nilai) + ' meter, ' + pc(s[0].persen) + ').</p>' +
+        tabel(['Kategori', 'Meter', 'Porsi'], s.map(function(r){ return {cells:[esc(r.kategori), nf(r.nilai), pc(r.persen)]}; })) +
+        '<p>Rincian alasan baru tersedia untuk tingkat UIW, belum per UP3.</p>',
+      sumber:'Sheet Kinerja EPM (Ganti Meter, rekap pascabayar/prabayar rusak dan tua).', tautan:[{label:'Lihat di tab EPM', params:{hal:'EPM', up3_epm:null, epm_kpi:'EPM-GM'}}]});
   }
 
   /* ---------- D. Aset jaringan ---------- */
@@ -418,30 +648,91 @@
   }
 
   /* ---------- E. Umum ---------- */
+  var BS = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+  function tglPendek(s){ var m = /^(\d{4})-(\d{2})-(\d{2})/.exec(s || ''); return m ? (+m[3]) + ' ' + BS[+m[2]-1] : (s || '–'); }
+  function pad(n){ return (n < 10 ? '0' : '') + n; }
+  function tautan(h, x){ return '<a href="' + h + '" target="_blank" rel="noopener noreferrer">' + x + '</a>'; }
+  // tautan spreadsheet yang sudah tampil terbuka di halaman ini (tab Anggaran, EPM, Transmisi dan panel health index)
+  var SRC = {
+    ai:'https://bit.ly/LKAI2026-UIWMMU',
+    epm:'https://docs.google.com/spreadsheets/d/1x0ZVr4fxjstBt_zQpn9wLgl4tPmKshiCnssw2sAgFEM/edit',
+    hi:'https://docs.google.com/spreadsheets/d/1rzEIhx2K2B3JArbKAz4K7GpCdYYBlkwqAtHXSMYgvuc/edit#gid=2030371538',
+    trs_ao:'https://docs.google.com/spreadsheets/d/17pCTW7S7Ua7azhSci-X3NzWWWbvqi_LC/edit?gid=1477443203#gid=1477443203',
+    trs_ai:'https://docs.google.com/spreadsheets/d/1G_Wspp-EKb7E2XOGRaBjZMmxAuZlqqAQ/edit?gid=56154097#gid=56154097',
+    trs_scada:'https://docs.google.com/spreadsheets/d/1txdrftRIr5zLWs8Ayj2LfvkpyYegT8cm/edit?gid=1132446219#gid=1132446219'
+  };
+  var OTOMATIS = 'Setiap pagi pukul 06.34 WIT data kinerja EPM (susut, penggantian meter, P2TL), SAIDI SAIFI, health index dan daftar gangguan penyulang diperiksa otomatis. Data divalidasi lebih dulu; bila ada perubahan, data di dashboard Claude dan web ini diperbarui. Anggaran AI dan AO, Peta Aset dan Transmisi diperbarui saat ada data atau permintaan baru.';
   function jwbTanggal(){
-    var ai = need('ai_unit'), ao = need('ao_unit'), ep = need('epm_unit'), rin = need('epm_rinci');
-    var p2 = rin.filter(function(r){ return r.kode_kpi === 'EPM-P2TL' && /^\d{4}-\d{2}$/.test(r.periode) && r.nilai !== '' && r.nilai != null; }).reduce(function(m, r){ return r.periode > m ? r.periode : m; }, '');
+    var ai = need('ai_unit'), ao = need('ao_unit'), ep = need('epm_unit'), P = p2tlModel();
     var f = (document.querySelector('.web-foot') || {}).textContent || '';
     var m = /Data kinerja (?:EPM )?terakhir diperbarui (.+? WIT)/.exec(f);
     var ck = need('capaian_kpi'), sd = ck.find(function(r){ return r.sub_bidang === 'Ophardist' && r.sumber === 'asli'; });
     var contohSb = Array.from(new Set(ck.filter(function(r){ return r.sumber !== 'asli'; }).map(function(r){ return r.sub_bidang; })));
     var sus = ep.find(function(r){ return r.kode_kpi === 'EPM-SUSUT'; }), gm = ep.find(function(r){ return r.kode_kpi === 'EPM-GM'; });
     var X = indeksAset(), dimuat = Array.from(new Set(Array.from(X.U2U.values())));
+    var bb = opt('beban_gis'), bper = bb && bb.length ? per(bb[0].periode) : '';
+    var M = null; try { M = hiModel(); } catch (e) { if (e === LOADING) throw e; }
+    var G = opt('gangguan_penyulang'), gmax = G ? G.reduce(function(a, d){ return d.tanggal > a ? d.tanggal : a; }, '') : '';
+    var D = window.__TRS;
     var li = [
-      'Anggaran Investasi (LKAI 2026): posisi <b>' + tgl((ai[0] || {}).posisi) + '</b>',
-      'Anggaran Operasi (Monitoring AO): posisi <b>' + tgl((ao[0] || {}).posisi) + '</b>',
-      'Kinerja (EPM dan SAIDI SAIFI): ' + (m ? 'diperbarui <b>' + esc(m[1]) + '</b>; ' : '') + (sus ? 'susut s.d. ' + per(sus.periode) : '') + (gm ? ', penggantian meter s.d. ' + per(gm.periode) : '') + (p2 ? ', P2TL s.d. ' + per(p2) : '') + (sd ? ', SAIDI dan SAIFI s.d. ' + per(sd.periode) : ''),
-      'Peta Aset: data GIS UP3 ' + dimuat.join(', ') + '; UP3 lain belum dimuat',
-      contohSb.length ? contohSb.join(', ') + ': masih data contoh' : ''
+      'Anggaran Investasi Distribusi (LKAI 2026): posisi <b>' + tgl((ai[0] || {}).posisi) + '</b>',
+      'Anggaran Operasi Distribusi (Monitoring AO): posisi <b>' + tgl((ao[0] || {}).posisi) + '</b>',
+      'Kinerja EPM dan Ophardist: ' + (m ? 'diperbarui <b>' + esc(m[1]) + '</b>; ' : '') + (sus ? 'susut s.d. ' + per(sus.periode) : '') + (gm ? ', penggantian meter s.d. ' + per(gm.periode) : '') + (P.last ? ', P2TL s.d. ' + BLN[P.last-1] + ' 2026' : '') + (sd ? ', SAIDI dan SAIFI s.d. ' + per(sd.periode) : ''),
+      M && M.last ? 'Health index penyulang: jumlah gangguan s.d. <b>' + BLN[M.last-1] + ' ' + M.th + '</b>' + (M.jalan ? ' (bulan berjalan; status bawaan memakai ' + BLN[M.def-1] + ')' : '') : '',
+      gmax ? 'Daftar gangguan penyulang: laporan terakhir <b>' + tgl(gmax) + '</b>' : '',
+      'Peta Aset: data GIS UP3 ' + dimuat.join(', ') + ', UP3 lain belum dimuat' + (bper ? '; beban penyulang ' + bper : ''),
+      D ? 'Transmisi: anggaran AO dan AI serta kinerja Scadatel dimuat <b>' + tgl(D.dibuat) + '</b>' + (D.scada ? ' (Scadatel s.d. ' + BLN[D.scada.bulan_akhir-1] + ')' : '') : '',
+      contohSb.length ? 'Masih data contoh: KPI ' + contohSb.join(' dan ') : ''
     ];
-    return jawab({judul:'Tanggal data di dashboard', isi:'<ul class="tq-ul">' + li.filter(Boolean).map(function(x){ return '<li>' + x + '</li>'; }).join('') + '</ul><p>Kinerja EPM dan SAIDI SAIFI diperiksa otomatis setiap pagi pukul 06.34 WIT.</p>'});
+    return jawab({judul:'Tanggal data di dashboard', isi:ul(li) + '<p><b>Pembaruan otomatis.</b> ' + OTOMATIS + '</p>'});
   }
+  function jwbSumber(){
+    var li = [
+      '<b>Anggaran Investasi Distribusi</b>: spreadsheet LKAI 2026 UIW MMU (' + tautan(SRC.ai, 'buka') + '). Dimuat ulang atas permintaan.',
+      '<b>Anggaran Operasi Distribusi</b>: Google Sheet Monitoring AO, sheet REKAP DETAIL (pagu Rekomposisi II). Dimuat ulang atas permintaan.',
+      '<b>Kinerja EPM</b> (susut, penggantian meter, P2TL): sheet Kinerja (' + tautan(SRC.epm, 'buka') + '). Diperiksa otomatis setiap pagi.',
+      '<b>Kinerja Ophardist</b> (SAIDI, SAIFI): spreadsheet SAIDI SAIFI 2026, sheet REAL VS TARGET 2026. Diperiksa otomatis setiap pagi.',
+      '<b>Health index dan gangguan penyulang</b>: spreadsheet Gangguan Distribusi APKT, sheet HEALTH INDEX dan sheet bulanan (' + tautan(SRC.hi, 'buka') + '). Diperiksa otomatis setiap pagi.',
+      '<b>Peta Aset</b>: data GIS (SHP/GDB) per UP3 dan data beban penyulang dari unit. Dimuat saat file baru dikirim.',
+      '<b>Transmisi</b>: MON AO OPGI DAN GP DLL 2026 (' + tautan(SRC.trs_ao, 'buka') + '), Monitoring AI 2026 Fungsi Transmisi MMU (' + tautan(SRC.trs_ai, 'buka') + ') dan KINERJA SCADA UP3B MALUKU 2026 (' + tautan(SRC.trs_scada, 'buka') + '). Dimuat ulang atas permintaan; kinerja Transmisi dan Prosis menunggu file.',
+      '<b>Rensisdist</b>: belum ada data asli, masih data contoh.'
+    ];
+    return jawab({judul:'Sumber data dan cara memperbarui',
+      isi:ul(li) + '<p><b>Cara memperbarui.</b> Ubah angka di spreadsheet sumbernya (perlu akses edit dari pemilik spreadsheet; tombol "Update di spreadsheet" di tab Anggaran Investasi dan EPM membuka spreadsheet itu). Untuk EPM, SAIDI SAIFI, health index dan gangguan, perubahan masuk otomatis pada pemeriksaan pagi berikutnya (06.34 WIT) setelah lolos validasi. Untuk sumber lain, sampaikan ke pengelola dashboard agar data dimuat ulang. Halaman ini dan Tanya Data tidak dapat mengubah data.</p>'});
+  }
+  function jwbWarna(){
+    var li = [
+      'Status KPI: ' + dot('hijau') + 'hijau bila capaian ≥ 100%, ' + dot('kuning') + 'kuning 95% s.d. < 100%, ' + dot('merah') + 'merah < 95%.',
+      'KPI yang makin besar makin baik (penggantian meter, P2TL, serapan anggaran): capaian = realisasi ÷ target × 100%.',
+      'KPI yang makin kecil makin baik (susut, SAIDI, SAIFI): capaian = (2 − realisasi ÷ target) × 100%. Contoh: susut 7% terhadap target 8% memberi capaian 112,5%.',
+      'Target penggantian meter dan P2TL s.d. bulan tertentu = target tahunan × bulan ÷ 12. Susut, SAIDI dan SAIFI memakai target kumulatif dari sheet. Capaian tidak dibatasi atas, mengikuti sheet.',
+      'Anggaran: % terkontrak = nilai terkontrak ÷ pagu; % terbayar = nilai terbayar ÷ pagu.',
+      'Health index penyulang per bulan: ' + hdot('Sempurna') + 'Sempurna 0 gangguan, ' + hdot('Sehat') + 'Sehat 1–3, ' + hdot('Sakit') + 'Sakit 4–9, ' + hdot('Kronis') + 'Kronis ≥ 10.',
+      'Peta Aset: warna jaringan per ULP, per penyulang atau per status health index, dipilih dengan tombol warna di atas peta.',
+      'Kinerja Scadatel belum diberi warna status karena target kontrak manajemennya belum diterima.'
+    ];
+    return jawab({judul:'Arti warna dan rumus capaian', isi:ul(li)});
+  }
+  function jwbTentang(){
+    return jawab({judul:'Tentang dashboard ini',
+      isi:'<p>Dashboard monitoring Bidang Transmisi dan Distribusi PLN UIW Maluku dan Maluku Utara: anggaran investasi dan operasi Distribusi, Peta Aset (jaringan, gardu, beban dan health index penyulang), kinerja Rensisdist, EPM, Ophardist, serta Transmisi (anggaran Transmisi dan kinerja Scadatel).</p>' +
+        ul(['Ada dua versi dengan data yang sama: dashboard di Claude dan web ini (GitHub Pages, dibuka tanpa login). Tab Transmisi, health index penyulang dan Tanya Data hanya ada di versi web.',
+            'Pindah halaman lewat menu di kiri; di layar kecil, menu dibuka dengan tombol menu. Setiap tab punya filter unit sendiri.',
+            'Tanya Data menjawab dengan mengenali kata kunci dari data yang tampil di halaman ini, tanpa AI. Pertanyaan tidak dikirim ke luar halaman.',
+            'Tanggal data ada di kaki halaman; tanyakan "kapan data diperbarui?" untuk rinciannya, atau "sumber data" untuk asal datanya.'])});
+  }
+
+  /* ---------- F. Kinerja sub bidang (Ophardist, Rensisdist) ---------- */
   function jwbSubBidang(sb, t, units, rank, low){
+    if (sb === 'Ophardist') { var bq = cariBulan(t), tq = trenQ(t); if (bq || tq) return jwbOpBulan(t, units, bq, tq, rank, low); }
     var ck = need('capaian_kpi').filter(function(r){ return r.sub_bidang === sb; });
     var asli = ck.filter(function(r){ return r.sumber === 'asli'; });
-    if (!asli.length)
-      return jawab({judul:'Kinerja ' + sb, isi:'<p>Data kinerja ' + esc(sb) + ' di dashboard masih <b>data contoh</b>, belum data asli, sehingga belum dapat dijawab. Data asli akan dimuat setelah spreadsheet kinerja ' + esc(sb) + ' diterima.</p>',
+    if (!asli.length) {
+      var nmk = Array.from(new Set(ck.map(function(r){ return r.nama_kpi; })));
+      return jawab({judul:'Kinerja ' + sb, isi:'<p>Data kinerja ' + esc(sb) + ' di dashboard masih <b>data contoh</b>, belum data asli, sehingga angkanya belum dapat dipakai. Data asli akan dimuat setelah spreadsheet kinerja ' + esc(sb) + ' diterima.</p>' +
+        (nmk.length ? '<p>KPI yang sudah disiapkan tempatnya:</p>' + ul(nmk.map(esc)) : ''),
         tautan:[{label:'Lihat tab ' + sb, params:{hal:sb}}]});
+    }
     var kodes = Array.from(new Set(asli.map(function(r){ return r.kode_kpi; })));
     var pilih = kodes.filter(function(k){ var n = (asli.find(function(r){ return r.kode_kpi === k; }) || {}).nama_kpi || ''; return t.indexOf(' ' + n.toLowerCase() + ' ') >= 0; });
     if (pilih.length) kodes = pilih;
@@ -465,54 +756,368 @@
     });
     var lain = ck.some(function(r){ return r.sumber !== 'asli'; });
     return jawab({judul:'Kinerja ' + sb + (per0 ? ', s.d. ' + per0 : ''), isi:isi,
-      sumber:(sb === 'Ophardist' ? 'Spreadsheet SAIDI SAIFI 2026, sheet REAL VS TARGET 2026 (kumulatif)' : 'Spreadsheet kinerja ' + sb) + '. Capaian = 2 − realisasi ÷ target; hijau ≥ 100%, kuning 95% s.d. < 100%, merah < 95%.' + (lain ? ' KPI ' + sb + ' lainnya masih data contoh.' : ''),
+      sumber:(sb === 'Ophardist' ? 'Spreadsheet SAIDI SAIFI 2026, sheet REAL VS TARGET 2026 (kumulatif)' : 'Spreadsheet kinerja ' + sb) + '. Capaian = 2 − realisasi ÷ target; hijau ≥ 100%, kuning 95% s.d. < 100%, merah < 95%.' + (lain ? ' KPI ' + sb + ' lainnya masih data contoh.' : '') + (sb === 'Ophardist' ? ' Tambahkan nama bulan (misalnya "SAIDI Ambon September") atau kata "per bulan" untuk melihat nilai per bulan.' : ''),
       tautan:[{label:'Lihat tab ' + sb + (us.length === 1 && us[0] !== 'UIW' ? ' (' + us[0] + ')' : ''), params:{hal:sb, up3_kin:us.length === 1 && us[0] !== 'UIW' ? us[0] : null}}]});
   }
+  /* SAIDI dan SAIFI per bulan (capaian_bulanan, kumulatif sejak Januari) */
+  function jwbOpBulan(t, units, b, tr, rank, low){
+    var cb = need('capaian_bulanan').filter(function(r){ return r.kode_kpi === 'OP01' || r.kode_kpi === 'OP02'; });
+    var bln = function(r){ return +String(r.periode).slice(5, 7); };
+    var kodes = /saidi/.test(t) && !/saifi/.test(t) ? ['OP01'] : /saifi/.test(t) && !/saidi/.test(t) ? ['OP02'] : ['OP01', 'OP02'];
+    var last = cb.reduce(function(m, r){ var q = bln(r); return r.realisasi != null && r.realisasi !== '' && q > m ? q : m; }, 0);
+    if (!last) return jawab({judul:'SAIDI dan SAIFI', isi:'<p>Data SAIDI dan SAIFI per bulan belum tersedia.</p>'});
+    var cat = '';
+    if (b > last) { cat = '<p>Data bulan ' + BLN[b-1] + ' belum ada; data terakhir s.d. ' + BLN[last-1] + '.</p>'; b = last; }
+    var us = units.filter(function(u){ return UP3.indexOf(u) >= 0 || u === 'UIW'; });
+    var dg = function(v, k){ return v == null || v === '' ? '–' : k === 'OP02' ? nf(v, 3) : nf(v, 2); };
+    var src = 'Spreadsheet SAIDI SAIFI 2026, sheet REAL VS TARGET 2026; nilai kumulatif sejak Januari. Capaian = 2 − realisasi ÷ target.';
+    var isi = cat, judul = kodes.length === 2 ? 'SAIDI dan SAIFI' : kodes[0] === 'OP01' ? 'SAIDI' : 'SAIFI';
+    var link = {label:'Lihat tab Ophardist' + (us.length === 1 && us[0] !== 'UIW' ? ' (' + us[0] + ')' : ''), params:{hal:'Ophardist', up3_kin:us.length === 1 && us[0] !== 'UIW' ? us[0] : null}};
+    if (tr) {
+      var u = us[0] || 'UIW';
+      kodes.forEach(function(k){
+        var rs = cb.filter(function(r){ return r.kode_kpi === k && r.up3 === u && bln(r) <= last; }).sort(function(a, x){ return bln(a) - bln(x); });
+        if (!rs.length) return;
+        isi += '<h4 class="tq-h">' + esc(rs[0].nama_kpi) + ' (' + esc(rs[0].satuan) + '), ' + (u === 'UIW' ? 'UIW' : 'UP3 ' + u) + '</h4>' +
+          tabel(['Bulan', 'Realisasi', 'Target', 'Capaian'], rs.map(function(r){ return {b:bln(r), cells:[dot(stat(r.capaian)) + BLN[bln(r)-1].slice(0, 3), dg(r.realisasi, k), dg(r.target, k), pc(r.capaian)]}; }), function(r){ return r.b === b; });
+      });
+      return jawab({judul:judul + ' per bulan (kumulatif), ' + (u === 'UIW' ? 'UIW' : 'UP3 ' + u) + ' 2026', isi:isi, sumber:src, tautan:[link]});
+    }
+    kodes.forEach(function(k){
+      var rs = cb.filter(function(r){ return r.kode_kpi === k && bln(r) === b; });
+      if (!rs.length) return;
+      isi += '<h4 class="tq-h">' + esc(rs[0].nama_kpi) + ' (' + esc(rs[0].satuan) + '), kumulatif Januari s.d. ' + BLN[b-1] + ' 2026</h4>';
+      if (us.length && !rank) {
+        isi += us.map(function(u){ var r = rs.find(function(x){ return x.up3 === u; });
+          return r ? '<p>' + dot(stat(r.capaian)) + '<b>' + esc(u) + '</b>: realisasi <b>' + dg(r.realisasi, k) + '</b> terhadap target ' + dg(r.target, k) + ', capaian <b>' + pc(r.capaian) + '</b>.</p>' : '<p><b>' + esc(u) + '</b>: tidak ada data.</p>'; }).join('');
+      } else {
+        var worst = /(saidi|saifi) (tertinggi|terbesar|paling (tinggi|besar))/.test(t);
+        var s = rs.filter(function(r){ return r.up3 !== 'UIW'; }).sort(function(a, x){ return worst ? x.realisasi - a.realisasi : (low ? a.capaian - x.capaian : x.capaian - a.capaian); });
+        var uiw = rs.find(function(r){ return r.up3 === 'UIW'; });
+        isi += (uiw ? '<p>UIW: realisasi <b>' + dg(uiw.realisasi, k) + '</b> terhadap target ' + dg(uiw.target, k) + ', capaian <b>' + pc(uiw.capaian) + '</b>.</p>' : '') +
+          tabel(['UP3', 'Realisasi', 'Target', 'Capaian'], s.map(function(r){ return {u:r.up3, cells:[dot(stat(r.capaian)) + esc(r.up3), dg(r.realisasi, k), dg(r.target, k), pc(r.capaian)]}; }), function(r){ return rank && s[0] && r.u === s[0].up3; });
+      }
+    });
+    return jawab({judul:judul + ', ' + BLN[b-1] + ' 2026', isi:isi, sumber:src, tautan:[link]});
+  }
+
+  /* ---------- G. Health index dan gangguan penyulang (Peta Aset web) ---------- */
+  var HIC = {Sempurna:'#1B8A3A', Sehat:'#7DC243', Sakit:'#F59E0B', Kronis:'#DC2626'};
+  function hiStat(n){ return n == null ? null : n === 0 ? 'Sempurna' : n <= 3 ? 'Sehat' : n <= 9 ? 'Sakit' : 'Kronis'; }
+  function hdot(s){ return '<i class="tq-dot" style="background:' + (HIC[s] || '#9AA7B3') + '" title="' + (s || 'tanpa data') + '"></i>'; }
+  var HM = null;
+  function hiModel(){
+    var d = need('health_index');
+    if (HM && HM.src === d) return HM;
+    var rows = d.map(function(r){
+      var v = []; for (var m = 1; m <= 12; m++) { var x = r['b' + pad(m)]; v.push(x === '' || x == null ? null : +x); }
+      return {up3:r.up3, ulp:r.ulp, sheet:r.penyulang, nama:r.peta_penyulang || judulN(r.penyulang), peta:!!r.peta_penyulang, pu:r.peta_ulp || r.ulp, v:v, th:+r.tahun || null};
+    });
+    var aktif = rows.filter(function(x){ return x.v.some(function(n){ return n != null; }); });
+    var last = 0; for (var q = 1; q <= 12; q++) if (aktif.length && aktif.every(function(x){ return x.v[q-1] != null; })) last = q;
+    var th = rows.length ? rows[0].th : null, now = new Date(Date.now() + 9 * 3600e3); // WIT, sama dengan panel health index
+    var jalan = th === now.getUTCFullYear() && last === now.getUTCMonth() + 1;
+    var ulps = {}; rows.forEach(function(x){ ulps[norm(x.ulp).trim()] = 1; ulps[norm(x.pu).trim()] = 1; });
+    HM = {src:d, rows:rows, last:last, jalan:jalan, th:th, def:jalan && last > 1 ? last - 1 : last, ulps:ulps};
+    return HM;
+  }
+  function cariUlpHI(t, M){
+    var hit = null;
+    M.rows.forEach(function(x){
+      [x.ulp, x.pu].forEach(function(u){
+        var l = norm(u).trim(); if (!l) return;
+        var ok = UP3.some(function(p){ return p.toLowerCase() === l; }) ? t.indexOf(' ulp ' + l + ' ') >= 0 : t.indexOf(' ' + l + ' ') >= 0;
+        if (ok && (!hit || l.length > hit.l)) hit = {ulp:x.ulp, up3:x.up3, l:l.length};
+      });
+    });
+    if (!hit) return null;
+    var pp = M.rows.find(function(x){ return x.up3 === hit.up3 && x.ulp === hit.ulp && x.peta; });
+    hit.peta = pp ? pp.pu : null;
+    return hit;
+  }
+  function cariPylHI(t, M, uh, up){
+    var best = null;
+    M.rows.forEach(function(x){
+      [x.sheet, x.nama].forEach(function(n){
+        var l = norm(n).trim(); if (!l) return;
+        var vs = [l, l.replace(/([a-z])(\d)/g, '$1 $2'), l.replace(/\s+/g, '')];
+        // nama pendek, nama yang sama dengan ULP/UP3 atau bulan hanya dipakai bila didahului kata "penyulang"
+        var umum = l.replace(/\s/g, '').length < 5 || M.ulps[l] || UP3.some(function(p){ return p.toLowerCase() === l; }) || BLNK.some(function(a){ return a.indexOf(l) >= 0; });
+        var hit = vs.some(function(v){ return umum ? (t.indexOf(' penyulang ' + v + ' ') >= 0 || t.indexOf(' feeder ' + v + ' ') >= 0) : t.indexOf(' ' + v + ' ') >= 0; });
+        if (!hit) return;
+        var sc = l.length * 10 + (uh && x.ulp === uh.ulp ? 5 : 0) + (up && x.up3 === up ? 3 : 0) + (x.v.some(function(v){ return v != null; }) ? 1 : 0);
+        if (!best || sc > best.s) best = {x:x, s:sc, l:vs.find(function(v){ return t.indexOf(' ' + v + ' ') >= 0; }) || l};
+      });
+    });
+    return best;
+  }
+  function hiLink(up3, ulp, x, label){
+    return {label:label || 'Lihat di Peta Aset (health index)', params:{hal:'aset', up3_aset:up3 || null, ulp_aset:ulp || null, pyl_aset:null, _hi:true, _hiPyl:x && x.peta ? x.nama : null, _hiUlp:x ? x.pu : null}};
+  }
+  function jwbHIPyl(x, M, b){
+    var m = b && b <= M.last ? b : M.def, n = x.v[m-1], st = hiStat(n), q;
+    var tot = 0, ada = false; for (q = 0; q < M.last; q++) if (x.v[q] != null) { tot += x.v[q]; ada = true; }
+    var ber = 0; for (q = m; q >= 1; q--) { var s2 = hiStat(x.v[q-1]); if (s2 === 'Sakit' || s2 === 'Kronis') ber++; else break; }
+    var jl = M.jalan && m === M.last ? ' (bulan berjalan)' : '';
+    var isi = (b > M.last ? '<p>Data bulan ' + BLN[b-1] + ' belum ada; ditampilkan ' + BLN[m-1] + '.</p>' : '') +
+      '<p>' + hdot(st) + 'Penyulang <b>' + esc(x.nama) + '</b> (ULP ' + esc(x.ulp) + ', UP3 ' + esc(x.up3) + '): ' +
+      (n == null ? 'belum ada angka untuk ' + BLN[m-1] : '<b>' + n + ' gangguan</b> pada ' + BLN[m-1] + jl + ', status <b>' + st + '</b>') + '. ' +
+      (ada ? 'Total ' + nf(tot) + ' gangguan Januari s.d. ' + BLN[M.last-1] + '.' : '') + (ber >= 2 ? ' Sudah ' + ber + ' bulan beruntun sakit atau kronis.' : '') + (x.peta ? '' : ' Penyulang ini belum ada di peta.') + '</p>';
+    var ser = []; for (q = 1; q <= M.last; q++) ser.push('<span>' + hdot(hiStat(x.v[q-1])) + BS[q-1] + ' <b>' + (x.v[q-1] == null ? '–' : x.v[q-1]) + '</b></span>');
+    isi += '<p class="tq-sers">' + ser.join('') + '</p>';
+    var G = opt('gangguan_penyulang'), src2 = '';
+    if (G) {
+      var kk = key(x.up3) + '|' + key(x.ulp) + '|' + key(x.sheet);
+      var inc = G.filter(function(d){ return key(d.up3) + '|' + key(d.ulp) + '|' + key(d.penyulang) === kk; });
+      if (inc.length) {
+        var sc = {}; inc.forEach(function(d){ sc[d.penyebab] = (sc[d.penyebab] || 0) + 1; });
+        var top = Object.keys(sc).sort(function(a, c){ return sc[c] - sc[a]; }).slice(0, 4);
+        var ur = inc.slice().sort(function(a, c){ return (c.tanggal || '').localeCompare(a.tanggal || '') || (c.no_laporan || '').localeCompare(a.no_laporan || ''); }).slice(0, 5);
+        isi += '<p>Penyebab terbanyak tahun ini: ' + top.map(function(k){ return esc(k) + ' (' + sc[k] + ')'; }).join(', ') + '.</p>' +
+          '<h4 class="tq-h">Lima gangguan terakhir</h4>' + tabel(['Tanggal', 'Penyebab', 'Durasi', 'Sifat'], ur.map(function(d){ return {cells:[tglPendek(d.tanggal), esc(d.penyebab), d.durasi_menit !== '' && d.durasi_menit != null ? nf(+d.durasi_menit, 0) + ' mnt' : '–', esc(d.sifat || '–')]}; }), null, false, [1, 3]);
+        src2 = ' Penyebab dan daftar gangguan dari sheet bulanan (kolom CAUSE), dihitung per nomor laporan.';
+      } else isi += '<p>Belum ada rincian penyebab untuk penyulang ini di sheet bulanan.</p>';
+    }
+    return jawab({judul:'Health index penyulang ' + x.nama, isi:isi,
+      sumber:'Sheet HEALTH INDEX, spreadsheet Gangguan Distribusi APKT. Status per bulan: 0 Sempurna, 1–3 Sehat, 4–9 Sakit, ≥ 10 Kronis.' + src2,
+      tautan:[hiLink(x.up3, x.peta ? x.pu : null, x, 'Lihat penyulang ini di Peta Aset')]});
+  }
+  function jwbHI(t, units, rank, low){
+    var M = hiModel();
+    if (!M.last) return jawab({judul:'Health index penyulang', isi:'<p>Data health index belum tersedia.</p>'});
+    var uh = cariUlpHI(t, M), up = uh ? uh.up3 : (units.filter(function(u){ return UP3.indexOf(u) >= 0; })[0] || null);
+    var ph = cariPylHI(t, M, uh, up);
+    var b = cariBulan(ph ? t.replace(' ' + ph.l + ' ', ' ') : t);
+    if (ph) return jwbHIPyl(ph.x, M, b);
+    var m = b && b <= M.last ? b : M.def, cat = b > M.last ? '<p>Data bulan ' + BLN[b-1] + ' belum ada; ditampilkan ' + BLN[m-1] + '.</p>' : '';
+    var rows = M.rows.filter(function(x){ return (!up || x.up3 === up) && (!uh || x.ulp === uh.ulp); });
+    var lingkup = uh ? 'ULP ' + uh.ulp : up ? 'UP3 ' + up : 'UIW MMU', per0 = BLN[m-1] + ' ' + M.th;
+    var jl = M.jalan && m === M.last ? ' (bulan berjalan, jumlah gangguan masih bertambah)' : '';
+    var src = 'Sheet HEALTH INDEX, spreadsheet Gangguan Distribusi APKT: jumlah gangguan per penyulang per bulan. Status: 0 Sempurna, 1–3 Sehat, 4–9 Sakit, ≥ 10 Kronis.' + (b ? '' : ' Bulan bawaan = bulan lengkap terakhir; sebut nama bulan untuk bulan lain.');
+    var link = hiLink(up, uh ? uh.peta : null, null);
+    var want = [];
+    if (/\skronis\s/.test(t)) want.push('Kronis');
+    if (/\ssakit\s/.test(t)) want.push('Sakit');
+    if (/\ssehat\s/.test(t)) want.push('Sehat');
+    if (/\ssempurna\s/.test(t)) want.push('Sempurna');
+    if (!want.length && /(perhatian|bermasalah|buruk|rawan|kritis)/.test(t)) want = ['Kronis', 'Sakit'];
+    var beruntun = function(x){ var c = 0; for (var j = m; j >= 1; j--) { var s = hiStat(x.v[j-1]); if (s === 'Sakit' || s === 'Kronis') c++; else break; } return c; };
+    var ytd = function(x){ var s = 0; for (var q = 0; q < m; q++) s += x.v[q] || 0; return s; };
+    var lokasi = function(x){ return up ? 'ULP ' + x.ulp : x.up3 + ' · ULP ' + x.ulp; };
+    if (want.length) {
+      var ls = rows.filter(function(x){ return want.indexOf(hiStat(x.v[m-1])) >= 0; }).sort(function(a, c){ return c.v[m-1] - a.v[m-1] || a.nama.localeCompare(c.nama, 'id'); });
+      var lim = 12, buruk = want.indexOf('Sakit') >= 0 || want.indexOf('Kronis') >= 0;
+      return jawab({judul:'Penyulang ' + want.join(' dan ').toLowerCase() + ', ' + lingkup + ', ' + per0,
+        isi:cat + '<p><b>' + ls.length + ' penyulang</b> berstatus ' + want.join(' atau ').toLowerCase() + ' pada ' + per0 + jl + ', dari ' + rows.length + ' penyulang di ' + lingkup + '.</p>' +
+          (ls.length ? tabel(['Penyulang', 'Gangguan'].concat(buruk ? ['Beruntun'] : []), ls.slice(0, lim).map(function(x){ var br = beruntun(x); return {cells:[hdot(hiStat(x.v[m-1])) + esc(x.nama) + '<small>' + esc(lokasi(x)) + '</small>', nf(x.v[m-1])].concat(buruk ? [br >= 2 ? br + ' bln' : '–'] : [])}; }), null, true) : '') +
+          (ls.length > lim ? '<p>Ditampilkan ' + lim + ' dari ' + ls.length + ' penyulang; daftar lengkap ada di panel health index Peta Aset.</p>' : '') +
+          (buruk && ls.length ? '<p>Beruntun = jumlah bulan berturut-turut sampai ' + BLN[m-1] + ' dengan status sakit atau kronis.</p>' : ''),
+        sumber:src, tautan:[link]});
+    }
+    if (rank) {
+      var tp = rows.filter(function(x){ return x.v[m-1] != null; }).sort(function(a, c){ return low ? a.v[m-1] - c.v[m-1] : (c.v[m-1] - a.v[m-1] || ytd(c) - ytd(a)); }).slice(0, 10);
+      return jawab({judul:'Penyulang dengan gangguan ' + (low ? 'paling sedikit' : 'terbanyak') + ', ' + lingkup + ', ' + per0,
+        isi:cat + tabel(['Penyulang', BS[m-1], 'Jan s.d. ' + BS[m-1]], tp.map(function(x){ return {cells:[hdot(hiStat(x.v[m-1])) + esc(x.nama) + '<small>' + esc(lokasi(x)) + '</small>', nf(x.v[m-1]), nf(ytd(x))]}; }), null, true) + (jl ? '<p>' + BLN[m-1] + jl + '.</p>' : ''),
+        sumber:src, tautan:[link]});
+    }
+    var cnt = function(rs, q){ var c = {}; rs.forEach(function(x){ var s = hiStat(x.v[q-1]) || 'Tanpa data'; c[s] = (c[s] || 0) + 1; }); return c; };
+    var c = cnt(rows, m), ST4 = ['Sempurna', 'Sehat', 'Sakit', 'Kronis'];
+    var isi = cat + '<p>' + rows.length + ' penyulang di ' + lingkup + ', status ' + per0 + jl + ':</p><p>' +
+      ST4.map(function(s){ return hdot(s) + s + ' <b>' + (c[s] || 0) + '</b>'; }).join(' · ') + (c['Tanpa data'] ? ' · ' + hdot(null) + 'tanpa data ' + c['Tanpa data'] : '') + '</p>';
+    if (m > 1) {
+      var cp = cnt(rows, m - 1), nb = (c.Sakit || 0) + (c.Kronis || 0), pb = (cp.Sakit || 0) + (cp.Kronis || 0);
+      isi += '<p>Sakit dan kronis: <b>' + nb + ' penyulang</b>, ' + (nb > pb ? 'naik ' + (nb - pb) + ' dibanding ' : nb < pb ? 'turun ' + (pb - nb) + ' dibanding ' : 'sama dengan ') + BLN[m-2] + ' (' + pb + ').</p>';
+    }
+    if (!uh) {
+      var gk = function(x){ return up ? x.ulp : x.up3; }, grp = {};
+      rows.forEach(function(x){ (grp[gk(x)] = grp[gk(x)] || []).push(x); });
+      isi += tabel([up ? 'ULP' : 'UP3', 'Kronis', 'Sakit', 'Sehat', 'Sempurna'], Object.keys(grp).sort(function(a, z){ return a.localeCompare(z, 'id'); }).map(function(k){
+        var cc = cnt(grp[k], m); return {cells:[esc(k), nf(cc.Kronis || 0), nf(cc.Sakit || 0), nf(cc.Sehat || 0), nf(cc.Sempurna || 0)]}; }));
+    }
+    var tp2 = rows.filter(function(x){ return x.v[m-1] > 0; }).sort(function(a, z){ return z.v[m-1] - a.v[m-1]; }).slice(0, 3);
+    if (tp2.length) isi += '<p>Gangguan terbanyak: ' + tp2.map(function(x){ return '<b>' + esc(x.nama) + '</b> (' + x.v[m-1] + ')'; }).join(', ') + '. Tanyakan "penyulang kronis" atau nama penyulangnya untuk rincian.</p>';
+    return jawab({judul:'Health index penyulang ' + lingkup + ', ' + per0, isi:isi, sumber:src, tautan:[link]});
+  }
+  var GRUP = ['Pohon', 'Benda Asing', 'Binatang', 'Layangan / Kawat', 'Lainnya', 'Dalam investigasi'];
+  function grupSebab(c){ return c === 'Dalam Investigasi' ? 'Dalam investigasi' : GRUP.indexOf(c) >= 0 ? c : 'Lainnya'; }
+  function durasi(d){ return d.durasi_menit !== '' && d.durasi_menit != null && !isNaN(+d.durasi_menit) ? nf(+d.durasi_menit, 0) + ' mnt' : '–'; }
+  function jwbGangguan(t, units){
+    var M = hiModel(), G = need('gangguan_penyulang');
+    var uh = cariUlpHI(t, M), up = uh ? uh.up3 : (units.filter(function(u){ return UP3.indexOf(u) >= 0; })[0] || null);
+    var ph = cariPylHI(t, M, uh, up);
+    var b = cariBulan(ph ? t.replace(' ' + ph.l + ' ', ' ') : t);
+    if (ph) return jwbHIPyl(ph.x, M, b);
+    var gmax = G.reduce(function(a, d){ return d.tanggal > a ? d.tanggal : a; }, '');
+    var rows = G.filter(function(d){ return (!up || d.up3 === up) && (!uh || key(d.ulp) === key(uh.ulp)) && (!b || +d.bulan === b); });
+    var lingkup = uh ? 'ULP ' + uh.ulp : up ? 'UP3 ' + up : 'UIW MMU';
+    var periode = b ? BLN[b-1] + ' 2026' + (+gmax.slice(5, 7) === b ? ' (s.d. ' + tgl(gmax) + ')' : '') : 'Januari s.d. ' + tgl(gmax);
+    var src = 'Sheet bulanan spreadsheet Gangguan Distribusi APKT (kolom CAUSE), dihitung per nomor laporan; laporan terakhir ' + tgl(gmax) + '. Jumlahnya bisa sedikit berbeda dari sheet HEALTH INDEX.';
+    var link = hiLink(up, uh ? uh.peta : null, null);
+    if (!rows.length) return jawab({judul:'Gangguan penyulang ' + lingkup, isi:'<p>Tidak ada laporan gangguan penyulang untuk ' + esc(lingkup) + ' pada ' + periode + '.</p>', sumber:src, tautan:[link]});
+    var n = rows.length, perm = rows.filter(function(d){ return d.sifat === 'Permanen'; }).length, sem = rows.filter(function(d){ return d.sifat === 'Sementara'; }).length;
+    var durs = rows.map(function(d){ return d.durasi_menit === '' || d.durasi_menit == null ? NaN : +d.durasi_menit; }).filter(function(v){ return !isNaN(v); });
+    var avg = durs.length ? sum(durs, function(v){ return v; }) / durs.length : null;
+    var isi = '<p><b>' + nf(n) + ' gangguan</b> penyulang di ' + lingkup + ', ' + periode + ': permanen ' + nf(perm) + ', sementara ' + nf(sem) + (avg != null ? '; rata-rata durasi ' + nf(avg, 0) + ' menit' : '') + '.</p>';
+    var urutTgl = function(a, c){ return (c.tanggal || '').localeCompare(a.tanggal || '') || (c.no_laporan || '').localeCompare(a.no_laporan || ''); };
+    var nmP = function(d){ return esc(judulN(d.penyulang)) + '<small>' + esc((up ? '' : d.up3 + ' · ') + 'ULP ' + d.ulp) + '</small>'; };
+    if (/(terakhir|terbaru|baru saja|hari ini|kemarin)/.test(t)) {
+      isi += '<h4 class="tq-h">Gangguan terakhir</h4>' + tabel(['Penyulang', 'Tanggal', 'Penyebab', 'Durasi'], rows.slice().sort(urutTgl).slice(0, 8).map(function(d){ return {cells:[nmP(d), tglPendek(d.tanggal), esc(d.penyebab), durasi(d)]}; }), null, true, [2]);
+    } else if (/(durasi|terlama|paling lama|lama padam)/.test(t)) {
+      isi += '<h4 class="tq-h">Gangguan dengan durasi terlama</h4>' + tabel(['Penyulang', 'Tanggal', 'Penyebab', 'Durasi'], rows.filter(function(d){ return !isNaN(+d.durasi_menit) && d.durasi_menit !== ''; }).sort(function(a, c){ return +c.durasi_menit - +a.durasi_menit; }).slice(0, 5).map(function(d){ return {cells:[nmP(d), tglPendek(d.tanggal), esc(d.penyebab), durasi(d)]}; }), null, true, [2]);
+    } else {
+      var gs = {}, lain = {};
+      rows.forEach(function(d){ var g = grupSebab(d.penyebab); gs[g] = (gs[g] || 0) + 1; if (g === 'Lainnya') lain[d.penyebab] = (lain[d.penyebab] || 0) + 1; });
+      var sg = GRUP.filter(function(g){ return gs[g]; }).sort(function(a, c){ return gs[c] - gs[a]; });
+      var tk = sg.filter(function(g){ return g !== 'Dalam investigasi' && g !== 'Lainnya'; })[0];
+      isi += (tk ? '<p>Penyebab terbanyak yang sudah diketahui: <b>' + tk + '</b> (' + nf(gs[tk]) + ' gangguan, ' + pc(gs[tk] / n * 100) + ').' + (gs['Dalam investigasi'] ? ' ' + nf(gs['Dalam investigasi']) + ' gangguan masih dalam investigasi.' : '') + '</p>' : '') +
+        tabel(['Penyebab', 'Gangguan', 'Porsi'], sg.map(function(g){ return {cells:[esc(g) + (g === 'Lainnya' ? '<small>' + esc(Object.keys(lain).sort(function(a, c){ return lain[c] - lain[a]; }).slice(0, 3).join(', ')) + '</small>' : ''), nf(gs[g]), pc(gs[g] / n * 100)]}; }), null, true);
+      var pp = {}; rows.forEach(function(d){ var k = d.up3 + '|' + d.ulp + '|' + d.penyulang; pp[k] = (pp[k] || 0) + 1; });
+      var tp = Object.keys(pp).sort(function(a, c){ return pp[c] - pp[a]; }).slice(0, 3);
+      isi += '<p>Penyulang paling sering terganggu: ' + tp.map(function(k){ var p = k.split('|'); return '<b>' + esc(judulN(p[2])) + '</b> (' + esc((up ? '' : p[0] + ', ') + 'ULP ' + p[1]) + ', ' + pp[k] + ')'; }).join('; ') + '.</p>';
+      if (!up && !uh) {
+        var by = {}; rows.forEach(function(d){ (by[d.up3] = by[d.up3] || []).push(d); });
+        isi += tabel(['UP3', 'Gangguan', 'Permanen', 'Penyebab utama'], UP3.filter(function(u){ return by[u]; }).map(function(u){
+          var r = by[u], c = {}; r.forEach(function(d){ var g = grupSebab(d.penyebab); if (g !== 'Dalam investigasi') c[g] = (c[g] || 0) + 1; });
+          var tg = Object.keys(c).sort(function(a, z){ return c[z] - c[a]; })[0];
+          return {cells:[esc(u), nf(r.length), nf(r.filter(function(d){ return d.sifat === 'Permanen'; }).length), esc(tg || '–')]}; }), null, false, [3]);
+      }
+    }
+    return jawab({judul:'Gangguan penyulang ' + lingkup + ', ' + periode, isi:isi, sumber:src, tautan:[link]});
+  }
+
+  /* ---------- H. Ringkasan dan hal yang perlu perhatian ---------- */
+  function jwbPerhatian(t, units){
+    var u = units.length === 1 ? units[0] : null, isUp3 = !!u && UP3.indexOf(u) >= 0, isi = '', taut = [];
+    var nmU = !u ? 'seluruh unit' : u === 'UIW' ? 'UIW' : u === 'UP3B' ? 'UP3B Maluku' : u === 'UP2K' ? 'UP2K Maluku' : 'UP3 ' + u;
+    if (!u || isUp3 || u === 'UIW') {
+      var k = [];
+      need('epm_unit').forEach(function(r){ if ((!u || r.up3 === u) && (r.status === 'merah' || r.status === 'kuning')) k.push({st:r.status, up3:r.up3, nm:r.nama_kpi, cap:r.capaian, p:per(r.periode)}); });
+      need('capaian_kpi').forEach(function(r){ if (r.sumber === 'asli' && r.sub_bidang !== 'EPM' && (!u || r.up3 === u) && (r.status === 'merah' || r.status === 'kuning')) k.push({st:r.status, up3:r.up3, nm:r.nama_kpi, cap:r.capaian, p:per(r.periode)}); });
+      var P = p2tlModel();
+      if (P.last) UP3.concat(['UIW']).forEach(function(x){ if (u && x !== u) return; var o = x === 'UIW' ? P.U : P.by.get(x); if (!o) return;
+        var r = p2tlSd(o, P.last), s = stat(r.cap); if (s === 'merah' || s === 'kuning') k.push({st:s, up3:x, nm:'P2TL', cap:r.cap, p:BLN[P.last-1] + ' 2026'}); });
+      var seen = {}; k = k.filter(function(x){ var kk = x.nm + '|' + x.up3; if (seen[kk]) return false; seen[kk] = 1; return true; });
+      k.sort(function(a, b){ return (a.st === 'merah' ? 0 : 1) - (b.st === 'merah' ? 0 : 1) || a.cap - b.cap; });
+      isi += '<h4 class="tq-h">KPI di bawah target (data asli)</h4>' + (k.length ? ul(k.map(function(x){ return dot(x.st) + '<b>' + esc(x.nm) + '</b> ' + esc(x.up3) + ': capaian ' + pc(x.cap) + ' (s.d. ' + x.p + ')'; }))
+        : '<p>Semua KPI dengan data asli (susut, penggantian meter, P2TL, SAIDI, SAIFI) berstatus hijau' + (u ? ' untuk ' + esc(nmU) : '') + '.</p>');
+      taut.push({label:'EPM', params:{hal:'EPM', up3_epm:isUp3 ? u : null}});
+    }
+    var aiAll = need('ai_unit').filter(function(r){ return r.jenis === 'Semua'; });
+    var ai = aiAll.find(function(r){ return r.unit === (u ? (AIU[u] || u) : 'Semua'); });
+    if (ai) {
+      var li = [];
+      if (ai.n_selesai_belum_bayar) li.push('Fisik selesai tetapi belum dibayar: <b>' + nf(ai.n_selesai_belum_bayar) + ' kontrak, ' + rp(ai.selesai_belum_bayar_miliar) + '</b>');
+      if (ai.n_lewat) li.push('Lewat tanggal selesai: ' + nf(ai.n_lewat) + ' kontrak, ' + rp(ai.nilai_lewat_miliar));
+      if (ai.n_fisik0) li.push('Fisik masih 0%: ' + nf(ai.n_fisik0) + ' kontrak, ' + rp(ai.nilai_fisik0_miliar));
+      if (ai.prk_melebihi_pagu) li.push(nf(ai.prk_melebihi_pagu) + ' PRK terkontrak melebihi pagu');
+      if (!u) { var lo = aiAll.filter(function(r){ return r.unit !== 'Semua' && r.pagu_miliar > 0; }).sort(function(a, b){ return a.pct_bayar - b.pct_bayar; })[0];
+        if (lo) li.push('Terbayar terendah: ' + esc(namaAI(lo.unit)) + ' ' + pc(lo.pct_bayar) + ' (seluruh unit ' + pc(ai.pct_bayar) + ')'); }
+      else li.push('Terbayar ' + pc(ai.pct_bayar) + ' dari pagu');
+      isi += '<h4 class="tq-h">Anggaran Investasi Distribusi (posisi ' + tgl(ai.posisi) + ')</h4>' + ul(li);
+      taut.push({label:'Anggaran', params:{hal:'ai', up3_ai:u ? (AIU[u] || u) : null}});
+    }
+    var ao = need('ao_unit').find(function(r){ return r.kelompok === 'Semua' && r.unit === (u ? (AOU[u] || u) : 'Semua'); });
+    if (ao) {
+      var lo2 = [];
+      if (ao.sisa_miliar < 0) lo2.push('Terkontrak melebihi pagu ' + rp(-ao.sisa_miliar));
+      if (ao.prk_melebihi_pagu) lo2.push(nf(ao.prk_melebihi_pagu) + ' PRK terkontrak melebihi pagu');
+      lo2.push('Terbayar ' + pc(ao.pct_bayar) + ' dari pagu' + (ao.sisa_miliar >= 0 ? ', sisa pagu belum terkontrak ' + rp(ao.sisa_miliar) : ''));
+      isi += '<h4 class="tq-h">Anggaran Operasi Distribusi (posisi ' + tgl(ao.posisi) + ')</h4>' + ul(lo2);
+    }
+    if (!u || isUp3) {
+      var M = hiModel();
+      if (M.last) {
+        var m = M.def, rs = M.rows.filter(function(x){ return !u || x.up3 === u; });
+        var kr = rs.filter(function(x){ return hiStat(x.v[m-1]) === 'Kronis'; }).sort(function(a, b){ return b.v[m-1] - a.v[m-1]; });
+        var sk = rs.filter(function(x){ return hiStat(x.v[m-1]) === 'Sakit'; }).length;
+        isi += '<h4 class="tq-h">Health index penyulang (' + BLN[m-1] + ' ' + M.th + ')</h4><p>' + hdot('Kronis') + '<b>' + kr.length + ' kronis</b>, ' + hdot('Sakit') + sk + ' sakit dari ' + rs.length + ' penyulang' +
+          (kr.length ? '. Gangguan terbanyak: ' + kr.slice(0, 3).map(function(x){ return esc(x.nama) + ' (' + x.v[m-1] + ')'; }).join(', ') : '') + '.</p>';
+        taut.push(hiLink(isUp3 ? u : null, null, null, 'Health index'));
+      }
+    }
+    if (!u) isi += '<p>Catatan data: KPI Rensisdist dan KPI Transmisi masih data contoh; kinerja Transmisi dan Prosis menunggu file.</p>';
+    return jawab({judul:'Yang perlu perhatian, ' + nmU, isi:isi,
+      sumber:'Data yang tampil di dashboard: kinerja EPM, SAIDI SAIFI, LKAI 2026, Monitoring AO dan sheet HEALTH INDEX. Status hijau ≥ 100%, kuning 95% s.d. < 100%, merah < 95%.',
+      tautan:taut.slice(0, 4)});
+  }
   function jwbRingkasUnit(u){
-    var isi = '', ai = need('ai_unit'), ao = need('ao_unit'), ep = need('epm_unit');
+    var ai = need('ai_unit'), ao = need('ao_unit'), ep = need('epm_unit');
     var a = ai.find(function(r){ return r.jenis === 'Semua' && r.unit === (AIU[u] || u); });
     var o = ao.find(function(r){ return r.kelompok === 'Semua' && r.unit === (AOU[u] || u); });
     var s = ep.find(function(r){ return r.kode_kpi === 'EPM-SUSUT' && r.up3 === u; });
     var g = ep.find(function(r){ return r.kode_kpi === 'EPM-GM' && r.up3 === u; });
+    var op = need('capaian_kpi').filter(function(r){ return r.sumber === 'asli' && r.sub_bidang === 'Ophardist' && r.up3 === u; });
+    var P = p2tlModel(), po = u === 'UIW' ? P.U : P.by.get(u), pr = po && P.last ? p2tlSd(po, P.last) : null;
     var li = [];
-    if (a) li.push('AI: pagu ' + rp(a.pagu_miliar) + ', terkontrak ' + pc(a.pct_kontrak) + ', terbayar ' + pc(a.pct_bayar));
+    if (a) li.push('AI: pagu ' + rp(a.pagu_miliar) + ', terkontrak ' + pc(a.pct_kontrak) + ', terbayar ' + pc(a.pct_bayar) + (a.n_selesai_belum_bayar ? '; ' + nf(a.n_selesai_belum_bayar) + ' kontrak selesai belum dibayar' : ''));
     if (o) li.push('AO: pagu ' + rp(o.pagu_miliar) + ', terkontrak ' + pc(o.pct_kontrak) + ', terbayar ' + pc(o.pct_bayar));
     if (s) li.push(dot(s.status) + 'Susut s.d. ' + per(s.periode) + ': ' + pc2(s.realisasi) + ' (target ' + pc2(s.target) + ', capaian ' + pc(s.capaian) + ')');
     if (g) li.push(dot(g.status) + 'Penggantian meter s.d. ' + per(g.periode) + ': ' + nf(g.realisasi) + ' meter, ' + pc(g.pct_tahunan) + ' dari target tahunan');
-    isi = '<ul class="tq-ul">' + li.map(function(x){ return '<li>' + x + '</li>'; }).join('') + '</ul>';
-    return jawab({judul:'Ringkasan ' + (u === 'UIW' ? 'UIW' : u === 'UP3B' ? 'UP3B Maluku' : u === 'UP2K' ? 'UP2K Maluku' : 'UP3 ' + u), isi:isi,
-      sumber:'LKAI 2026, Monitoring AO dan sheet Kinerja EPM.',
-      tautan:[{label:'Anggaran', params:{hal:'ai', up3_ai:AIU[u] || u}}].concat(UP3.indexOf(u) >= 0 ? [{label:'EPM', params:{hal:'EPM', up3_epm:u}}] : [])});
+    if (pr && (UP3.indexOf(u) >= 0 || u === 'UIW')) li.push(dot(stat(pr.cap)) + 'P2TL s.d. ' + BLN[P.last-1] + ' 2026: ' + nf(pr.tot) + ' kWh, capaian ' + pc(pr.cap));
+    op.forEach(function(r){ li.push(dot(r.status) + esc(r.nama_kpi) + ' s.d. ' + per(r.periode) + ': ' + nf(r.realisasi, /kali/.test(r.satuan) ? 3 : 2) + ' ' + esc(r.satuan) + ' (target ' + nf(r.target, /kali/.test(r.satuan) ? 3 : 2) + ', capaian ' + pc(r.capaian) + ')'); });
+    var M = null; try { M = hiModel(); } catch (e) { if (e === LOADING) throw e; }
+    if (M && M.last && (UP3.indexOf(u) >= 0 || u === 'UIW')) {
+      var rs = M.rows.filter(function(x){ return u === 'UIW' || x.up3 === u; }), m = M.def;
+      var nk = rs.filter(function(x){ return hiStat(x.v[m-1]) === 'Kronis'; }).length, ns = rs.filter(function(x){ return hiStat(x.v[m-1]) === 'Sakit'; }).length;
+      li.push('Health index ' + BLN[m-1] + ': ' + hdot('Kronis') + nk + ' penyulang kronis, ' + hdot('Sakit') + ns + ' sakit dari ' + rs.length + (u === 'UIW' ? ' (seluruh UP3)' : ''));
+    }
+    var nm = u === 'UIW' ? 'UIW' : u === 'UP3B' ? 'UP3B Maluku' : u === 'UP2K' ? 'UP2K Maluku' : 'UP3 ' + u;
+    return jawab({judul:'Ringkasan ' + nm, isi:ul(li) + (u === 'UIW' ? '<p>Angka anggaran UIW di atas untuk kantor induk; kinerja dan health index untuk seluruh UP3.</p>' : ''),
+      sumber:'LKAI 2026, Monitoring AO, sheet Kinerja EPM, spreadsheet SAIDI SAIFI 2026 dan sheet HEALTH INDEX.',
+      tautan:[{label:'Anggaran', params:{hal:'ai', up3_ai:AIU[u] || u}}].concat(UP3.indexOf(u) >= 0 ? [{label:'EPM', params:{hal:'EPM', up3_epm:u}}, {label:'Ophardist', params:{hal:'Ophardist', up3_kin:u}}, hiLink(u, null, null, 'Health index')] : [])});
   }
-  var CONTOH = ['Berapa serapan AI Ambon?', 'Unit dengan penyerapan AI terendah', 'Kontrak AI Sofifi yang belum dibayar', 'Sisa AO terbesar', 'Susut Masohi', 'Penggantian meter per UP3', 'P2TL Ternate', 'SAIDI per UP3', 'Panjang JTM ULP Weda', 'Penyulang dengan beban tertinggi', 'Gardu SFF001', 'Kapan data diperbarui?'];
+  var CONTOH = ['Berapa serapan AI Ambon?', 'Program AI dengan serapan terendah', 'Kontrak AI yang lewat tanggal selesai', 'AO pemeliharaan JTM', 'Anggaran Transmisi',
+    'Susut Tobelo Oktober', 'P2TL Ternate per bulan', 'SAIDI Ambon September', 'Kinerja Scadatel', 'Penyulang kronis', 'Penyebab gangguan Sofifi',
+    'Panjang JTM ULP Weda', 'Apa yang perlu perhatian?', 'Sumber data dan cara update', 'Kapan data diperbarui?'];
   function jwbBantuan(awal){
     return jawab({judul:awal ? 'Halo, saya asisten data dashboard.' : 'Maaf, pertanyaan itu belum saya kenali.',
-      isi:'<p>' + (awal ? 'Saya menjawab dari data yang tampil di dashboard ini, tanpa AI, dengan mengenali kata kunci. ' : 'Coba sebut topik dan unitnya, misalnya "serapan AI Ambon" atau "susut Masohi". ') + 'Topik yang bisa ditanyakan:</p><ul class="tq-ul">' +
-        '<li>Anggaran Investasi (AI): pagu, terkontrak, terbayar, kontrak belum dibayar, peringkat unit</li>' +
-        '<li>Anggaran Operasi (AO): pagu, terbayar, prognosa, sisa</li>' +
-        '<li>Kinerja EPM: susut, penggantian meter, P2TL; Ophardist: SAIDI, SAIFI</li>' +
-        '<li>Aset: JTM, gardu, kVA, switching, tiang per UP3, ULP atau penyulang; beban penyulang; info gardu menurut kodenya</li>' +
-        '<li>Tanggal pembaruan data</li></ul>',
+      isi:'<p>' + (awal ? 'Saya menjawab dari data yang tampil di dashboard ini, tanpa AI, dengan mengenali kata kunci. ' : 'Coba sebut topik dan unitnya, misalnya "serapan AI Ambon" atau "susut Masohi Oktober". ') + 'Topik yang bisa ditanyakan:</p>' +
+        ul(['<b>Anggaran Investasi</b> (AI Distribusi): pagu, terkontrak, terbayar per unit; per program; daftar kontrak belum dibayar, lewat tanggal, meluncur atau fisik 0%',
+            '<b>Anggaran Operasi</b> (AO Distribusi): per unit atau per kegiatan, sisa, prognosa; PRK yang melebihi pagu (AI dan AO)',
+            '<b>Anggaran Transmisi</b> (AO dan AI)',
+            '<b>EPM</b>: susut, penggantian meter (termasuk alasannya), P2TL; sebut nama bulan atau "per bulan"',
+            '<b>Ophardist</b>: SAIDI, SAIFI per UP3, per bulan atau tren; <b>Rensisdist</b>: status data',
+            '<b>Transmisi</b>: kinerja Scadatel per parameter atau per bulan; status kinerja Transmisi dan Prosis',
+            '<b>Peta Aset</b>: JTM, gardu, kVA, merk trafo, switching, tiang per UP3, ULP atau penyulang; beban penyulang; info gardu dari kodenya',
+            '<b>Health index dan gangguan penyulang</b>: status per bulan, penyulang kronis atau sakit, penyebab gangguan, gangguan terakhir sebuah penyulang',
+            '<b>Umum</b>: hal yang perlu perhatian, ringkasan per UP3, tanggal dan pembaruan otomatis, sumber data dan cara update, arti warna dan rumus capaian, tentang dashboard ini']),
       chips:CONTOH});
   }
 
-  /* Tab Transmisi (transmisi-web.js, data window.__TRS) */
+  /* ---------- I. Transmisi (transmisi-web.js, data window.__TRS) ---------- */
+  var SCPAR = [[/master station/, 'Avail Master Station'], [/remote station/, 'Avail Remote Station'], [/telemeter|akurasi|\stid\s/, 'Akurasi Telemetering'],
+    [/\stsd\s|validasi/, 'Validasi TSD'], [/remote control|\src\s|keberhasilan/, 'Keberhasilan RC'], [/catu daya/, 'Avail Catu Daya'], [/avail(ability)? scada|ketersediaan scada/, 'Avail SCADA (%)']];
   function jwbTransmisi(t){
-    var D = window.__TRS, BL = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+    var D = window.__TRS;
     var pr = function(v){ return v == null ? '—' : nf(v, 2) + '%'; }, m = function(v){ return rp(v / 1e9); };
     var tz = [{label:'Lihat tab Transmisi', params:{hal:'Transmisi'}}];
-    if (/prosis/.test(t) || (/transmisi/.test(t) && /kinerja/.test(t) && !/scada/.test(t)))
-      return jawab({judul:'Kinerja Transmisi dan Prosis', isi:'<p>Kinerja Transmisi dan Prosis <b>belum dimuat</b>: file sumbernya ada di SharePoint PLN dan menunggu diunggah ke proyek. Kinerja Scadatel sudah tersedia di tab Transmisi.</p>', sumber:'Tab Transmisi.', tautan:tz});
+    if (/prosis/.test(t) || (/transmisi/.test(t) && /(kinerja|gangguan|availability|pemeliharaan|\skpi\s)/.test(t) && !/scada/.test(t)))
+      return jawab({judul:'Kinerja Transmisi dan Prosis', isi:'<p>Kinerja Transmisi dan Prosis <b>belum dimuat</b>: file sumbernya ada di SharePoint PLN dan menunggu diunggah ke proyek. Kinerja Scadatel sudah tersedia di tab Transmisi; tanyakan "kinerja Scadatel".</p>', sumber:'Tab Transmisi.', tautan:tz});
     if (/(anggaran|\sai\s|investasi|\sao\s|operasi|pagu|terbayar|terkontrak|serapan|kontrak)/.test(t)) {
-      var A = D.ao, I = D.ai, kon = I.murni.kontrak + I.lanjutan.kontrak;
+      var A = D.ao, I = D.ai;
       return jawab({judul:'Anggaran Transmisi', isi:'<h4 class="tq-h">Anggaran Operasi Transmisi</h4><p>AO terbit <b>' + m(A.ao_terbit) + '</b>, terkontrak ' + m(A.terkontrak) + ', terbayar <b>' + m(A.terbayar) + '</b> (' + nf(A.terbayar / A.ao_terbit * 100, 1) + '% dari AO terbit, termasuk hutang usaha 2025 ' + m(A.hutang_terbayar) + ').</p>' +
         '<h4 class="tq-h">Anggaran Investasi Transmisi</h4><p>Pagu AI Murni <b>' + m(I.murni.ai) + '</b> (AKI ' + m(I.murni.aki) + '), terkontrak ' + m(I.murni.kontrak) + '. Lanjutan ' + m(I.lanjutan.ai) + ', terkontrak ' + m(I.lanjutan.kontrak) + '. Nilai terbayar AI belum tersedia di file sumber.</p>',
         sumber:'MON AO OPGI DAN GP DLL 2026 (sheet 53 TRS) dan Monitoring AI 2026 Fungsi Transmisi MMU (sheet Timeline dan AKI). Anggaran Transmisi terpisah dari tab Anggaran (Distribusi).', tautan:tz});
     }
-    var S = D.scada, n = S.bulan_akhir;
-    var rows = S.kumulatif.map(function(p){ return '<tr><td>' + esc(p.nama.replace(' (%)', '')) + '</td><td>' + pr(p.nilai[n - 1]) + '</td></tr>'; }).join('');
-    return jawab({judul:'Kinerja Scadatel, kumulatif s.d. ' + BL[n - 1] + ' 2026', isi:'<div class="tq-tblwrap"><table class="tq-tbl"><thead><tr><th>Parameter</th><th>Kumulatif</th></tr></thead><tbody>' + rows + '</tbody></table></div><p>Target kontrak manajemen Scadatel belum diterima, jadi status warna belum ditampilkan. Kinerja Transmisi dan Prosis menunggu file dari SharePoint.</p>',
-      sumber:'KINERJA SCADA UP3B MALUKU 2026, sheet Kumulatif 0 MMU AVAIL_SCADA (tingkat UIW).', tautan:tz});
+    var S = D.scada, n = S.bulan_akhir, b = cariBulan(t), cat = '';
+    if (b > n) { cat = '<p>Data Scadatel bulan ' + BLN[b-1] + ' belum ada; data terakhir s.d. ' + BLN[n-1] + '.</p>'; b = n; }
+    var src = 'KINERJA SCADA UP3B MALUKU 2026 (tingkat UIW), sheet bulanan dan Kumulatif 0 MMU AVAIL_SCADA.';
+    var catat = '<p>Target kontrak manajemen Scadatel belum diterima, jadi status warna belum ditampilkan. Kinerja Transmisi dan Prosis menunggu file dari SharePoint.</p>';
+    // lembar bulanan memuat Akurasi Telemetering dan Validasi TSD; lembar kumulatif memuat Akurasi TID (sama dengan transmisi-web.js)
+    var AL = {'Akurasi Telemetering':'Akurasi TID'}, PR = S.bulanan.map(function(p){ var k = S.kumulatif.find(function(x){ return x.nama === (AL[p.nama] || p.nama); });
+      return {nama:p.nama, lab:p.nama.replace(' (%)', '') + (AL[p.nama] ? ' (kumulatif: ' + AL[p.nama].replace('Akurasi ', '') + ')' : ''), b:p.nilai, k:k ? k.nilai : []}; });
+    S.kumulatif.forEach(function(k){ if (!S.bulanan.some(function(p){ return (AL[p.nama] || p.nama) === k.nama; })) PR.push({nama:k.nama, lab:k.nama.replace(' (%)', ''), b:[], k:k.nilai}); });
+    var par = null; for (var i = 0; i < SCPAR.length; i++) if (SCPAR[i][0].test(t)) { par = PR.find(function(p){ return p.nama === SCPAR[i][1]; }); break; }
+    if (par) {
+      var rs = [];
+      for (var q = 1; q <= n; q++) rs.push({b:q, cells:[BLN[q-1].slice(0, 3), pr(par.b[q-1]), pr(par.k[q-1])]});
+      return jawab({judul:par.lab + ' per bulan, 2026', isi:cat + tabel(['Bulan', 'Bulan itu', 'Kumulatif'], rs, function(r){ return r.b === b; }) + catat, sumber:src, tautan:tz});
+    }
+    var bb = b || n;
+    var bawah = PR.filter(function(p){ var v = p.b[bb-1]; return v != null && v < 100; });
+    return jawab({judul:'Kinerja Scadatel, ' + BLN[bb-1] + ' 2026', isi:cat + tabel(['Parameter', BS[bb-1], 'Kumulatif'], PR.map(function(p){ return {cells:[esc(p.lab), pr(p.b[bb-1]), pr(p.k[bb-1])]}; }), null, true) +
+      '<p>' + (bawah.length ? 'Di bawah 100% pada ' + BLN[bb-1] + ': ' + bawah.map(function(p){ return esc(p.lab) + ' (' + pr(p.b[bb-1]) + ')'; }).join(', ') + '.' : 'Semua parameter 100% pada ' + BLN[bb-1] + '.') + ' Kumulatif = Januari s.d. ' + BLN[bb-1] + '. Tanyakan nama parameternya, misalnya "keberhasilan RC per bulan", untuk melihat tiap bulan.</p>' + catat,
+      sumber:src, tautan:tz});
   }
 
   /* ---------- mesin: kenali maksud pertanyaan ---------- */
@@ -522,25 +1127,55 @@
     var rank = /(tertinggi|terbesar|terendah|terkecil|terburuk|terbaik|terbanyak|tersedikit|terpanjang|terpendek|paling|peringkat|ranking|urutan|rendah|tinggi)/.test(t);
     var low = /(terendah|terkecil|terburuk|tersedikit|terpendek|paling (rendah|kecil|sedikit|lambat|pendek|buruk)|\srendah\s)/.test(t);
     if (/^\s*(halo|hai|hi|selamat \w+|bantuan|tolong|help|menu|bisa apa|apa saja)\b/.test(t.trim()) && t.trim().split(' ').length <= 4) return jwbBantuan(true);
-    if (/(kapan|diperbarui|pembaruan|update|tanggal data|posisi data|data terakhir)/.test(t)) return jwbTanggal();
-    if (window.__TRS && /(transmisi|scada|scadatel|prosis)/.test(t)) return jwbTransmisi(t);
+    // umum
+    if (/(tentang dashboard|dashboard apa|apa itu dashboard|isi dashboard|versi web|versi claude|web ini|website|situs ini|github|login|apa itu tanya data|cara (pakai|memakai|menggunakan)|siapa yang (membuat|mengelola))/.test(t)) return jwbTentang();
+    if (/(sumber data|sumber datanya|dari mana|asal data|cara (update|mengupdate|memperbarui|mengubah|mengisi|memasukkan|input)|bagaimana (update|mengupdate|memperbarui|mengubah|mengisi)|siapa yang (update|mengupdate|mengisi|memperbarui)|link (sheet|spreadsheet)|tautan (sheet|spreadsheet)|spreadsheet)/.test(t)) return jwbSumber();
+    if (/(arti warna|arti status|maksud warna|warna (hijau|kuning|merah|status|garis|peta)|apa arti|artinya|rumus|cara (hitung|menghitung)|dihitung|perhitungan|polaritas|legenda)/.test(t)) return jwbWarna();
+    if (/(kapan|diperbarui|pembaruan|update|tanggal data|posisi data|data terakhir|otomatis|terjadwal)/.test(t)) return jwbTanggal();
+    // anggaran dan program (dipakai juga untuk memisahkan "SCADA" Transmisi dari kegiatan/program Distribusi)
+    var ai = /(\sai\s|investasi|lkai|\skontrak\s|belum (di)?bayar|meluncur|luncuran|program|\sprk\s)/.test(t);
+    var ao = /(\sao\s|operasi|prognosa|hutang usaha|kegiatan|yantek|sppd|keypoint)/.test(t) && !/operasi pemeliharaan/.test(t);
+    if (window.__TRS && (/(transmisi|prosis)/.test(t) || (/(scada|keberhasilan rc|remote control|master station|remote station|telemeter|validasi tsd|catu daya)/.test(t) && !ai && !ao))) return jwbTransmisi(t);
     var sb = /rensisdist/.test(t) ? 'Rensisdist' : /(ophardist|operasi pemeliharaan|saidi|saifi)/.test(t) ? 'Ophardist' : /transmisi/.test(t) ? 'Transmisi' : null;
     if (sb) return jwbSubBidang(sb, t, units, rank, low);
+    // health index dan gangguan penyulang
+    var isHI = /(health index|healt index|indeks kesehatan|kesehatan penyulang|\skronis\s|\ssakit\s|\ssempurna\s|status penyulang|penyulang (yang )?(sehat|bermasalah|perlu perhatian|rawan))/.test(t) || (/\ssehat\s/.test(t) && /penyulang/.test(t));
+    var isGG = /(gangguan|\strip\s|padam|penyebab|\scause\s)/.test(t) && !/(meter|susut)/.test(t);
+    if (isGG && /penyulang/.test(t) && rank && !/penyebab/.test(t)) return jwbHI(t, units, rank, low);
+    if (isHI) return jwbHI(t, units, rank && !/(penyebab|terakhir)/.test(t), low);
+    if (isGG) return jwbGangguan(t, units);
+    // aset dan beban
     var g = (/(gardu|\sgd|\sgh\s|trafo|kva)/.test(t) || /\b[a-z]{3}\s?\d{2,3}\b/i.test(raw)) ? cariGardu(raw) : null;
     if (g) return jwbGardu(g);
     if (/(beban|puncak|\smw\s|\sarus\s|ampere|kw per gardu)/.test(t)) return jwbBeban(t, units, rank, low);
+    // EPM
     if (/(p2tl|pelanggaran|kelainan)/.test(t)) return jwbP2TL(t, units, rank, low);
-    if (/(ganti meter|penggantian meter|pergantian meter|\sgm\s|\smeter\s)/.test(t)) return jwbGM(t, units, rank, low);
+    if (!ai && /(ganti meter|penggantian meter|pergantian meter|\sgm\s|\smeter\s)/.test(t)) return jwbGM(t, units, rank, low);
     if (/(susut|losses)/.test(t)) return jwbSusut(t, units, rank, low);
-    var isAI = /(\sai\s|investasi|lkai|\skontrak\s|belum (di)?bayar|meluncur|luncuran)/.test(t);
-    var isAO = /(\sao\s|operasi|prognosa|hutang usaha)/.test(t);
-    if (isAI && !isAO) return jwbAI(t, units, rank, low);
-    if (isAO && !isAI) return jwbAO(t, units, rank, low);
-    if (isAI || /(anggaran|pagu|serapan|penyerapan|terbayar|terkontrak|realisasi bayar|\sbayar\s)/.test(t)) {
+    // anggaran
+    if (/(melebihi pagu|lebih dari pagu|melampaui pagu|over pagu|di atas pagu|lewat pagu|melebihi anggaran)/.test(t)) {
+      var mAI = /(\sai\s|investasi|lkai)/.test(t), mAO = /(\sao\s|operasi)/.test(t);
+      return jwbMelebihi(t, units, mAI || !mAO, mAO || !mAI);
+    }
+    if (ai && !ao) {
+      var prog = cariProgram(t);
+      if (prog || /(program|\sprk\s)/.test(t)) return jwbAIProgram(t, units, rank, low, prog);
+      return jwbAI(t, units, rank, low);
+    }
+    if (ao && !ai) {
+      var keg = cariKegiatan(t);
+      if (keg || /(kegiatan|\sprk\s|rincian)/.test(t)) return jwbAOKegiatan(t, units, rank, low, keg);
+      return jwbAO(t, units, rank, low);
+    }
+    if (ai || /(anggaran|pagu|serapan|penyerapan|terbayar|terkontrak|realisasi bayar|\sbayar\s)/.test(t)) {
+      var keg2 = cariKegiatan(t);
+      if (keg2 && !ai && /(pemeliharaan|yantek|mapping|sppd|keypoint)/.test(t)) return jwbAOKegiatan(t, units, rank, low, keg2);
       var a = jwbAI(t, units, rank, low), o = jwbAO(t, units, rank, low);
-      return {judul:'Anggaran Investasi dan Operasi', isi:'<h4 class="tq-h">' + esc(a.judul) + '</h4>' + a.isi + '<h4 class="tq-h">' + esc(o.judul) + '</h4>' + o.isi,
+      return {judul:'Anggaran Investasi dan Operasi', isi:'<h4 class="tq-h">' + esc(a.judul) + '</h4>' + a.isi + '<h4 class="tq-h">' + esc(o.judul) + '</h4>' + o.isi + '<p>Anggaran Transmisi terpisah; tanyakan "anggaran Transmisi".</p>',
         sumber:a.sumber + ' ' + o.sumber, tautan:[].concat(a.tautan && a.tautan[0] ? [{label:'Lihat AI', params:a.tautan[0].params}] : [], o.tautan && o.tautan[0] ? [{label:'Lihat AO', params:o.tautan[0].params}] : [])};
     }
+    // hal yang perlu perhatian
+    if (/(perlu perhatian|perhatian|bermasalah|masalah|kritis|\smerah\s|\skuning\s|waspada|di bawah target|belum tercapai|tidak tercapai|tertinggal|prioritas|rawan)/.test(t)) return jwbPerhatian(t, units);
     if (/(\sepm\s|kinerja)/.test(t)) {
       var s = jwbSusut(t, units, rank, low), m = jwbGM(t, units, rank, low);
       return {judul:'Kinerja EPM', isi:'<h4 class="tq-h">' + esc(s.judul) + '</h4>' + s.isi + '<h4 class="tq-h">' + esc(m.judul) + '</h4>' + m.isi, sumber:s.sumber, tautan:s.tautan};
@@ -549,6 +1184,7 @@
     if (/(jtm|jaringan|gardu|trafo|kva|kapasitas|switching|\slbs\s|pmcb|recloser|\sfco\s|tiang|aset|penyulang|\sulp\s|merk|pabrikan|panjang)/.test(t) || cariPenyulang(t, X) || cariUlp(t, X))
       return jwbAset(t, units, rank, low, raw);
     if (units.length === 1) return jwbRingkasUnit(units[0]);
+    if (/(ringkasan|rangkuman|ikhtisar|gambaran umum)/.test(t)) return jwbPerhatian(t, units);
     return jwbBantuan(false);
   }
 
