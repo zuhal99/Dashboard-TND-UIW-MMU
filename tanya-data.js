@@ -374,7 +374,7 @@
     var d = need('epm_unit').filter(function(r){ return r.kode_kpi === 'EPM-SUSUT'; });
     if (!d.length) return jawab({judul:'Susut distribusi', isi:'<p>Data susut belum tersedia.</p>'});
     var p = per(d[0].periode), us = epmUnitList(units);
-    var src = 'Sheet Kinerja EPM, kumulatif s.d. ' + p + '. Capaian susut = 2 − realisasi ÷ target; hijau ≥ 100%, kuning 95% s.d. < 100%, merah < 95%';
+    var src = 'Spreadsheet Laporan Kinerja EPM 2026, kumulatif s.d. ' + p + '. Capaian susut = 2 − realisasi ÷ target; hijau ≥ 100%, kuning 95% s.d. < 100%, merah < 95%';
     var up = d.filter(function(r){ return r.up3 !== 'UIW'; });
     if (!us.length || rank) {
       var worst = /susut (tertinggi|terbesar|paling (tinggi|besar))/.test(t);
@@ -407,7 +407,7 @@
     var d = need('epm_unit').filter(function(r){ return r.kode_kpi === 'EPM-GM'; });
     if (!d.length) return jawab({judul:'Penggantian meter', isi:'<p>Data penggantian meter belum tersedia.</p>'});
     var p = per(d[0].periode), us = epmUnitList(units);
-    var src = 'Sheet Kinerja EPM, kumulatif s.d. ' + p + '. Target bulanan = target tahunan × bulan ÷ 12';
+    var src = 'Spreadsheet Laporan Kinerja EPM 2026, kumulatif s.d. ' + p + '. Target bulanan = target tahunan × bulan ÷ 12';
     var ket = d[0].keterangan ? ' ' + d[0].keterangan + '.' : '';
     if (!us.length || rank) {
       var s = d.filter(function(r){ return r.up3 !== 'UIW'; }).sort(function(a, b){ return low ? a.pct_tahunan - b.pct_tahunan : b.pct_tahunan - a.pct_tahunan; });
@@ -458,7 +458,7 @@
     if (b > P.last) { cat = '<p>Data P2TL bulan ' + BLN[b-1] + ' belum ada; data terakhir s.d. ' + BLN[P.last-1] + '.</p>'; b = P.last; }
     var bb = b || P.last, p = BLN[bb-1] + ' 2026', us = epmUnitList(units);
     var rows = rows0.map(function(o){ return p2tlSd(o, bb); }), U = p2tlSd(P.U, bb);
-    var src = 'Sheet Kinerja EPM (P2TL), dalam kWh. Realisasi = pelanggaran + kelainan, kumulatif sejak Januari; capaian = realisasi ÷ (target tahunan × bulan ÷ 12)';
+    var src = 'Spreadsheet Laporan Kinerja EPM 2026 (sheet P2TL Maluku), dalam kWh. Realisasi = pelanggaran + kelainan, kumulatif sejak Januari; capaian = realisasi ÷ (target tahunan × bulan ÷ 12)';
     var link = function(u){ return {label:'Lihat di tab EPM' + (u && u !== 'UIW' ? ' (' + u + ')' : ''), params:{hal:'EPM', up3_epm:u && u !== 'UIW' ? u : null}}; };
     if (tr) {
       var u = us[0] || 'UIW', o = u === 'UIW' ? P.U : P.by.get(u);
@@ -497,7 +497,7 @@
     var fv = su ? pc2 : function(v){ return nf(v); }, cat = '';
     if (b > last) { cat = '<p>Data ' + nm.toLowerCase() + ' bulan ' + BLN[b-1] + ' belum ada; data terakhir s.d. ' + BLN[last-1] + '.</p>'; b = last; }
     var us = epmUnitList(units);
-    var src = 'Sheet Kinerja EPM. ' + (su ? 'Capaian susut = 2 − realisasi kumulatif ÷ target' : 'Target bulanan = target tahunan × bulan ÷ 12; realisasi dan target kumulatif sejak Januari');
+    var src = 'Spreadsheet Laporan Kinerja EPM 2026. ' + (su ? 'Capaian susut = 2 − realisasi kumulatif ÷ target' : 'Target bulanan = target tahunan × bulan ÷ 12; realisasi dan target kumulatif sejak Januari');
     var link = function(u){ return {label:'Lihat di tab EPM' + (u && u !== 'UIW' ? ' (' + u + ')' : ''), params:{hal:'EPM', up3_epm:u && u !== 'UIW' ? u : null, epm_kpi:kode}}; };
     if (tr) {
       var u = us[0] || 'UIW', rs = d.filter(function(r){ return r.up3 === u; }).sort(function(a, x){ return a.bulan - x.bulan; });
@@ -536,7 +536,7 @@
       isi:'<p>Total ' + nf(tot) + ' meter. Terbanyak: <b>' + esc(s[0].kategori) + '</b> (' + nf(s[0].nilai) + ' meter, ' + pc(s[0].persen) + ').</p>' +
         tabel(['Kategori', 'Meter', 'Porsi'], s.map(function(r){ return {cells:[esc(r.kategori), nf(r.nilai), pc(r.persen)]}; })) +
         '<p>Rincian alasan baru tersedia untuk tingkat UIW, belum per UP3.</p>',
-      sumber:'Sheet Kinerja EPM (Ganti Meter, rekap pascabayar/prabayar rusak dan tua).', tautan:[{label:'Lihat di tab EPM', params:{hal:'EPM', up3_epm:null, epm_kpi:'EPM-GM'}}]});
+      sumber:'Spreadsheet Laporan Kinerja EPM 2026 (sheet GAMET, rekap pascabayar/prabayar rusak dan tua).', tautan:[{label:'Lihat di tab EPM', params:{hal:'EPM', up3_epm:null, epm_kpi:'EPM-GM'}}]});
   }
 
   /* ---------- D. Aset jaringan ---------- */
@@ -655,7 +655,7 @@
   // tautan spreadsheet yang sudah tampil terbuka di halaman ini (tab Anggaran, EPM, Transmisi dan panel health index)
   var SRC = {
     ai:'https://bit.ly/LKAI2026-UIWMMU',
-    epm:'https://docs.google.com/spreadsheets/d/1x0ZVr4fxjstBt_zQpn9wLgl4tPmKshiCnssw2sAgFEM/edit',
+    epm:'https://docs.google.com/spreadsheets/d/1re__zyinNAx9BbftnwtvtZp6OqrrxwNSHK_6eVHQP0c/edit',
     hi:'https://docs.google.com/spreadsheets/d/1rzEIhx2K2B3JArbKAz4K7GpCdYYBlkwqAtHXSMYgvuc/edit#gid=2030371538',
     trs_ao:'https://docs.google.com/spreadsheets/d/17pCTW7S7Ua7azhSci-X3NzWWWbvqi_LC/edit?gid=1477443203#gid=1477443203',
     trs_ai:'https://docs.google.com/spreadsheets/d/1G_Wspp-EKb7E2XOGRaBjZMmxAuZlqqAQ/edit?gid=56154097#gid=56154097',
@@ -690,7 +690,7 @@
     var li = [
       '<b>Anggaran Investasi Distribusi</b>: spreadsheet LKAI 2026 UIW MMU (' + tautan(SRC.ai, 'buka') + '). Dimuat ulang atas permintaan.',
       '<b>Anggaran Operasi Distribusi</b>: Google Sheet Monitoring AO, sheet REKAP DETAIL (pagu Rekomposisi II). Dimuat ulang atas permintaan.',
-      '<b>Kinerja EPM</b> (susut, penggantian meter, P2TL): sheet Kinerja (' + tautan(SRC.epm, 'buka') + '). Diperiksa otomatis setiap pagi.',
+      '<b>Kinerja EPM</b> (susut, penggantian meter, P2TL): spreadsheet Laporan Kinerja EPM 2026, sheet Susut UP3 MMU, GAMET dan P2TL Maluku (' + tautan(SRC.epm, 'buka') + '). Diperiksa otomatis setiap pagi.',
       '<b>Kinerja Ophardist</b> (SAIDI, SAIFI): spreadsheet SAIDI SAIFI 2026, sheet REAL VS TARGET 2026. Diperiksa otomatis setiap pagi.',
       '<b>Health index dan gangguan penyulang</b>: spreadsheet Gangguan Distribusi APKT, sheet HEALTH INDEX dan sheet bulanan (' + tautan(SRC.hi, 'buka') + '). Diperiksa otomatis setiap pagi.',
       '<b>Peta Aset</b>: data GIS (SHP/GDB) per UP3 dan data beban penyulang dari unit. Dimuat saat file baru dikirim.',
@@ -1063,7 +1063,7 @@
     }
     var nm = u === 'UIW' ? 'UIW' : u === 'UP3B' ? 'UP3B Maluku' : u === 'UP2K' ? 'UP2K Maluku' : 'UP3 ' + u;
     return jawab({judul:'Ringkasan ' + nm, isi:ul(li) + (u === 'UIW' ? '<p>Angka anggaran UIW di atas untuk kantor induk; kinerja dan health index untuk seluruh UP3.</p>' : ''),
-      sumber:'LKAI 2026, Monitoring AO, sheet Kinerja EPM, spreadsheet SAIDI SAIFI 2026 dan sheet HEALTH INDEX.',
+      sumber:'LKAI 2026, Monitoring AO, spreadsheet Laporan Kinerja EPM 2026, spreadsheet SAIDI SAIFI 2026 dan sheet HEALTH INDEX.',
       tautan:[{label:'Anggaran', params:{hal:'ai', up3_ai:AIU[u] || u}}].concat(UP3.indexOf(u) >= 0 ? [{label:'EPM', params:{hal:'EPM', up3_epm:u}}, {label:'Ophardist', params:{hal:'Ophardist', up3_kin:u}}, hiLink(u, null, null, 'Health index')] : [])});
   }
   var CONTOH = ['Berapa serapan AI Ambon?', 'Program AI dengan serapan terendah', 'Kontrak AI yang lewat tanggal selesai', 'AO pemeliharaan JTM', 'Anggaran Transmisi',
