@@ -661,7 +661,7 @@
     trs_ai:'https://docs.google.com/spreadsheets/d/1G_Wspp-EKb7E2XOGRaBjZMmxAuZlqqAQ/edit?gid=56154097#gid=56154097',
     trs_scada:'https://docs.google.com/spreadsheets/d/1txdrftRIr5zLWs8Ayj2LfvkpyYegT8cm/edit?gid=1132446219#gid=1132446219'
   };
-  var OTOMATIS = 'Setiap pagi pukul 06.34 WIT data kinerja EPM (susut, penggantian meter, P2TL), SAIDI SAIFI, health index dan daftar gangguan penyulang diperiksa otomatis. Data divalidasi lebih dulu; bila ada perubahan, data di dashboard Claude dan web ini diperbarui. Anggaran AI dan AO, Peta Aset dan Transmisi diperbarui saat ada data atau permintaan baru.';
+  var OTOMATIS = 'Health index dan daftar gangguan penyulang diperiksa otomatis setiap pagi pukul 06.34 WIT. Kinerja EPM (susut, penggantian meter, P2TL) dan SAIDI SAIFI diperiksa otomatis sebulan sekali, setiap tanggal 10 pukul 07.04 WIT. Data divalidasi lebih dulu; bila ada perubahan, data di dashboard Claude dan web ini diperbarui. Anggaran AI dan AO, Peta Aset dan Transmisi diperbarui saat ada data atau permintaan baru.';
   function jwbTanggal(){
     var ai = need('ai_unit'), ao = need('ao_unit'), ep = need('epm_unit'), P = p2tlModel();
     var f = (document.querySelector('.web-foot') || {}).textContent || '';
@@ -690,15 +690,15 @@
     var li = [
       '<b>Anggaran Investasi Distribusi</b>: spreadsheet LKAI 2026 UIW MMU (' + tautan(SRC.ai, 'buka') + '). Dimuat ulang atas permintaan.',
       '<b>Anggaran Operasi Distribusi</b>: Google Sheet Monitoring AO, sheet REKAP DETAIL (pagu Rekomposisi II). Dimuat ulang atas permintaan.',
-      '<b>Kinerja EPM</b> (susut, penggantian meter, P2TL): spreadsheet Laporan Kinerja EPM 2026, sheet Susut UP3 MMU, GAMET dan P2TL Maluku (' + tautan(SRC.epm, 'buka') + '). Diperiksa otomatis setiap pagi.',
-      '<b>Kinerja Ophardist</b> (SAIDI, SAIFI): spreadsheet SAIDI SAIFI 2026, sheet REAL VS TARGET 2026. Diperiksa otomatis setiap pagi.',
+      '<b>Kinerja EPM</b> (susut, penggantian meter, P2TL): spreadsheet Laporan Kinerja EPM 2026, sheet Susut UP3 MMU, GAMET dan P2TL Maluku (' + tautan(SRC.epm, 'buka') + '). Diperiksa otomatis setiap tanggal 10.',
+      '<b>Kinerja Ophardist</b> (SAIDI, SAIFI): spreadsheet SAIDI SAIFI 2026, sheet REAL VS TARGET 2026. Diperiksa otomatis setiap tanggal 10.',
       '<b>Health index dan gangguan penyulang</b>: spreadsheet Gangguan Distribusi APKT, sheet HEALTH INDEX dan sheet bulanan (' + tautan(SRC.hi, 'buka') + '). Diperiksa otomatis setiap pagi.',
       '<b>Peta Aset</b>: data GIS (SHP/GDB) per UP3 dan data beban penyulang dari unit. Dimuat saat file baru dikirim.',
       '<b>Transmisi</b>: MON AO OPGI DAN GP DLL 2026 (' + tautan(SRC.trs_ao, 'buka') + '), Monitoring AI 2026 Fungsi Transmisi MMU (' + tautan(SRC.trs_ai, 'buka') + ') dan KINERJA SCADA UP3B MALUKU 2026 (' + tautan(SRC.trs_scada, 'buka') + '). Dimuat ulang atas permintaan; kinerja Transmisi dan Prosis menunggu file.',
       '<b>Rensisdist</b>: belum ada data asli, masih data contoh.'
     ];
     return jawab({judul:'Sumber data dan cara memperbarui',
-      isi:ul(li) + '<p><b>Cara memperbarui.</b> Ubah angka di spreadsheet sumbernya (perlu akses edit dari pemilik spreadsheet; tombol "Update di spreadsheet" di tab Anggaran Investasi dan EPM membuka spreadsheet itu). Untuk EPM, SAIDI SAIFI, health index dan gangguan, perubahan masuk otomatis pada pemeriksaan pagi berikutnya (06.34 WIT) setelah lolos validasi. Untuk sumber lain, sampaikan ke pengelola dashboard agar data dimuat ulang. Halaman ini dan Tanya Data tidak dapat mengubah data.</p>'});
+      isi:ul(li) + '<p><b>Cara memperbarui.</b> Ubah angka di spreadsheet sumbernya (perlu akses edit dari pemilik spreadsheet; tombol "Update di spreadsheet" di tab Anggaran Investasi dan EPM membuka spreadsheet itu). Untuk health index dan gangguan, perubahan masuk otomatis pada pemeriksaan pagi berikutnya (06.34 WIT); untuk EPM dan SAIDI SAIFI, pada pemeriksaan bulanan tanggal 10 berikutnya (07.04 WIT). Keduanya setelah lolos validasi. Untuk sumber lain, sampaikan ke pengelola dashboard agar data dimuat ulang. Halaman ini dan Tanya Data tidak dapat mengubah data.</p>'});
   }
   function jwbWarna(){
     var li = [
