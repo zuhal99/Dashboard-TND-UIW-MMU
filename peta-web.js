@@ -287,7 +287,8 @@ dash.draw('pa-profil-ulp',function(host){
     var gd=num(d.gardu_distribusi);if(gd!=null)o.gd=(o.gd||0)+gd;
     if(!o.kvaDone)o.kvaDone={};var KU=((window.__KAPASITAS||{}).ulp||{})[d.ulp];if(KU&&KU.up3===d.up3&&!o.kvaDone[d.ulp]){o.kvaDone[d.ulp]=1;o.kva=(o.kva||0)+KU.kva;}
     ['lbs','pmcb','recloser','fco','switching_lain'].forEach(function(k){var v=num(d[k]);if(v)o.sw+=v;});});
-  if(bb.status==='ok'&&bb.data)bb.data.forEach(function(d){if(!perUp3&&d.up3!==s.up3)return;var o=by[kunci(d)];if(!o)return;var i=+d.arus_a;if(!isFinite(i))return;
+  var bper=bb.status==='ok'&&bb.data?d3.max(bb.data,function(d){return d.periode;}):null;
+  if(bper)bb.data.forEach(function(d){if(d.periode!==bper)return;if(!perUp3&&d.up3!==s.up3)return;var o=by[kunci(d)];if(!o)return;var i=+d.arus_a;if(!isFinite(i))return;
     o.mw=(o.mw||0)+Math.sqrt(3)*(+d.tegangan_kv||20)*i*(+d.faktor_daya||0.95)/1000;});
   var rows=Object.keys(by).map(function(u){return by[u];}).sort(function(a,b){return a.nama.localeCompare(b.nama,'id');});
   var M=[['jtm','Panjang JTM','km',TD.loc.format(',.1f')],['gd','Gardu distribusi','unit',TD.loc.format(',.0f')],['kva','Kapasitas trafo','kVA',TD.loc.format(',.0f')],['mw','Beban puncak','MW',TD.loc.format(',.2f')],['sw','Switching','unit',TD.loc.format(',.0f')]];
@@ -311,7 +312,7 @@ dash.draw('pa-profil-ulp',function(host){
   var li=function(t){catat.append(el('li',null,t));};
   li(perUp3?'Pilih UP3 di filter atau klik barisnya untuk melihat profil per ULP.':'Klik baris ULP untuk memilihnya di peta; klik lagi untuk melepas.');
   li('Kapasitas trafo adalah jumlah kapasitas trafo distribusi dari kolom KAPASITAS (Sofifi: kode menurut tabel dari UP3; Tual: kVA).');
-  li('Beban puncak adalah jumlah beban puncak penyulang pada Oktober 2026 (20 kV, faktor daya 0,95).');
+  li('Beban puncak adalah jumlah beban puncak penyulang pada '+(bper?TD.periodeLabel(bper):'bulan terakhir')+' dari spreadsheet beban dan tegangan per penyulang (20 kV, faktor daya 0,95), termasuk penyulang yang belum ada di GIS.');
   li('Switching mencakup LBS, PMCB, recloser dan FCO. Tanda — berarti data lapisan itu belum diterima (UP3 Masohi belum memuat gardu dan trafo, serta JTM ULP Piru dan Kairatu).');
   host.replaceChildren(tb,catat);
 });
