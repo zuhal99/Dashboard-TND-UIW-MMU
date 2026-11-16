@@ -2,9 +2,10 @@
    Mengenali pertanyaan dengan kata kunci, lalu menjawab dari data yang sama dengan yang tampil di dashboard
    (dash.data: ai_unit, ai_kontrak, ai_program, ai_rincian, ao_unit, ao_kegiatan, ao_rincian, epm_unit, epm_bulan,
    epm_rinci, epm_kategori, capaian_kpi, capaian_bulanan, aset_gis, beban_gis, gis_titik, health_index,
-   gangguan_penyulang, serta window.__KAPASITAS dan window.__TRS). Tidak ada data yang dikirim ke luar halaman.
+   gangguan_penyulang, gangguan_ulp_bulan, serta window.__KAPASITAS dan window.__TRS). Tidak ada data yang dikirim ke luar halaman.
    16 Nov 2026: daftar pertanyaan diperluas ke semua aspek dashboard (health index, gangguan, program AI, kegiatan AO,
-   PRK melebihi pagu, nilai per bulan dan tren, Scadatel per parameter, sumber data, arti warna, hal yang perlu perhatian). */
+   PRK melebihi pagu, nilai per bulan dan tren, Scadatel per parameter, sumber data, arti warna, hal yang perlu perhatian).
+   16 Nov 2026: KPI gangguan penyulang permanen (OP03) dan sementara (OP04) dari sheet GANGGUAN ULP, termasuk rincian per ULP. */
 (function(){
   'use strict';
   if (window.__tanyaData) return; window.__tanyaData = true;
@@ -132,6 +133,7 @@
   }
 
   /* ---------- tautan ke tab ---------- */
+  window.__keTab = keTab; // dipakai panel Rincian per ULP di tab Ophardist untuk membuka health index ULP di Peta Aset
   function keTab(params){
     var hal = params.hal, o = {};
     // parameter berawalan _ khusus untuk Tanya Data (membuka panel health index), tidak dikirim ke dash.setParams
@@ -657,16 +659,17 @@
     ai:'https://bit.ly/LKAI2026-UIWMMU',
     epm:'https://docs.google.com/spreadsheets/d/1re__zyinNAx9BbftnwtvtZp6OqrrxwNSHK_6eVHQP0c/edit',
     hi:'https://docs.google.com/spreadsheets/d/1rzEIhx2K2B3JArbKAz4K7GpCdYYBlkwqAtHXSMYgvuc/edit#gid=2030371538',
+    gu:'https://docs.google.com/spreadsheets/d/1rzEIhx2K2B3JArbKAz4K7GpCdYYBlkwqAtHXSMYgvuc/edit',
     trs_ao:'https://docs.google.com/spreadsheets/d/17pCTW7S7Ua7azhSci-X3NzWWWbvqi_LC/edit?gid=1477443203#gid=1477443203',
     trs_ai:'https://docs.google.com/spreadsheets/d/1G_Wspp-EKb7E2XOGRaBjZMmxAuZlqqAQ/edit?gid=56154097#gid=56154097',
     trs_scada:'https://docs.google.com/spreadsheets/d/1txdrftRIr5zLWs8Ayj2LfvkpyYegT8cm/edit?gid=1132446219#gid=1132446219'
   };
-  var OTOMATIS = 'Health index dan daftar gangguan penyulang diperiksa otomatis setiap pagi pukul 06.34 WIT. Kinerja EPM (susut, penggantian meter, P2TL) dan SAIDI SAIFI diperiksa otomatis sebulan sekali, setiap tanggal 10 pukul 07.04 WIT. Data divalidasi lebih dulu; bila ada perubahan, data di dashboard Claude dan web ini diperbarui. Anggaran AI dan AO, Peta Aset dan Transmisi diperbarui saat ada data atau permintaan baru.';
+  var OTOMATIS = 'Health index dan daftar gangguan penyulang diperiksa otomatis setiap pagi pukul 06.34 WIT. Kinerja EPM (susut, penggantian meter, P2TL), SAIDI SAIFI dan KPI gangguan penyulang per ULP (sheet GANGGUAN ULP) diperiksa otomatis sebulan sekali, setiap tanggal 10 pukul 07.04 WIT. Data divalidasi lebih dulu; bila ada perubahan, data di dashboard Claude dan web ini diperbarui. Anggaran AI dan AO, Peta Aset dan Transmisi diperbarui saat ada data atau permintaan baru.';
   function jwbTanggal(){
     var ai = need('ai_unit'), ao = need('ao_unit'), ep = need('epm_unit'), P = p2tlModel();
     var f = (document.querySelector('.web-foot') || {}).textContent || '';
     var m = /Data kinerja (?:EPM )?terakhir diperbarui (.+? WIT)/.exec(f);
-    var ck = need('capaian_kpi'), sd = ck.find(function(r){ return r.sub_bidang === 'Ophardist' && r.sumber === 'asli'; });
+    var ck = need('capaian_kpi'), sd = ck.find(function(r){ return r.kode_kpi === 'OP01'; }), gk = ck.find(function(r){ return r.kode_kpi === 'OP03'; });
     var contohSb = Array.from(new Set(ck.filter(function(r){ return r.sumber !== 'asli'; }).map(function(r){ return r.sub_bidang; })));
     var sus = ep.find(function(r){ return r.kode_kpi === 'EPM-SUSUT'; }), gm = ep.find(function(r){ return r.kode_kpi === 'EPM-GM'; });
     var X = indeksAset(), dimuat = Array.from(new Set(Array.from(X.U2U.values())));
@@ -677,7 +680,7 @@
     var li = [
       'Anggaran Investasi Distribusi (LKAI 2026): posisi <b>' + tgl((ai[0] || {}).posisi) + '</b>',
       'Anggaran Operasi Distribusi (Monitoring AO): posisi <b>' + tgl((ao[0] || {}).posisi) + '</b>',
-      'Kinerja EPM dan Ophardist: ' + (m ? 'diperbarui <b>' + esc(m[1]) + '</b>; ' : '') + (sus ? 'susut s.d. ' + per(sus.periode) : '') + (gm ? ', penggantian meter s.d. ' + per(gm.periode) : '') + (P.last ? ', P2TL s.d. ' + BLN[P.last-1] + ' 2026' : '') + (sd ? ', SAIDI dan SAIFI s.d. ' + per(sd.periode) : ''),
+      'Kinerja EPM dan Ophardist: ' + (m ? 'diperbarui <b>' + esc(m[1]) + '</b>; ' : '') + (sus ? 'susut s.d. ' + per(sus.periode) : '') + (gm ? ', penggantian meter s.d. ' + per(gm.periode) : '') + (P.last ? ', P2TL s.d. ' + BLN[P.last-1] + ' 2026' : '') + (sd ? ', SAIDI dan SAIFI s.d. ' + per(sd.periode) : '') + (gk ? ', gangguan penyulang permanen dan sementara s.d. ' + per(gk.periode) : ''),
       M && M.last ? 'Health index penyulang: jumlah gangguan s.d. <b>' + BLN[M.last-1] + ' ' + M.th + '</b>' + (M.jalan ? ' (bulan berjalan; status bawaan memakai ' + BLN[M.def-1] + ')' : '') : '',
       gmax ? 'Daftar gangguan penyulang: laporan terakhir <b>' + tgl(gmax) + '</b>' : '',
       'Peta Aset: data GIS UP3 ' + dimuat.join(', ') + ', UP3 lain belum dimuat' + (bper ? '; beban penyulang ' + bper : ''),
@@ -691,21 +694,21 @@
       '<b>Anggaran Investasi Distribusi</b>: spreadsheet LKAI 2026 UIW MMU (' + tautan(SRC.ai, 'buka') + '). Dimuat ulang atas permintaan.',
       '<b>Anggaran Operasi Distribusi</b>: Google Sheet Monitoring AO, sheet REKAP DETAIL (pagu Rekomposisi II). Dimuat ulang atas permintaan.',
       '<b>Kinerja EPM</b> (susut, penggantian meter, P2TL): spreadsheet Laporan Kinerja EPM 2026, sheet Susut UP3 MMU, GAMET dan P2TL Maluku (' + tautan(SRC.epm, 'buka') + '). Diperiksa otomatis setiap tanggal 10.',
-      '<b>Kinerja Ophardist</b> (SAIDI, SAIFI): spreadsheet SAIDI SAIFI 2026, sheet REAL VS TARGET 2026. Diperiksa otomatis setiap tanggal 10.',
+      '<b>Kinerja Ophardist</b>: SAIDI dan SAIFI dari spreadsheet SAIDI SAIFI 2026, sheet REAL VS TARGET 2026; gangguan penyulang permanen dan sementara dari spreadsheet Gangguan Distribusi APKT, sheet GANGGUAN ULP (' + tautan(SRC.gu, 'buka') + '). Diperiksa otomatis setiap tanggal 10.',
       '<b>Health index dan gangguan penyulang</b>: spreadsheet Gangguan Distribusi APKT, sheet HEALTH INDEX dan sheet bulanan (' + tautan(SRC.hi, 'buka') + '). Diperiksa otomatis setiap pagi.',
       '<b>Peta Aset</b>: data GIS (SHP/GDB) per UP3 dan data beban penyulang dari unit. Dimuat saat file baru dikirim.',
       '<b>Transmisi</b>: MON AO OPGI DAN GP DLL 2026 (' + tautan(SRC.trs_ao, 'buka') + '), Monitoring AI 2026 Fungsi Transmisi MMU (' + tautan(SRC.trs_ai, 'buka') + ') dan KINERJA SCADA UP3B MALUKU 2026 (' + tautan(SRC.trs_scada, 'buka') + '). Dimuat ulang atas permintaan; kinerja Transmisi dan Prosis menunggu file.',
       '<b>Rensisdist</b>: belum ada data asli, masih data contoh.'
     ];
     return jawab({judul:'Sumber data dan cara memperbarui',
-      isi:ul(li) + '<p><b>Cara memperbarui.</b> Ubah angka di spreadsheet sumbernya (perlu akses edit dari pemilik spreadsheet; tombol "Update di spreadsheet" di tab Anggaran Investasi dan EPM membuka spreadsheet itu). Untuk health index dan gangguan, perubahan masuk otomatis pada pemeriksaan pagi berikutnya (06.34 WIT); untuk EPM dan SAIDI SAIFI, pada pemeriksaan bulanan tanggal 10 berikutnya (07.04 WIT). Keduanya setelah lolos validasi. Untuk sumber lain, sampaikan ke pengelola dashboard agar data dimuat ulang. Halaman ini dan Tanya Data tidak dapat mengubah data.</p>'});
+      isi:ul(li) + '<p><b>Cara memperbarui.</b> Ubah angka di spreadsheet sumbernya (perlu akses edit dari pemilik spreadsheet; tombol "Update di spreadsheet" di tab Anggaran Investasi dan EPM membuka spreadsheet itu). Untuk health index dan gangguan, perubahan masuk otomatis pada pemeriksaan pagi berikutnya (06.34 WIT); untuk EPM, SAIDI SAIFI dan gangguan penyulang per ULP, pada pemeriksaan bulanan tanggal 10 berikutnya (07.04 WIT). Keduanya setelah lolos validasi. Untuk sumber lain, sampaikan ke pengelola dashboard agar data dimuat ulang. Halaman ini dan Tanya Data tidak dapat mengubah data.</p>'});
   }
   function jwbWarna(){
     var li = [
       'Status KPI: ' + dot('hijau') + 'hijau bila capaian ≥ 100%, ' + dot('kuning') + 'kuning 95% s.d. < 100%, ' + dot('merah') + 'merah < 95%.',
       'KPI yang makin besar makin baik (penggantian meter, P2TL, serapan anggaran): capaian = realisasi ÷ target × 100%.',
-      'KPI yang makin kecil makin baik (susut, SAIDI, SAIFI): capaian = (2 − realisasi ÷ target) × 100%. Contoh: susut 7% terhadap target 8% memberi capaian 112,5%.',
-      'Target penggantian meter dan P2TL s.d. bulan tertentu = target tahunan × bulan ÷ 12. Susut, SAIDI dan SAIFI memakai target kumulatif dari sheet. Capaian tidak dibatasi atas, mengikuti sheet.',
+      'KPI yang makin kecil makin baik (susut, SAIDI, SAIFI, gangguan penyulang permanen dan sementara): capaian = (2 − realisasi ÷ target) × 100%. Contoh: susut 7% terhadap target 8% memberi capaian 112,5%.',
+      'Target penggantian meter dan P2TL s.d. bulan tertentu = target tahunan × bulan ÷ 12. Susut, SAIDI, SAIFI dan gangguan penyulang memakai target kumulatif dari sheet; gangguan permanen dan sementara memakai target yang sama. Capaian tidak dibatasi atas, mengikuti sheet.',
       'Anggaran: % terkontrak = nilai terkontrak ÷ pagu; % terbayar = nilai terbayar ÷ pagu.',
       'Health index penyulang per bulan: ' + hdot('Sempurna') + 'Sempurna 0 gangguan, ' + hdot('Sehat') + 'Sehat 1–3, ' + hdot('Sakit') + 'Sakit 4–9, ' + hdot('Kronis') + 'Kronis ≥ 10.',
       'Peta Aset: warna jaringan per ULP, per penyulang atau per status health index, dipilih dengan tombol warna di atas peta.',
@@ -724,6 +727,7 @@
 
   /* ---------- F. Kinerja sub bidang (Ophardist, Rensisdist) ---------- */
   function jwbSubBidang(sb, t, units, rank, low){
+    if (sb === 'Ophardist' && /gangguan/.test(t)) return jwbGangguanKpi(t, units, rank, low);
     if (sb === 'Ophardist') { var bq = cariBulan(t), tq = trenQ(t); if (bq || tq) return jwbOpBulan(t, units, bq, tq, rank, low); }
     var ck = need('capaian_kpi').filter(function(r){ return r.sub_bidang === sb; });
     var asli = ck.filter(function(r){ return r.sumber === 'asli'; });
@@ -737,7 +741,7 @@
     var pilih = kodes.filter(function(k){ var n = (asli.find(function(r){ return r.kode_kpi === k; }) || {}).nama_kpi || ''; return t.indexOf(' ' + n.toLowerCase() + ' ') >= 0; });
     if (pilih.length) kodes = pilih;
     var us = units.filter(function(u){ return UP3.indexOf(u) >= 0 || u === 'UIW'; });
-    var dg = function(v, s){ return s && /kali/.test(s) ? nf(v, 3) : nf(v, 2); };
+    var dg = function(v, s){ return s === 'kali' ? nf(v) : s && /kali/.test(s) ? nf(v, 3) : nf(v, 2); };
     var isi = '', per0 = '';
     kodes.forEach(function(k){
       var rs = asli.filter(function(r){ return r.kode_kpi === k; }), m = rs[0];
@@ -756,7 +760,7 @@
     });
     var lain = ck.some(function(r){ return r.sumber !== 'asli'; });
     return jawab({judul:'Kinerja ' + sb + (per0 ? ', s.d. ' + per0 : ''), isi:isi,
-      sumber:(sb === 'Ophardist' ? 'Spreadsheet SAIDI SAIFI 2026, sheet REAL VS TARGET 2026 (kumulatif)' : 'Spreadsheet kinerja ' + sb) + '. Capaian = 2 − realisasi ÷ target; hijau ≥ 100%, kuning 95% s.d. < 100%, merah < 95%.' + (lain ? ' KPI ' + sb + ' lainnya masih data contoh.' : '') + (sb === 'Ophardist' ? ' Tambahkan nama bulan (misalnya "SAIDI Ambon September") atau kata "per bulan" untuk melihat nilai per bulan.' : ''),
+      sumber:(sb === 'Ophardist' ? 'Spreadsheet SAIDI SAIFI 2026 (sheet REAL VS TARGET 2026) dan spreadsheet Gangguan Distribusi APKT (sheet GANGGUAN ULP), nilai kumulatif' : 'Spreadsheet kinerja ' + sb) + '. Capaian = 2 − realisasi ÷ target; hijau ≥ 100%, kuning 95% s.d. < 100%, merah < 95%.' + (lain ? ' KPI ' + sb + ' lainnya masih data contoh.' : '') + (sb === 'Ophardist' ? ' Tambahkan nama bulan (misalnya "SAIDI Ambon September") atau kata "per bulan" untuk melihat nilai per bulan. Untuk gangguan per ULP, tanyakan misalnya "gangguan permanen Masohi per ULP".' : ''),
       tautan:[{label:'Lihat tab ' + sb + (us.length === 1 && us[0] !== 'UIW' ? ' (' + us[0] + ')' : ''), params:{hal:sb, up3_kin:us.length === 1 && us[0] !== 'UIW' ? us[0] : null}}]});
   }
   /* SAIDI dan SAIFI per bulan (capaian_bulanan, kumulatif sejak Januari) */
@@ -799,6 +803,105 @@
       }
     });
     return jawab({judul:judul + ', ' + BLN[b-1] + ' 2026', isi:isi, sumber:src, tautan:[link]});
+  }
+
+  /* Gangguan penyulang permanen (OP03) dan sementara (OP04): KPI per UP3 dari sheet GANGGUAN ULP (capaian_bulanan),
+     rincian per ULP dari gangguan_ulp_bulan (nilai bulanan, tanpa target). Sejak 16 Nov 2026. */
+  function jwbGangguanKpi(t, units, rank, low){
+    var cb = need('capaian_bulanan').filter(function(r){ return r.kode_kpi === 'OP03' || r.kode_kpi === 'OP04'; });
+    var G = need('gangguan_ulp_bulan');
+    var bln = function(r){ return +String(r.periode).slice(5, 7); };
+    var last = cb.reduce(function(m, r){ var q = bln(r); return q > m ? q : m; }, 0);
+    if (!last) return jawab({judul:'Gangguan penyulang', isi:'<p>Data KPI gangguan penyulang belum tersedia.</p>'});
+    var SF = {OP03:'Permanen', OP04:'Sementara'};
+    var kodes = /permanen/.test(t) && !/sementara/.test(t) ? ['OP03'] : /sementara/.test(t) && !/permanen/.test(t) ? ['OP04'] : ['OP03', 'OP04'];
+    var b = cariBulan(t), cat = '';
+    if (b > last) { cat = '<p>Data bulan ' + BLN[b-1] + ' belum ada; data terakhir s.d. ' + BLN[last-1] + '.</p>'; b = last; }
+    b = b || last;
+    var us = units.filter(function(u){ return UP3.indexOf(u) >= 0 || u === 'UIW'; });
+    var jml = function(f){ return sum(G.filter(f), function(d){ return d.jumlah; }); };
+    var src = 'Sheet GANGGUAN ULP, spreadsheet Gangguan Distribusi APKT. Permanen dan sementara adalah dua KPI terpisah dengan target yang sama di sheet; realisasi kumulatif sejak Januari, capaian = 2 − realisasi ÷ target. Target hanya per UP3, UIW = jumlah ketujuh UP3, ULP tanpa target.';
+    var link = function(u, k){ return {label:'Lihat tab Ophardist' + (u && u !== 'UIW' ? ' (' + u + ')' : ''), params:{hal:'Ophardist', up3_kin:u && u !== 'UIW' ? u : null, kpi:k}}; };
+    // ULP yang disebut (nama ULP yang sama dengan nama UP3 harus diawali "ULP")
+    var uh = null, seen = {};
+    G.forEach(function(d){
+      var kk = d.up3 + '|' + d.ulp; if (seen[kk]) return; seen[kk] = 1;
+      var l = norm(d.ulp).trim();
+      var ok = UP3.some(function(p){ return p.toLowerCase() === l; }) ? t.indexOf(' ulp ' + l + ' ') >= 0 : t.indexOf(' ' + l + ' ') >= 0;
+      if (ok && (!uh || l.length > norm(uh.ulp).trim().length)) uh = {up3:d.up3, ulp:d.ulp};
+    });
+    if (uh) {
+      var isiU = cat + '<p>ULP ' + esc(uh.ulp) + ' (UP3 ' + esc(uh.up3) + '), Januari s.d. ' + BLN[b-1] + ' 2026: ' + kodes.map(function(k){
+        var n = jml(function(d){ return d.up3 === uh.up3 && d.ulp === uh.ulp && d.sifat === SF[k] && bln(d) <= b; });
+        var tot = jml(function(d){ return d.up3 === uh.up3 && d.sifat === SF[k] && bln(d) <= b; });
+        return 'gangguan ' + SF[k].toLowerCase() + ' <b>' + nf(n) + ' kali</b> (' + pc(tot ? n / tot * 100 : null) + ' dari UP3 ' + esc(uh.up3) + ')'; }).join(', ') +
+        '. Target hanya ada per UP3, jadi ULP tidak punya capaian.</p>';
+      var rsU = [];
+      for (var q = 1; q <= last; q++) (function(q){ rsU.push({b:q, cells:[BLN[q-1].slice(0, 3)].concat(kodes.map(function(k){
+        return nf(jml(function(d){ return d.up3 === uh.up3 && d.ulp === uh.ulp && d.sifat === SF[k] && bln(d) === q; })); }))}); })(q);
+      isiU += '<h4 class="tq-h">Gangguan per bulan (bukan kumulatif)</h4>' + tabel(['Bulan'].concat(kodes.map(function(k){ return SF[k]; })), rsU, function(r){ return r.b === b; });
+      return jawab({judul:'Gangguan penyulang ULP ' + uh.ulp + ', 2026', isi:isiU,
+        sumber:src + ' Untuk penyebab dan daftar laporannya, tanyakan "penyebab gangguan ULP ' + uh.ulp + '".',
+        tautan:[link(uh.up3, kodes[0]), hiLink(uh.up3, uh.ulp, null)]});
+    }
+    if (/(\sulp\s|per ulp|tiap ulp|setiap ulp)/.test(t)) {
+      var up = us.filter(function(u){ return u !== 'UIW'; })[0] || null, isiL = cat;
+      var sedikit = /(tersedikit|paling sedikit|terendah|terkecil)/.test(t);
+      kodes.forEach(function(k){
+        var agg = {};
+        G.forEach(function(d){ if (d.sifat === SF[k] && bln(d) <= b && (!up || d.up3 === up)) { var kk = d.up3 + '|' + d.ulp; agg[kk] = (agg[kk] || 0) + d.jumlah; } });
+        var ks = Object.keys(agg).sort(function(a, c){ return sedikit ? agg[a] - agg[c] : agg[c] - agg[a]; });
+        var tot = sum(ks, function(kk){ return agg[kk]; }), top = up ? ks : ks.slice(0, 10);
+        isiL += '<h4 class="tq-h">Gangguan ' + SF[k].toLowerCase() + ' per ULP, Januari s.d. ' + BLN[b-1] + ' 2026' + (up ? ', UP3 ' + esc(up) : sedikit ? ', sepuluh paling sedikit' : ', sepuluh terbanyak') + '</h4>' +
+          tabel(['ULP', 'Gangguan', 'Porsi'], top.map(function(kk){ var p = kk.split('|'); return {cells:[esc(p[1]) + (up ? '' : '<small>UP3 ' + esc(p[0]) + '</small>'), nf(agg[kk]), pc(tot ? agg[kk] / tot * 100 : null)]}; }), null, true);
+      });
+      return jawab({judul:'Gangguan penyulang per ULP, ' + (up ? 'UP3 ' + up : 'UIW'), isi:isiL + '<p>Target hanya ada per UP3, jadi ULP ditampilkan tanpa capaian. Porsi = bagian dari ' + (up ? 'UP3 ' + esc(up) : 'UIW') + '.</p>',
+        sumber:src, tautan:[link(up, kodes[0])]});
+    }
+    if (trenQ(t)) {
+      var u = us[0] || 'UIW', isiT = cat;
+      kodes.forEach(function(k){
+        var rs = cb.filter(function(r){ return r.kode_kpi === k && r.up3 === u; }).sort(function(a, x){ return bln(a) - bln(x); });
+        if (!rs.length) return;
+        isiT += '<h4 class="tq-h">' + esc(rs[0].nama_kpi) + ', ' + (u === 'UIW' ? 'UIW' : 'UP3 ' + esc(u)) + ' (kumulatif)</h4>' +
+          tabel(['Bulan', 'Realisasi', 'Target', 'Capaian'], rs.map(function(r){ return {b:bln(r), cells:[dot(stat(r.capaian)) + BLN[bln(r)-1].slice(0, 3), nf(r.realisasi), nf(r.target), pc(r.capaian)]}; }), function(r){ return r.b === b; });
+      });
+      return jawab({judul:'Gangguan penyulang per bulan, ' + (u === 'UIW' ? 'UIW' : 'UP3 ' + u) + ' 2026', isi:isiT, sumber:src, tautan:[link(u, kodes[0])]});
+    }
+    var isi = cat;
+    kodes.forEach(function(k){
+      var rs = cb.filter(function(r){ return r.kode_kpi === k && bln(r) === b; });
+      if (!rs.length) return;
+      isi += '<h4 class="tq-h">' + esc(rs[0].nama_kpi) + ' (kali), kumulatif Januari s.d. ' + BLN[b-1] + ' 2026</h4>';
+      if (us.length && !rank) {
+        isi += us.map(function(u){
+          var r = rs.find(function(x){ return x.up3 === u; });
+          if (!r) return '<p><b>' + esc(u) + '</b>: tidak ada data.</p>';
+          var tops = '';
+          if (u !== 'UIW') {
+            var agg = {}; G.forEach(function(d){ if (d.up3 === u && d.sifat === SF[k] && bln(d) <= b) agg[d.ulp] = (agg[d.ulp] || 0) + d.jumlah; });
+            tops = ' ULP terbanyak: ' + Object.keys(agg).sort(function(a, c){ return agg[c] - agg[a]; }).slice(0, 3).map(function(x){ return esc(x) + ' ' + nf(agg[x]); }).join(', ') + '.';
+          }
+          return '<p>' + dot(stat(r.capaian)) + '<b>' + esc(u) + '</b>: realisasi <b>' + nf(r.realisasi) + ' kali</b> terhadap target ' + nf(r.target) + ', capaian <b>' + pc(r.capaian) + '</b>.' + tops + '</p>';
+        }).join('');
+      } else {
+        var banyak = /(terbanyak|paling (banyak|sering))/.test(t), sedikit2 = /(tersedikit|paling sedikit)/.test(t);
+        var s = rs.filter(function(r){ return r.up3 !== 'UIW'; }).sort(function(a, x){ return banyak ? x.realisasi - a.realisasi : sedikit2 ? a.realisasi - x.realisasi : (low ? a.capaian - x.capaian : x.capaian - a.capaian); });
+        var uiw = rs.find(function(r){ return r.up3 === 'UIW'; });
+        isi += (uiw ? '<p>UIW: realisasi <b>' + nf(uiw.realisasi) + ' kali</b> terhadap target ' + nf(uiw.target) + ', capaian <b>' + pc(uiw.capaian) + '</b>.</p>' : '') +
+          tabel(['UP3', 'Realisasi', 'Target', 'Capaian'], s.map(function(r){ return {u:r.up3, cells:[dot(stat(r.capaian)) + esc(r.up3), nf(r.realisasi), nf(r.target), pc(r.capaian)]}; }), function(r){ return rank && s[0] && r.u === s[0].up3; });
+      }
+      // lonjakan bulan itu dibanding rata-rata bulan sebelumnya
+      var sk = us.length === 1 ? us[0] : 'UIW', v = [];
+      for (var q2 = 1; q2 <= b; q2++) (function(q2){ v.push(jml(function(d){ return d.sifat === SF[k] && bln(d) === q2 && (sk === 'UIW' || d.up3 === sk); })); })(q2);
+      if (v.length >= 4) {
+        var a = v[v.length-1], r0 = sum(v.slice(0, -1), function(x){ return x; }) / (v.length - 1);
+        if (a >= 2 * Math.max(r0, 1) && a - r0 >= 15) isi += '<p>Catatan: gangguan ' + SF[k].toLowerCase() + ' ' + (sk === 'UIW' ? 'UIW' : 'UP3 ' + esc(sk)) + ' pada ' + BLN[b-1] + ' melonjak menjadi ' + nf(a) + ' kali (rata-rata bulan sebelumnya ' + nf(r0, 1) + ').</p>';
+      }
+    });
+    return jawab({judul:'Gangguan penyulang' + (kodes.length === 1 ? ' ' + SF[kodes[0]].toLowerCase() : '') + ', ' + BLN[b-1] + ' 2026',
+      isi:isi + '<p>Untuk rincian per ULP, tanyakan misalnya "gangguan permanen Masohi per ULP" atau sebut nama ULP-nya.</p>',
+      sumber:src, tautan:[link(us.length === 1 ? us[0] : null, kodes[0])]});
   }
 
   /* ---------- G. Health index dan gangguan penyulang (Peta Aset web) ---------- */
@@ -999,7 +1102,7 @@
       var seen = {}; k = k.filter(function(x){ var kk = x.nm + '|' + x.up3; if (seen[kk]) return false; seen[kk] = 1; return true; });
       k.sort(function(a, b){ return (a.st === 'merah' ? 0 : 1) - (b.st === 'merah' ? 0 : 1) || a.cap - b.cap; });
       isi += '<h4 class="tq-h">KPI di bawah target (data asli)</h4>' + (k.length ? ul(k.map(function(x){ return dot(x.st) + '<b>' + esc(x.nm) + '</b> ' + esc(x.up3) + ': capaian ' + pc(x.cap) + ' (s.d. ' + x.p + ')'; }))
-        : '<p>Semua KPI dengan data asli (susut, penggantian meter, P2TL, SAIDI, SAIFI) berstatus hijau' + (u ? ' untuk ' + esc(nmU) : '') + '.</p>');
+        : '<p>Semua KPI dengan data asli (susut, penggantian meter, P2TL, SAIDI, SAIFI, gangguan penyulang) berstatus hijau' + (u ? ' untuk ' + esc(nmU) : '') + '.</p>');
       taut.push({label:'EPM', params:{hal:'EPM', up3_epm:isUp3 ? u : null}});
     }
     var aiAll = need('ai_unit').filter(function(r){ return r.jenis === 'Semua'; });
@@ -1037,7 +1140,7 @@
     }
     if (!u) isi += '<p>Catatan data: KPI Rensisdist dan KPI Transmisi masih data contoh; kinerja Transmisi dan Prosis menunggu file.</p>';
     return jawab({judul:'Yang perlu perhatian, ' + nmU, isi:isi,
-      sumber:'Data yang tampil di dashboard: kinerja EPM, SAIDI SAIFI, LKAI 2026, Monitoring AO dan sheet HEALTH INDEX. Status hijau ≥ 100%, kuning 95% s.d. < 100%, merah < 95%.',
+      sumber:'Data yang tampil di dashboard: kinerja EPM, SAIDI SAIFI, gangguan penyulang (sheet GANGGUAN ULP), LKAI 2026, Monitoring AO dan sheet HEALTH INDEX. Status hijau ≥ 100%, kuning 95% s.d. < 100%, merah < 95%.',
       tautan:taut.slice(0, 4)});
   }
   function jwbRingkasUnit(u){
@@ -1063,11 +1166,11 @@
     }
     var nm = u === 'UIW' ? 'UIW' : u === 'UP3B' ? 'UP3B Maluku' : u === 'UP2K' ? 'UP2K Maluku' : 'UP3 ' + u;
     return jawab({judul:'Ringkasan ' + nm, isi:ul(li) + (u === 'UIW' ? '<p>Angka anggaran UIW di atas untuk kantor induk; kinerja dan health index untuk seluruh UP3.</p>' : ''),
-      sumber:'LKAI 2026, Monitoring AO, spreadsheet Laporan Kinerja EPM 2026, spreadsheet SAIDI SAIFI 2026 dan sheet HEALTH INDEX.',
+      sumber:'LKAI 2026, Monitoring AO, spreadsheet Laporan Kinerja EPM 2026, spreadsheet SAIDI SAIFI 2026, sheet GANGGUAN ULP dan sheet HEALTH INDEX.',
       tautan:[{label:'Anggaran', params:{hal:'ai', up3_ai:AIU[u] || u}}].concat(UP3.indexOf(u) >= 0 ? [{label:'EPM', params:{hal:'EPM', up3_epm:u}}, {label:'Ophardist', params:{hal:'Ophardist', up3_kin:u}}, hiLink(u, null, null, 'Health index')] : [])});
   }
   var CONTOH = ['Berapa serapan AI Ambon?', 'Program AI dengan serapan terendah', 'Kontrak AI yang lewat tanggal selesai', 'AO pemeliharaan JTM', 'Anggaran Transmisi',
-    'Susut Tobelo Oktober', 'P2TL Ternate per bulan', 'SAIDI Ambon September', 'Kinerja Scadatel', 'Penyulang kronis', 'Penyebab gangguan Sofifi',
+    'Susut Tobelo Oktober', 'P2TL Ternate per bulan', 'SAIDI Ambon September', 'Gangguan permanen Masohi per ULP', 'Kinerja Scadatel', 'Penyulang kronis', 'Penyebab gangguan Sofifi',
     'Panjang JTM ULP Weda', 'Apa yang perlu perhatian?', 'Sumber data dan cara update', 'Kapan data diperbarui?'];
   function jwbBantuan(awal){
     return jawab({judul:awal ? 'Halo, saya asisten data dashboard.' : 'Maaf, pertanyaan itu belum saya kenali.',
@@ -1076,7 +1179,7 @@
             '<b>Anggaran Operasi</b> (AO Distribusi): per unit atau per kegiatan, sisa, prognosa; PRK yang melebihi pagu (AI dan AO)',
             '<b>Anggaran Transmisi</b> (AO dan AI)',
             '<b>EPM</b>: susut, penggantian meter (termasuk alasannya), P2TL; sebut nama bulan atau "per bulan"',
-            '<b>Ophardist</b>: SAIDI, SAIFI per UP3, per bulan atau tren; <b>Rensisdist</b>: status data',
+            '<b>Ophardist</b>: SAIDI, SAIFI, gangguan penyulang permanen dan sementara per UP3 atau per ULP, per bulan atau tren; <b>Rensisdist</b>: status data',
             '<b>Transmisi</b>: kinerja Scadatel per parameter atau per bulan; status kinerja Transmisi dan Prosis',
             '<b>Peta Aset</b>: JTM, gardu, kVA, merk trafo, switching, tiang per UP3, ULP atau penyulang; beban penyulang; info gardu dari kodenya',
             '<b>Health index dan gangguan penyulang</b>: status per bulan, penyulang kronis atau sakit, penyebab gangguan, gangguan terakhir sebuah penyulang',
@@ -1141,6 +1244,11 @@
     // health index dan gangguan penyulang
     var isHI = /(health index|healt index|indeks kesehatan|kesehatan penyulang|\skronis\s|\ssakit\s|\ssempurna\s|status penyulang|penyulang (yang )?(sehat|bermasalah|perlu perhatian|rawan))/.test(t) || (/\ssehat\s/.test(t) && /penyulang/.test(t));
     var isGG = /(gangguan|\strip\s|padam|penyebab|\scause\s)/.test(t) && !/(meter|susut)/.test(t);
+    // KPI gangguan permanen/sementara (sheet GANGGUAN ULP); penyebab, gangguan terakhir dan penyulang tertentu tetap ke daftar gangguan
+    var isGK = isGG && !/(penyebab|\scause\s|terakhir|terbaru|durasi|terlama|\strip\s|padam|penyulang (dengan|yang))/.test(t) &&
+      /(permanen|sementara|per ulp|tiap ulp|setiap ulp|capaian|target|\skpi\s|kinerja)/.test(t);
+    if (isGK) { var Mk = null; try { Mk = hiModel(); } catch (e) { if (e === LOADING) throw e; }
+      if (!(Mk && cariPylHI(t, Mk, cariUlpHI(t, Mk), null))) return jwbGangguanKpi(t, units, rank, low); }
     if (isGG && /penyulang/.test(t) && rank && !/penyebab/.test(t)) return jwbHI(t, units, rank, low);
     if (isHI) return jwbHI(t, units, rank && !/(penyebab|terakhir)/.test(t), low);
     if (isGG) return jwbGangguan(t, units);
