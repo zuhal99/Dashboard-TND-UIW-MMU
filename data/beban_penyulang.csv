@@ -569,16 +569,16 @@ periode,jenis_beban,up3,ulp,sistem,penyulang_sumber,penyulang,arus_a,tegangan_kv
 2026-08,puncak,Tual,Dobo,Dobo,Express,Express Dobo,85,20,0.95,20.5,19.6,cocok (nama + sistem),2026-11-16
 2026-09,puncak,Tual,Dobo,Dobo,Express,Express Dobo,98,20,0.95,20.3,19.6,cocok (nama + sistem),2026-11-16
 2026-10,puncak,Tual,Dobo,Dobo,Express,Express Dobo,92,20,0.95,20.4,19.63,cocok (nama + sistem),2026-11-16
-2026-01,puncak,Tual,Dobo,Dobo,Luar Kota,Luar Kota Jerol,55,20,0.95,19.4,19.3,disimpulkan: satu-satunya penyulang Luar Kota di ULP Dobo,2026-11-16
-2026-02,puncak,Tual,Dobo,Dobo,Luar Kota,Luar Kota Jerol,56,20,0.95,19.4,19.3,disimpulkan: satu-satunya penyulang Luar Kota di ULP Dobo,2026-11-16
-2026-03,puncak,Tual,Dobo,Dobo,Luar Kota,Luar Kota Jerol,59,20,0.95,19.3,19.2,disimpulkan: satu-satunya penyulang Luar Kota di ULP Dobo,2026-11-16
-2026-04,puncak,Tual,Dobo,Dobo,Luar Kota,Luar Kota Jerol,19.3,20,0.95,19,19,disimpulkan: satu-satunya penyulang Luar Kota di ULP Dobo,2026-11-16
-2026-05,puncak,Tual,Dobo,Dobo,Luar Kota,Luar Kota Jerol,51.7,20,0.95,19.3,19.2,disimpulkan: satu-satunya penyulang Luar Kota di ULP Dobo,2026-11-16
-2026-06,puncak,Tual,Dobo,Dobo,Luar Kota,Luar Kota Jerol,53.2,20,0.95,19.4,19.3,disimpulkan: satu-satunya penyulang Luar Kota di ULP Dobo,2026-11-16
-2026-07,puncak,Tual,Dobo,Dobo,Luar Kota,Luar Kota Jerol,53.2,20,0.95,19.4,19.3,disimpulkan: satu-satunya penyulang Luar Kota di ULP Dobo,2026-11-16
-2026-08,puncak,Tual,Dobo,Dobo,Luar Kota,Luar Kota Jerol,59,20,0.95,19.5,19.2,disimpulkan: satu-satunya penyulang Luar Kota di ULP Dobo,2026-11-16
-2026-09,puncak,Tual,Dobo,Dobo,Luar Kota,Luar Kota Jerol,54,20,0.95,19.4,19.1,disimpulkan: satu-satunya penyulang Luar Kota di ULP Dobo,2026-11-16
-2026-10,puncak,Tual,Dobo,Dobo,Luar Kota,Luar Kota Jerol,52,20,0.95,19.5,19.2,disimpulkan: satu-satunya penyulang Luar Kota di ULP Dobo,2026-11-16
+2026-01,puncak,Tual,Dobo,Dobo,Luar Kota,Luar Kota Dobo,55,20,0.95,19.4,19.3,TIDAK ADA DI GIS,2026-11-16
+2026-02,puncak,Tual,Dobo,Dobo,Luar Kota,Luar Kota Dobo,56,20,0.95,19.4,19.3,TIDAK ADA DI GIS,2026-11-16
+2026-03,puncak,Tual,Dobo,Dobo,Luar Kota,Luar Kota Dobo,59,20,0.95,19.3,19.2,TIDAK ADA DI GIS,2026-11-16
+2026-04,puncak,Tual,Dobo,Dobo,Luar Kota,Luar Kota Dobo,19.3,20,0.95,19,19,TIDAK ADA DI GIS,2026-11-16
+2026-05,puncak,Tual,Dobo,Dobo,Luar Kota,Luar Kota Dobo,51.7,20,0.95,19.3,19.2,TIDAK ADA DI GIS,2026-11-16
+2026-06,puncak,Tual,Dobo,Dobo,Luar Kota,Luar Kota Dobo,53.2,20,0.95,19.4,19.3,TIDAK ADA DI GIS,2026-11-16
+2026-07,puncak,Tual,Dobo,Dobo,Luar Kota,Luar Kota Dobo,53.2,20,0.95,19.4,19.3,TIDAK ADA DI GIS,2026-11-16
+2026-08,puncak,Tual,Dobo,Dobo,Luar Kota,Luar Kota Dobo,59,20,0.95,19.5,19.2,TIDAK ADA DI GIS,2026-11-16
+2026-09,puncak,Tual,Dobo,Dobo,Luar Kota,Luar Kota Dobo,54,20,0.95,19.4,19.1,TIDAK ADA DI GIS,2026-11-16
+2026-10,puncak,Tual,Dobo,Dobo,Luar Kota,Luar Kota Dobo,52,20,0.95,19.5,19.2,TIDAK ADA DI GIS,2026-11-16
 2026-01,puncak,Tual,Dobo,Dobo,Dalam Kota,Dalam Kota Dobo,29,20,0.95,19.4,19.3,TIDAK ADA DI GIS,2026-11-16
 2026-02,puncak,Tual,Dobo,Dobo,Dalam Kota,Dalam Kota Dobo,29,20,0.95,19.4,19.3,TIDAK ADA DI GIS,2026-11-16
 2026-03,puncak,Tual,Dobo,Dobo,Dalam Kota,Dalam Kota Dobo,33,20,0.95,19.3,19.2,TIDAK ADA DI GIS,2026-11-16
