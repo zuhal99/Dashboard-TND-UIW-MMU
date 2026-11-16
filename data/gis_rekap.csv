@@ -1,151 +1,151 @@
-up3,ulp,penyulang,jtm_km,jtm_ruas,gardu_distribusi,trafo_distribusi,phb_tr,lbs,pmcb,recloser,fco,switching_lain,gardu_hubung,gardu_kit_tr,tiang_tm
-Sofifi,Jailolo,Ibu Kota,8.809,3,10,10,10,0,0,0,3,0,0,0,163
-Sofifi,Jailolo,Ibu Selatan,23.607,6,22,22,22,2,0,0,3,0,0,0,453
-Sofifi,Jailolo,Ibu Utara,46.712,6,15,15,15,1,1,0,4,0,0,0,797
-Sofifi,Jailolo,Jailolo Evakuasi Daya,4.869,1,0,0,0,0,0,0,0,0,0,0,110
-Sofifi,Jailolo,Jailolo Kota,6.923,3,14,14,14,1,1,0,0,0,0,0,165
-Sofifi,Jailolo,Jailolo Polres,21.922,6,30,30,29,3,0,0,3,0,0,0,378
-Sofifi,Jailolo,Jailolo Selatan,9.010,3,15,15,15,2,0,0,0,0,0,0,178
-Sofifi,Jailolo,Jailolo Timur,65.375,18,38,38,38,1,1,0,9,0,1,0,1078
-Sofifi,Jailolo,Jailolo Utara,88.548,23,42,42,41,5,5,0,7,0,1,0,1586
-Sofifi,Jailolo,Kedi Kota,1.393,1,4,4,4,0,0,0,0,0,0,0,32
-Sofifi,Jailolo,Kedi Selatan,22.667,6,7,7,7,0,0,0,5,0,0,0,363
-Sofifi,Jailolo,Kedi Utara,18.722,6,9,9,9,0,0,0,4,0,0,0,333
-Sofifi,Maba,Bicoli Gotowasi,7.855,2,6,5,5,0,0,0,2,0,0,0,141
-Sofifi,Maba,Bicoli Sowoli,28.129,3,8,9,9,0,0,0,3,0,0,0,479
-Sofifi,Maba,Buli Express,6.733,5,19,19,19,2,0,0,1,0,0,0,121
-Sofifi,Maba,Buli Kota,10.406,7,16,16,16,1,0,0,3,0,1,0,204
-Sofifi,Maba,Buli Mabapura,9.467,1,7,7,7,1,0,0,0,0,0,0,158
-Sofifi,Maba,Buli Sosolat,87.057,10,24,24,24,1,1,0,5,0,1,0,1589
-Sofifi,Maba,Lolobata Foli,5.735,2,2,2,2,0,0,0,1,0,0,0,110
-Sofifi,Maba,Lolobata Mabo,77.431,7,14,14,14,1,0,0,5,0,0,0,1470
-Sofifi,Maba,Lolobata Nyaolako,6.209,2,3,3,3,0,0,0,2,0,0,0,104
-Sofifi,Maba,Maba Kota,36.353,8,16,16,15,1,1,0,4,0,0,0,747
-Sofifi,Maba,Maba Sangaji,29.610,5,8,8,8,1,0,0,2,0,0,0,542
-Sofifi,Maba,Maba Soagimalaha,8.902,3,11,11,11,0,0,0,2,0,0,0,189
-Sofifi,Maba,Subaim Barat,36.719,5,10,10,10,2,0,0,1,0,0,0,674
-Sofifi,Maba,Subaim Pelabuhan,4.707,1,5,5,5,0,0,0,0,0,0,0,40
-Sofifi,Maba,Subaim Timur,55.332,11,43,43,43,3,0,0,8,0,0,0,1108
-Sofifi,Maba,Wasileo Dorosagu,23.780,3,8,8,8,0,0,0,2,0,0,0,452
-Sofifi,Maba,Wasileo Patlean,47.577,5,11,11,11,0,0,0,4,0,0,0,934
-Sofifi,Sofifi,Sofifi Dodinga,10.424,1,0,0,0,0,0,0,0,0,0,0,83
-Sofifi,Sofifi,Sofifi Evakuasi Daya,8.808,8,0,0,0,0,0,0,0,0,0,0,86
-Sofifi,Sofifi,Sofifi Express,23.653,20,37,37,32,5,0,0,1,0,2,0,249
-Sofifi,Sofifi,Sofifi Kota,12.341,7,24,24,23,1,0,0,1,0,0,0,265
-Sofifi,Sofifi,Sofifi Kusu,10.529,4,20,20,20,2,0,0,2,0,0,0,235
-Sofifi,Sofifi,Sofifi Selatan,153.406,30,73,73,72,3,4,0,12,0,3,0,2728
-Sofifi,Sofifi,Sofifi Utara,160.015,28,69,68,68,4,3,0,8,0,4,0,2846
-Sofifi,Weda,Gebe Galangan,0.713,2,1,1,1,0,0,0,0,0,0,0,8
-Sofifi,Weda,Gebe Kapaleo,30.488,11,11,11,11,4,0,0,3,0,0,0,633
-Sofifi,Weda,Gebe Pantura,2.002,2,2,2,2,1,0,0,0,0,0,0,34
-Sofifi,Weda,Maffa Fida,50.448,7,15,16,15,2,0,0,3,0,0,0,823
-Sofifi,Weda,Maffa Loleo,45.034,7,29,28,29,1,0,0,6,0,0,0,875
-Sofifi,Weda,Patani Banemo,60.141,5,9,9,9,1,1,0,2,0,0,0,1060
-Sofifi,Weda,Patani Kota,2.402,1,5,5,5,0,0,0,0,0,0,0,57
-Sofifi,Weda,Patani Tepeleo,47.148,7,18,18,18,1,0,0,5,0,0,0,861
-Sofifi,Weda,Trafo Kit Tr,0.000,0,0,0,1,0,0,0,0,0,0,1,0
-Sofifi,Weda,Weda Kota,8.488,4,22,22,22,0,1,0,3,0,0,0,193
-Sofifi,Weda,Weda Nusliko,5.810,2,5,5,5,0,1,0,1,0,0,0,117
-Sofifi,Weda,Weda Polres,9.187,5,20,20,20,0,0,0,4,0,0,0,201
-Sofifi,Weda,Weda Utara,130.553,25,99,99,99,4,4,0,12,0,1,0,2451
-Masohi,Bula,Argam,7.4,1,,,,0,0,0,0,0,0,1,136
-Masohi,Bula,Atiahu,0.0,0,,,,0,0,0,0,0,0,0,248
-Masohi,Bula,Atuba,0.0,0,,,,0,0,1,0,0,0,0,0
-Masohi,Bula,Ekspres,3.503,1,,,,0,0,0,0,0,0,0,70
-Masohi,Bula,Geser,2.5,1,,,,0,0,0,0,0,0,1,30
-Masohi,Bula,Hote,113.359,19,,,,5,0,1,9,0,0,0,1882
-Masohi,Bula,Ilili,6.35,1,,,,0,0,0,0,0,0,1,127
-Masohi,Bula,Kilkoda,41.9,2,,,,0,0,0,0,0,0,1,494
-Masohi,Bula,Kilmury,53.1,3,,,,0,0,0,0,0,0,1,1007
-Masohi,Bula,Kota Bula,1.166,1,,,,2,0,0,0,0,0,0,26
-Masohi,Bula,Kwaos,52.97,5,,,,0,0,0,0,0,0,0,1048
-Masohi,Bula,Lahema,1.5,1,,,,0,0,0,0,0,0,0,24
-Masohi,Bula,Lalasa,7.4,1,,,,0,0,0,0,0,0,0,139
-Masohi,Bula,Mar,14.0,2,,,,0,0,0,0,0,0,1,282
-Masohi,Bula,Pandopo,3.96,1,,,,0,0,0,0,0,0,1,76
-Masohi,Bula,Rumalusi,6.7,1,,,,0,0,0,0,0,0,1,135
-Masohi,Bula,Rumoi,9.3,1,,,,0,0,0,0,0,0,0,186
-Masohi,Bula,Sera,11.0,1,,,,0,0,0,0,0,0,1,220
-Masohi,Bula,Sumelang,13.2,1,,,,0,0,0,0,0,0,1,264
-Masohi,Bula,Uta,12.8,1,,,,0,0,0,0,0,0,0,256
-Masohi,Bula,Wailola,8.132,1,,,,0,0,0,0,0,0,0,160
-Masohi,Bula,Waras-Waras,43.581,7,,,,0,0,0,2,0,0,1,880
-Masohi,Bula,Waru,64.569,10,,,,2,0,0,2,0,0,0,1209
-Masohi,Bula,Wawasa,8.74,1,,,,0,0,0,0,0,0,0,175
-Masohi,Kairatu,Kairatu,,,,,,0,0,0,0,0,1,1,316
-Masohi,Kairatu,Makariki,,,,,,0,0,0,0,0,1,0,0
-Masohi,Kairatu,Rumahkay,,,,,,0,0,1,0,0,1,0,928
-Masohi,Kairatu,Waisarisa,,,,,,0,0,0,0,0,0,0,789
-Masohi,Kairatu,Waiselang,,,,,,0,0,0,0,0,0,0,2
-Masohi,Kobisonta,Air Besar,0.0,0,,,,0,0,0,0,0,0,0,1
-Masohi,Kobisonta,Bumum,0.0,0,,,,0,0,0,0,0,0,0,1
-Masohi,Kobisonta,Kode 61261027,42.8,9,,,,0,0,0,0,0,0,0,0
-Masohi,Kobisonta,Kode 61261028,19.1,7,,,,0,0,0,0,0,0,0,0
-Masohi,Kobisonta,Kode 61261029,81.471,23,,,,0,0,0,0,0,0,0,0
-Masohi,Kobisonta,Kode 61261030,21.7,7,,,,0,0,0,0,0,0,0,0
-Masohi,Kobisonta,Loping Mulyo,0.0,0,,,,0,0,0,0,0,0,1,1
-Masohi,Kobisonta,Malaku,0.0,0,,,,0,0,0,0,0,0,0,1
-Masohi,Kobisonta,Pasahari,0.0,0,,,,0,0,0,0,0,0,0,1
-Masohi,Kobisonta,Samal,0.0,0,,,,0,0,0,0,0,0,0,1
-Masohi,Kobisonta,Tanah Merah,0.0,0,,,,0,0,1,4,0,0,0,1
-Masohi,Kobisonta,Umum,0.0,0,,,,0,0,1,0,0,0,1,2
-Masohi,Kobisonta,Wli Oping,0.0,0,,,,0,0,0,0,0,0,0,1
-Masohi,Kobisonta,(tanpa penyulang),0.0,0,,,,0,0,0,0,0,0,1,0
-Masohi,Masohi,Amahai,7.741,9,,,,0,0,0,0,0,0,0,206
-Masohi,Masohi,Atiahu,0.0,0,,,,0,0,0,1,0,0,0,1
-Masohi,Masohi,Batuasa,0.0,0,,,,0,0,0,0,0,0,0,1
-Masohi,Masohi,Bemo,0.0,0,,,,0,0,0,0,0,0,1,90
-Masohi,Masohi,Bju,0.0,0,,,,0,0,0,0,0,2,1,1
-Masohi,Masohi,Bsj 1,0.0,0,,,,0,0,0,0,0,0,0,1
-Masohi,Masohi,Bsj 2,0.0,0,,,,0,0,0,0,0,0,0,1
-Masohi,Masohi,Ekspres Bju,0.0,0,,,,0,0,0,0,0,0,0,1
-Masohi,Masohi,Gale Gale,0.0,0,,,,0,0,0,0,0,0,0,1
-Masohi,Masohi,Lesane,6.886,6,,,,0,0,1,0,0,0,1,156
-Masohi,Masohi,Letwaru,4.46,2,,,,0,0,1,0,0,0,0,129
-Masohi,Masohi,Makariki,106.241,36,,,,1,0,0,0,0,2,0,1822
-Masohi,Masohi,Pasahari,0.0,0,,,,0,0,0,0,0,1,0,0
-Masohi,Masohi,Saleman,0.0,0,,,,0,0,0,0,0,0,1,1
-Masohi,Masohi,Saunulu,0.0,0,,,,0,0,0,0,0,0,0,1
-Masohi,Masohi,Tamilow,0.0,0,,,,1,0,0,0,0,1,0,132
-Masohi,Masohi,Tehua,0.0,0,,,,0,0,0,0,0,0,0,1
-Masohi,Piru,Buano,,,,,,0,0,0,0,0,0,1,1
-Masohi,Piru,Gunung / Riring,,,,,,0,0,0,0,0,0,0,1
-Masohi,Piru,Kambelu,,,,,,0,0,0,0,0,0,0,1
-Masohi,Piru,Kawa,,,,,,0,0,0,0,0,0,0,1
-Masohi,Piru,Maroekau,,,,,,0,0,0,0,0,0,0,1
-Masohi,Piru,Mornateng,,,,,,0,0,0,0,0,0,0,1
-Masohi,Piru,Nagalema,,,,,,0,0,0,0,0,0,0,69
-Masohi,Piru,Sakari,,,,,,0,0,0,0,0,0,0,1
-Masohi,Piru,Tanopol,,,,,,0,0,0,0,0,0,1,1
-Masohi,Piru,Uhe,,,,,,0,0,0,0,0,0,0,1
-Masohi,Piru,Valentine,,,,,,0,0,0,1,0,0,0,128
-Masohi,Piru,Walakone,,,,,,0,0,0,0,0,0,1,1
-Masohi,Piru,Warau,,,,,,0,0,0,0,0,0,1,1
-Tual,Dobo,Benjina,11.52,2,7,7,7,0,0,0,0,0,0,1,240
-Tual,Dobo,Benjuring,0.0,0,1,1,1,0,0,0,0,0,0,0,0
-Tual,Dobo,Doka Barat,2.943,1,2,2,2,0,0,0,0,0,0,1,58
-Tual,Dobo,Express Dobo,22.257,12,41,39,38,0,0,0,13,0,0,0,174
-Tual,Dobo,Express Elat,0.0,0,1,1,1,0,0,0,0,0,0,0,0
-Tual,Dobo,Kaiwabar,0.0,0,3,2,3,0,0,0,0,0,0,0,0
-Tual,Dobo,Karey,15.238,5,2,2,1,0,0,0,0,0,0,0,73
-Tual,Dobo,Lamerang,8.933,1,3,3,2,0,0,0,0,0,0,1,135
-Tual,Dobo,Longgar,1.075,2,3,3,3,0,0,0,0,0,0,0,32
-Tual,Dobo,Luar Kota Jerol,21.079,2,13,13,12,0,0,0,1,0,0,1,155
-Tual,Dobo,Marlasi,2.39,2,5,4,5,0,0,0,0,0,0,2,46
-Tual,Dobo,Pertamina Dobo,20.058,15,50,51,48,4,0,0,53,0,1,2,397
-Tual,Dobo,Sabir Sijo,9.23,1,0,0,0,0,0,0,0,0,0,1,185
-Tual,Dobo,Tabarfane,88.88,5,7,7,6,0,0,0,0,0,0,1,470
-Tual,Dobo,Wokam,26.622,2,3,3,3,0,0,0,2,0,0,0,486
-Tual,Dobo,(tanpa penyulang),88.695,50,7,8,14,1,1,0,40,0,0,3,1748
-Tual,Elat,Express Elat,196.536,53,112,112,107,9,3,0,91,0,0,1,3042
-Tual,Elat,(tanpa penyulang),27.237,11,2,2,7,0,0,0,20,0,0,1,490
-Tual,Tual,Dalam Kota Kur,2.839,1,2,2,2,0,0,0,2,0,0,0,54
-Tual,Tual,Dullah Laut,1.435,5,3,3,3,0,0,0,4,0,0,1,34
-Tual,Tual,Express A3CS,119.188,113,112,113,107,11,1,0,111,0,2,2,1729
-Tual,Tual,Express Elat,4.603,2,0,0,1,1,0,0,2,0,0,0,74
-Tual,Tual,Express Mvtic,312.961,159,157,159,157,14,3,0,186,0,0,1,3587
-Tual,Tual,Langgiar,9.38,3,5,5,3,0,0,0,0,0,0,1,181
-Tual,Tual,Luar Kota Kur,9.227,3,5,5,5,0,0,0,6,0,0,2,154
-Tual,Tual,Taam,0.0,0,4,4,4,0,0,0,0,0,0,0,0
-Tual,Tual,Yamtel,1.383,3,3,3,3,0,0,0,4,0,0,0,28
-Tual,Tual,(tanpa penyulang),0.773,11,3,3,15,0,0,0,2,0,0,2,16
+up3,ulp,penyulang,jtm_km,jtm_ruas,gardu_distribusi,trafo_distribusi,phb_tr,lbs,pmcb,recloser,fco,switching_lain,gardu_hubung,gardu_kit_tr,kit_20kv,kit_20kv_kva,tiang_tm
+Sofifi,Jailolo,Ibu Kota,8.809,3,10,10,10,0,0,0,3,0,0,0,,,163
+Sofifi,Jailolo,Ibu Selatan,23.607,6,22,22,22,2,0,0,3,0,0,0,,,453
+Sofifi,Jailolo,Ibu Utara,46.712,6,15,15,15,1,1,0,4,0,0,0,,,797
+Sofifi,Jailolo,Jailolo Evakuasi Daya,4.869,1,0,0,0,0,0,0,0,0,0,0,,,110
+Sofifi,Jailolo,Jailolo Kota,6.923,3,14,14,14,1,1,0,0,0,0,0,,,165
+Sofifi,Jailolo,Jailolo Polres,21.922,6,30,30,29,3,0,0,3,0,0,0,,,378
+Sofifi,Jailolo,Jailolo Selatan,9.010,3,15,15,15,2,0,0,0,0,0,0,,,178
+Sofifi,Jailolo,Jailolo Timur,65.375,18,38,38,38,1,1,0,9,0,1,0,,,1078
+Sofifi,Jailolo,Jailolo Utara,88.548,23,42,42,41,5,5,0,7,0,1,0,,,1586
+Sofifi,Jailolo,Kedi Kota,1.393,1,4,4,4,0,0,0,0,0,0,0,,,32
+Sofifi,Jailolo,Kedi Selatan,22.667,6,7,7,7,0,0,0,5,0,0,0,,,363
+Sofifi,Jailolo,Kedi Utara,18.722,6,9,9,9,0,0,0,4,0,0,0,,,333
+Sofifi,Maba,Bicoli Gotowasi,7.855,2,6,5,5,0,0,0,2,0,0,0,,,141
+Sofifi,Maba,Bicoli Sowoli,28.129,3,8,9,9,0,0,0,3,0,0,0,,,479
+Sofifi,Maba,Buli Express,6.733,5,19,19,19,2,0,0,1,0,0,0,,,121
+Sofifi,Maba,Buli Kota,10.406,7,16,16,16,1,0,0,3,0,1,0,,,204
+Sofifi,Maba,Buli Mabapura,9.467,1,7,7,7,1,0,0,0,0,0,0,,,158
+Sofifi,Maba,Buli Sosolat,87.057,10,24,24,24,1,1,0,5,0,1,0,,,1589
+Sofifi,Maba,Lolobata Foli,5.735,2,2,2,2,0,0,0,1,0,0,0,,,110
+Sofifi,Maba,Lolobata Mabo,77.431,7,14,14,14,1,0,0,5,0,0,0,,,1470
+Sofifi,Maba,Lolobata Nyaolako,6.209,2,3,3,3,0,0,0,2,0,0,0,,,104
+Sofifi,Maba,Maba Kota,36.353,8,16,16,15,1,1,0,4,0,0,0,,,747
+Sofifi,Maba,Maba Sangaji,29.610,5,8,8,8,1,0,0,2,0,0,0,,,542
+Sofifi,Maba,Maba Soagimalaha,8.902,3,11,11,11,0,0,0,2,0,0,0,,,189
+Sofifi,Maba,Subaim Barat,36.719,5,10,10,10,2,0,0,1,0,0,0,,,674
+Sofifi,Maba,Subaim Pelabuhan,4.707,1,5,5,5,0,0,0,0,0,0,0,,,40
+Sofifi,Maba,Subaim Timur,55.332,11,43,43,43,3,0,0,8,0,0,0,,,1108
+Sofifi,Maba,Wasileo Dorosagu,23.780,3,8,8,8,0,0,0,2,0,0,0,,,452
+Sofifi,Maba,Wasileo Patlean,47.577,5,11,11,11,0,0,0,4,0,0,0,,,934
+Sofifi,Sofifi,Sofifi Dodinga,10.424,1,0,0,0,0,0,0,0,0,0,0,,,83
+Sofifi,Sofifi,Sofifi Evakuasi Daya,8.808,8,0,0,0,0,0,0,0,0,0,0,,,86
+Sofifi,Sofifi,Sofifi Express,23.653,20,37,37,32,5,0,0,1,0,2,0,,,249
+Sofifi,Sofifi,Sofifi Kota,12.341,7,24,24,23,1,0,0,1,0,0,0,,,265
+Sofifi,Sofifi,Sofifi Kusu,10.529,4,20,20,20,2,0,0,2,0,0,0,,,235
+Sofifi,Sofifi,Sofifi Selatan,153.406,30,73,73,72,3,4,0,12,0,3,0,,,2728
+Sofifi,Sofifi,Sofifi Utara,160.015,28,69,68,68,4,3,0,8,0,4,0,,,2846
+Sofifi,Weda,Gebe Galangan,0.713,2,1,1,1,0,0,0,0,0,0,0,,,8
+Sofifi,Weda,Gebe Kapaleo,30.488,11,11,11,11,4,0,0,3,0,0,0,,,633
+Sofifi,Weda,Gebe Pantura,2.002,2,2,2,2,1,0,0,0,0,0,0,,,34
+Sofifi,Weda,Maffa Fida,50.448,7,15,16,15,2,0,0,3,0,0,0,,,823
+Sofifi,Weda,Maffa Loleo,45.034,7,29,28,29,1,0,0,6,0,0,0,,,875
+Sofifi,Weda,Patani Banemo,60.141,5,9,9,9,1,1,0,2,0,0,0,,,1060
+Sofifi,Weda,Patani Kota,2.402,1,5,5,5,0,0,0,0,0,0,0,,,57
+Sofifi,Weda,Patani Tepeleo,47.148,7,18,18,18,1,0,0,5,0,0,0,,,861
+Sofifi,Weda,Trafo Kit Tr,0.000,0,0,0,1,0,0,0,0,0,0,1,,,0
+Sofifi,Weda,Weda Kota,8.488,4,22,22,22,0,1,0,3,0,0,0,,,193
+Sofifi,Weda,Weda Nusliko,5.810,2,5,5,5,0,1,0,1,0,0,0,,,117
+Sofifi,Weda,Weda Polres,9.187,5,20,20,20,0,0,0,4,0,0,0,,,201
+Sofifi,Weda,Weda Utara,130.553,25,99,99,99,4,4,0,12,0,1,0,,,2451
+Masohi,Bula,Argam,7.4,1,,,,0,0,0,0,0,0,0,1,200,136
+Masohi,Bula,Atiahu,0.0,0,,,,0,0,0,0,0,0,0,0,0,248
+Masohi,Bula,Atuba,0.0,0,,,,0,0,1,0,0,0,0,0,0,0
+Masohi,Bula,Ekspres,3.503,1,,,,0,0,0,0,0,0,0,0,0,70
+Masohi,Bula,Geser,2.5,1,,,,0,0,0,0,0,0,0,1,580,30
+Masohi,Bula,Hote,113.359,19,,,,5,0,1,9,0,0,0,0,0,1882
+Masohi,Bula,Ilili,6.35,1,,,,0,0,0,0,0,0,0,1,170,127
+Masohi,Bula,Kilkoda,41.9,2,,,,0,0,0,0,0,0,0,1,690,494
+Masohi,Bula,Kilmury,53.1,3,,,,0,0,0,0,0,0,0,1,400,1007
+Masohi,Bula,Kota Bula,1.166,1,,,,2,0,0,0,0,0,0,0,0,26
+Masohi,Bula,Kwaos,52.97,5,,,,0,0,0,0,0,0,0,0,0,1048
+Masohi,Bula,Lahema,1.5,1,,,,0,0,0,0,0,0,0,0,0,24
+Masohi,Bula,Lalasa,7.4,1,,,,0,0,0,0,0,0,0,0,0,139
+Masohi,Bula,Mar,14.0,2,,,,0,0,0,0,0,0,0,1,300,282
+Masohi,Bula,Pandopo,3.96,1,,,,0,0,0,0,0,0,0,1,3000,76
+Masohi,Bula,Rumalusi,6.7,1,,,,0,0,0,0,0,0,0,1,215,135
+Masohi,Bula,Rumoi,9.3,1,,,,0,0,0,0,0,0,0,0,0,186
+Masohi,Bula,Sera,11.0,1,,,,0,0,0,0,0,0,0,1,470,220
+Masohi,Bula,Sumelang,13.2,1,,,,0,0,0,0,0,0,0,1,535,264
+Masohi,Bula,Uta,12.8,1,,,,0,0,0,0,0,0,0,0,0,256
+Masohi,Bula,Wailola,8.132,1,,,,0,0,0,0,0,0,0,0,0,160
+Masohi,Bula,Waras-Waras,43.581,7,,,,0,0,0,2,0,0,0,1,1640,880
+Masohi,Bula,Waru,64.569,10,,,,2,0,0,2,0,0,0,0,0,1209
+Masohi,Bula,Wawasa,8.74,1,,,,0,0,0,0,0,0,0,0,0,175
+Masohi,Kairatu,Kairatu,,,,,,0,0,0,0,0,1,0,1,3521,316
+Masohi,Kairatu,Makariki,,,,,,0,0,0,0,0,1,0,0,0,0
+Masohi,Kairatu,Rumahkay,,,,,,0,0,1,0,0,1,0,0,0,928
+Masohi,Kairatu,Waisarisa,,,,,,0,0,0,0,0,0,0,0,0,789
+Masohi,Kairatu,Waiselang,,,,,,0,0,0,0,0,0,0,0,0,2
+Masohi,Kobisonta,Air Besar,0.0,0,,,,0,0,0,0,0,0,0,0,0,1
+Masohi,Kobisonta,Bumum,0.0,0,,,,0,0,0,0,0,0,0,0,0,1
+Masohi,Kobisonta,Kode 61261027,42.8,9,,,,0,0,0,0,0,0,0,0,0,0
+Masohi,Kobisonta,Kode 61261028,19.1,7,,,,0,0,0,0,0,0,0,0,0,0
+Masohi,Kobisonta,Kode 61261029,81.471,23,,,,0,0,0,0,0,0,0,0,0,0
+Masohi,Kobisonta,Kode 61261030,21.7,7,,,,0,0,0,0,0,0,0,0,0,0
+Masohi,Kobisonta,Loping Mulyo,0.0,0,,,,0,0,0,0,0,0,0,1,3600,1
+Masohi,Kobisonta,Malaku,0.0,0,,,,0,0,0,0,0,0,0,0,0,1
+Masohi,Kobisonta,Pasahari,0.0,0,,,,0,0,0,0,0,0,0,0,0,1
+Masohi,Kobisonta,Samal,0.0,0,,,,0,0,0,0,0,0,0,0,0,1
+Masohi,Kobisonta,Tanah Merah,0.0,0,,,,0,0,1,4,0,0,0,0,0,1
+Masohi,Kobisonta,Umum,0.0,0,,,,0,0,1,0,0,0,0,1,10120,2
+Masohi,Kobisonta,Wli Oping,0.0,0,,,,0,0,0,0,0,0,0,0,0,1
+Masohi,Kobisonta,(tanpa penyulang),0.0,0,,,,0,0,0,0,0,0,0,1,1070,0
+Masohi,Masohi,Amahai,7.741,9,,,,0,0,0,0,0,0,0,0,0,206
+Masohi,Masohi,Atiahu,0.0,0,,,,0,0,0,1,0,0,0,0,0,1
+Masohi,Masohi,Batuasa,0.0,0,,,,0,0,0,0,0,0,0,0,0,1
+Masohi,Masohi,Bemo,0.0,0,,,,0,0,0,0,0,0,0,1,770,90
+Masohi,Masohi,Bju,0.0,0,,,,0,0,0,0,0,2,0,1,3000,1
+Masohi,Masohi,Bsj 1,0.0,0,,,,0,0,0,0,0,0,0,0,0,1
+Masohi,Masohi,Bsj 2,0.0,0,,,,0,0,0,0,0,0,0,0,0,1
+Masohi,Masohi,Ekspres Bju,0.0,0,,,,0,0,0,0,0,0,0,0,0,1
+Masohi,Masohi,Gale Gale,0.0,0,,,,0,0,0,0,0,0,0,0,0,1
+Masohi,Masohi,Lesane,6.886,6,,,,0,0,1,0,0,0,0,1,20000,156
+Masohi,Masohi,Letwaru,4.46,2,,,,0,0,1,0,0,0,0,0,0,129
+Masohi,Masohi,Makariki,106.241,36,,,,1,0,0,0,0,2,0,0,0,1822
+Masohi,Masohi,Pasahari,0.0,0,,,,0,0,0,0,0,1,0,0,0,0
+Masohi,Masohi,Saleman,0.0,0,,,,0,0,0,0,0,0,0,1,1170,1
+Masohi,Masohi,Saunulu,0.0,0,,,,0,0,0,0,0,0,0,0,0,1
+Masohi,Masohi,Tamilow,0.0,0,,,,1,0,0,0,0,1,0,0,0,132
+Masohi,Masohi,Tehua,0.0,0,,,,0,0,0,0,0,0,0,0,0,1
+Masohi,Piru,Buano,,,,,,0,0,0,0,0,0,0,1,630,1
+Masohi,Piru,Gunung / Riring,,,,,,0,0,0,0,0,0,0,0,0,1
+Masohi,Piru,Kambelu,,,,,,0,0,0,0,0,0,0,0,0,1
+Masohi,Piru,Kawa,,,,,,0,0,0,0,0,0,0,0,0,1
+Masohi,Piru,Maroekau,,,,,,0,0,0,0,0,0,0,0,0,1
+Masohi,Piru,Mornateng,,,,,,0,0,0,0,0,0,0,0,0,1
+Masohi,Piru,Nagalema,,,,,,0,0,0,0,0,0,0,0,0,69
+Masohi,Piru,Sakari,,,,,,0,0,0,0,0,0,0,0,0,1
+Masohi,Piru,Tanopol,,,,,,0,0,0,0,0,0,0,1,6150,1
+Masohi,Piru,Uhe,,,,,,0,0,0,0,0,0,0,0,0,1
+Masohi,Piru,Valentine,,,,,,0,0,0,1,0,0,0,0,0,128
+Masohi,Piru,Walakone,,,,,,0,0,0,0,0,0,0,1,1730,1
+Masohi,Piru,Warau,,,,,,0,0,0,0,0,0,0,1,2300,1
+Tual,Dobo,Benjina,11.52,2,7,7,7,0,0,0,0,0,0,0,1,540,240
+Tual,Dobo,Benjuring,0.0,0,1,1,1,0,0,0,0,0,0,0,0,0,0
+Tual,Dobo,Doka Barat,2.943,1,2,2,2,0,0,0,0,0,0,0,1,100,58
+Tual,Dobo,Express Dobo,22.257,12,41,39,38,0,0,0,13,0,0,0,0,0,174
+Tual,Dobo,Express Elat,0.0,0,1,1,1,0,0,0,0,0,0,0,0,0,0
+Tual,Dobo,Kaiwabar,0.0,0,3,2,3,0,0,0,0,0,0,0,0,0,0
+Tual,Dobo,Karey,15.238,5,2,2,1,0,0,0,0,0,0,0,0,0,73
+Tual,Dobo,Lamerang,8.933,1,3,3,2,0,0,0,0,0,0,0,1,340,135
+Tual,Dobo,Longgar,1.075,2,3,3,3,0,0,0,0,0,0,0,0,0,32
+Tual,Dobo,Luar Kota Jerol,21.079,2,13,13,12,0,0,0,1,0,0,0,1,360,155
+Tual,Dobo,Marlasi,2.39,2,5,4,5,0,0,0,0,0,0,0,2,400,46
+Tual,Dobo,Pertamina Dobo,20.058,15,50,51,48,4,0,0,53,0,1,0,2,6150,397
+Tual,Dobo,Sabir Sijo,9.23,1,0,0,0,0,0,0,0,0,0,0,1,80,185
+Tual,Dobo,Tabarfane,88.88,5,7,7,6,0,0,0,0,0,0,0,1,200,470
+Tual,Dobo,Wokam,26.622,2,3,3,3,0,0,0,2,0,0,0,0,0,486
+Tual,Dobo,(tanpa penyulang),88.695,50,7,8,14,1,1,0,40,0,0,0,3,390,1748
+Tual,Elat,Express Elat,196.536,53,112,112,107,9,3,0,91,0,0,0,1,1200,3042
+Tual,Elat,(tanpa penyulang),27.237,11,2,2,7,0,0,0,20,0,0,0,1,6000,490
+Tual,Tual,Dalam Kota Kur,2.839,1,2,2,2,0,0,0,2,0,0,0,0,0,54
+Tual,Tual,Dullah Laut,1.435,5,3,3,3,0,0,0,4,0,0,0,1,180,34
+Tual,Tual,Express A3CS,119.188,113,112,113,107,11,1,0,111,0,2,0,2,30600,1729
+Tual,Tual,Express Elat,4.603,2,0,0,1,1,0,0,2,0,0,0,0,0,74
+Tual,Tual,Express Mvtic,312.961,159,157,159,157,14,3,0,186,0,0,0,1,4200,3587
+Tual,Tual,Langgiar,9.38,3,5,5,3,0,0,0,0,0,0,0,1,430,181
+Tual,Tual,Luar Kota Kur,9.227,3,5,5,5,0,0,0,6,0,0,0,2,1280,154
+Tual,Tual,Taam,0.0,0,4,4,4,0,0,0,0,0,0,0,0,0,0
+Tual,Tual,Yamtel,1.383,3,3,3,3,0,0,0,4,0,0,0,0,0,28
+Tual,Tual,(tanpa penyulang),0.773,11,3,3,15,0,0,0,2,0,0,0,2,140,16

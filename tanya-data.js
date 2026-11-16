@@ -108,7 +108,7 @@
     if (GIDX) return GIDX;
     var g = need('gis_titik'); var m = new Map();
     g.forEach(function(r){
-      if (!/gardu/i.test(r.lapis)) return;
+      if (!/gardu|pembangkit/i.test(r.lapis)) return;
       var k = r.nama.toLowerCase().replace(/^gd dist\s*/, '').replace(/[^a-z0-9]/g, '');
       if (!m.has(k)) m.set(k, r);
     });
@@ -122,10 +122,10 @@
       if (d) { var k3 = x[1] + ('000' + d[1]).slice(-3) + d[2]; if (m.has(k3)) return m.get(k3); }
     }
     // gardu hubung dan gardu lain bernama, misalnya "GH Bandara"
-    var best = null, gh = /(^|\s)gh\s|gardu hubung|gd kit|gardu kit/.test(t);
+    var best = null, gh = /(^|\s)gh\s|gardu hubung|gd kit|gardu kit|pltd|pltmg|pembangkit/.test(t);
     m.forEach(function(r, k){
-      var nm = r.nama.toLowerCase().replace(/^(gh|gd kit tr|gd)\s+/, '').replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
-      if (gh && nm.length >= 4 && /^(gh|gd kit)/i.test(r.nama) && (' ' + t.replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ') + ' ').indexOf(' ' + nm + ' ') >= 0) {
+      var nm = r.nama.toLowerCase().replace(/^(gh|gd kit tr|gd|pltd|pltmg)\s+/, '').replace(/\s*\([\d.,]+ kva\)$/, '').replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
+      if (gh && nm.length >= 4 && /^(gh|gd kit|pltd|pltmg)/i.test(r.nama) && (' ' + t.replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ') + ' ').indexOf(' ' + nm + ' ') >= 0) {
         if (!best || nm.length > best.n) best = {r:r, n:nm.length};
       }
     });
@@ -605,6 +605,7 @@
       ['Trafo distribusi', nd(r.trafo_distribusi)],
       ['Switching', nf(r.switching) + ' (LBS ' + nf(r.lbs) + ', PMCB ' + nf(r.pmcb) + ', recloser ' + nf(r.recloser) + ', FCO ' + nf(r.fco) + ')'],
       ['Gardu hubung', nd(r.gardu_hubung)],
+      ['Pembangkit KIT 20 kV', r.kit_20kv == null ? 'layer belum ada di data' : nf(r.kit_20kv) + ' unit, ' + nf(r.kit_20kv_kva) + ' kVA'],
       ['Tiang TM', nd(r.tiang_tm)]
     ];
     return jawab({judul:'Aset jaringan ' + nama,
@@ -642,10 +643,11 @@
     var up3 = X.U2U.get(g.ulp) || '–', kva = K.gardu ? K.gardu[g.nama] : null, mk = K.merk_gardu ? K.merk_gardu[g.nama] : null;
     var li = [['Jenis', g.jenis], ['UP3 / ULP', up3 + ' / ' + (g.ulp || '–')], ['Penyulang', g.penyulang || '–'], ['Tahun dibangun', g.th_buat || '–'],
       ['Kapasitas trafo', kva != null ? nf(kva) + ' kVA' : 'belum tercatat'], ['Merk trafo', mk || 'belum tercatat']];
+    if (g.kva != null) li.splice(4, 2, ['Kapasitas pembangkit', nf(g.kva) + ' kVA']);
     var maps = 'https://www.google.com/maps/search/?api=1&query=' + g.lat + ',' + g.lon;
     return jawab({judul:g.nama,
       isi:'<ul class="tq-ul">' + li.map(function(x){ return '<li>' + x[0] + ': <b>' + esc(x[1]) + '</b></li>'; }).join('') + '</ul><p>Koordinat ' + nf(g.lat, 5) + ', ' + nf(g.lon, 5) + ' (<a href="' + maps + '" target="_blank" rel="noopener">buka di Google Maps</a>).</p>',
-      sumber:'Data GIS UP3 ' + up3 + ' (gardu, trafo dan kode kapasitas).',
+      sumber:'Data GIS UP3 ' + up3 + (g.kva != null ? ' (layer KIT 20 kV).' : ' (gardu, trafo dan kode kapasitas).'),
       tautan:[{label:'Lihat penyulangnya di Peta Aset', params:{hal:'aset', up3_aset:up3, ulp_aset:g.ulp || null, pyl_aset:g.penyulang || null}}]});
   }
 
@@ -1253,7 +1255,7 @@
     if (isHI) return jwbHI(t, units, rank && !/(penyebab|terakhir)/.test(t), low);
     if (isGG) return jwbGangguan(t, units);
     // aset dan beban
-    var g = (/(gardu|\sgd|\sgh\s|trafo|kva)/.test(t) || /\b[a-z]{3}\s?\d{2,3}\b/i.test(raw)) ? cariGardu(raw) : null;
+    var g = (/(gardu|\sgd|\sgh\s|trafo|kva|pltd|pltmg|pembangkit)/.test(t) || /\b[a-z]{3}\s?\d{2,3}\b/i.test(raw)) ? cariGardu(raw) : null;
     if (g) return jwbGardu(g);
     if (/(beban|puncak|\smw\s|\sarus\s|ampere|kw per gardu)/.test(t)) return jwbBeban(t, units, rank, low);
     // EPM
