@@ -60,7 +60,6 @@
     side.id = 'sb-side'; side.setAttribute('aria-label', 'Menu dashboard');
     var tims = document.querySelector('.tw-tims img');
     side.innerHTML = '<div class="sb-head">' + (tims ? '<div class="sb-tims"><img src="' + tims.getAttribute('src') + '" alt="' + (tims.getAttribute('alt') || '') + '"></div>' : '') + (logos ? '<div class="sb-brand">' + logos + '</div>' : '') +
-      '<div class="sb-name"><b>Monitoring T&amp;D</b><small>PLN UIW Maluku dan Maluku Utara</small></div>' +
       '<button type="button" class="sb-x" aria-label="Tutup menu">' + ic('tutup') + '</button></div>' +
       '<nav class="sb-nav" aria-label="Halaman"></nav>' +
       '<div class="sb-bot">' + (document.querySelector('.tq-fab') ? '<button type="button" class="sb-tanya">' + ic('tanya') + '<span>Tanya Data</span></button>' : '') +
@@ -75,7 +74,7 @@
     });
     veil = el('div', 'sb-veil');
     veil.addEventListener('click', function(){ laci(false); });
-    topbar = el('div', 'sb-top', '<button type="button" class="sb-menu" aria-label="Buka menu" aria-controls="sb-side" aria-expanded="false">' + ic('menu') + '</button>' + (tims ? '<img class="sb-topik" src="logo/tims-ikon.png" alt="">' : '') + '<div class="sb-toptx"><b>Monitoring T&amp;D</b><small></small></div>');
+    topbar = el('div', 'sb-top', '<button type="button" class="sb-menu" aria-label="Buka menu" aria-controls="sb-side" aria-expanded="false">' + ic('menu') + '</button>' + (tims ? '<img class="sb-topik" src="logo/tims-ikon.png" alt="">' : '') + '<div class="sb-toptx"><b>TIMS</b><small></small></div>');
     btnMenu = topbar.querySelector('.sb-menu'); judulTop = topbar.querySelector('small');
     btnMenu.addEventListener('click', function(){ laci(!document.body.classList.contains('sb-laci')); });
     side.querySelector('.sb-x').addEventListener('click', function(){ laci(false); btnMenu.focus(); });
