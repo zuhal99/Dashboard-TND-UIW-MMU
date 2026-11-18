@@ -695,7 +695,7 @@
   function jwbSumber(){
     var li = [
       '<b>Anggaran Investasi Distribusi</b>: spreadsheet LKAI 2026 UIW MMU (' + tautan(SRC.ai, 'buka') + '). Dimuat ulang atas permintaan.',
-      '<b>Anggaran Operasi Distribusi</b>: Google Sheet Monitoring AO, sheet REKAP DETAIL (pagu Rekomposisi II). Dimuat ulang atas permintaan.',
+      '<b>Anggaran Operasi Distribusi</b>: Google Sheet MONITORING AO 2026 POST 53 DIS (spreadsheet asli), sheet REKAP DETAIL (pagu Rekomposisi II). Dimuat ulang atas permintaan.',
       '<b>Kinerja EPM</b> (susut, penggantian meter, P2TL): spreadsheet Laporan Kinerja EPM 2026, sheet Susut UP3 MMU, GAMET dan P2TL Maluku (' + tautan(SRC.epm, 'buka') + '). Diperiksa otomatis setiap tanggal 10.',
       '<b>Kinerja Ophardist</b>: SAIDI dan SAIFI dari spreadsheet SAIDI SAIFI 2026, sheet REAL VS TARGET 2026; penurunan gangguan penyulang dari spreadsheet Gangguan Distribusi APKT, sheet PENURUNAN GANGGUAN (' + tautan(SRC.gu, 'buka') + '). Diperiksa otomatis setiap tanggal 10.',
       '<b>Health index dan gangguan penyulang</b>: spreadsheet Gangguan Distribusi APKT, sheet HEALTH INDEX dan sheet bulanan (' + tautan(SRC.hi, 'buka') + '). Diperiksa otomatis setiap pagi.',
