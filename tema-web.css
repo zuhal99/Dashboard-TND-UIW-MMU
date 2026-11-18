@@ -64,3 +64,7 @@ html,body{background:var(--tw-pasir)}
 }
 @media print{#dash-root .td-controls{position:static}}
 #dash-root .pa-sw.jtm{background:linear-gradient(90deg,#2E75B6 0 25%,#0C9CB4 25% 50%,#B740DC 50% 75%,#F4625E 75%)}
+
+/* logo TIMS di kepala halaman (tampilan tanpa sidebar) */
+#dash-root .tw-tims{display:inline-block;background:#fff;border-radius:10px;padding:6px 10px;margin-bottom:8px}
+#dash-root .tw-tims img{display:block;height:64px;width:auto}
