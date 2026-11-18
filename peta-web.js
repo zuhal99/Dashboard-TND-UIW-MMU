@@ -282,11 +282,11 @@ dash.draw('pa-profil-ulp',function(host){
   var kunci=function(d){return perUp3?d.up3:d.ulp;};
   var by={};
   g.data.forEach(function(d){if(d.ulp==='Semua'||d.penyulang==='Semua')return;if(!perUp3&&d.up3!==s.up3)return;
-    var k=kunci(d);var o=by[k]||(by[k]={nama:k,up3:d.up3,ulp:perUp3?null:d.ulp,jtm:null,gd:null,kva:null,sw:0,mw:null,pyl:0,ulps:{}});o.pyl++;o.ulps[d.ulp]=1;
+    var k=kunci(d);var o=by[k]||(by[k]={nama:k,up3:d.up3,ulp:perUp3?null:d.ulp,jtm:null,gd:null,kva:null,sw:null,mw:null,pyl:0,ulps:{}});o.pyl++;o.ulps[d.ulp]=1;
     var j=num(d.jtm_km);if(j!=null)o.jtm=(o.jtm||0)+j;
     var gd=num(d.gardu_distribusi);if(gd!=null)o.gd=(o.gd||0)+gd;
     if(!o.kvaDone)o.kvaDone={};var KU=((window.__KAPASITAS||{}).ulp||{})[d.ulp];if(KU&&KU.up3===d.up3&&!o.kvaDone[d.ulp]){o.kvaDone[d.ulp]=1;o.kva=(o.kva||0)+KU.kva;}
-    ['lbs','pmcb','recloser','fco','switching_lain'].forEach(function(k){var v=num(d[k]);if(v)o.sw+=v;});});
+    ['lbs','pmcb','recloser','fco','switching_lain'].forEach(function(k){var v=num(d[k]);if(v!=null)o.sw=(o.sw||0)+v;});});
   var bper=bb.status==='ok'&&bb.data?d3.max(bb.data,function(d){return d.periode;}):null;
   if(bper)bb.data.forEach(function(d){if(d.periode!==bper)return;if(!perUp3&&d.up3!==s.up3)return;var o=by[kunci(d)];if(!o)return;var i=+d.arus_a;if(!isFinite(i))return;
     o.mw=(o.mw||0)+Math.sqrt(3)*(+d.tegangan_kv||20)*i*(+d.faktor_daya||0.95)/1000;});
