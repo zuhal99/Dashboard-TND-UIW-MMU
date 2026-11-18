@@ -54,12 +54,11 @@
   function pasang(){
     var nav = document.getElementById('navigasi'); if (!nav) return;
     var menu = daftarMenu(); if (!menu.length) return;
-    var logos = Array.prototype.map.call(document.querySelectorAll('.tw-brand .tw-logo img'), function(i){ return '<span class="sb-logo"><img src="' + i.getAttribute('src') + '" alt="' + (i.getAttribute('alt') || '') + '"></span>'; }).join('');
     var foot = ((document.querySelector('.web-foot') || {}).textContent || '').match(/Data kinerja (?:EPM )?terakhir diperbarui (.+? WIT)/);
     side = el('aside', 'sb-side');
     side.id = 'sb-side'; side.setAttribute('aria-label', 'Menu dashboard');
     var tims = document.querySelector('.tw-tims img');
-    side.innerHTML = '<div class="sb-head">' + (tims ? '<div class="sb-tims"><img src="' + tims.getAttribute('src') + '" alt="' + (tims.getAttribute('alt') || '') + '"></div>' : '') + (logos ? '<div class="sb-brand">' + logos + '</div>' : '') +
+    side.innerHTML = '<div class="sb-head">' + (tims ? '<div class="sb-tims"><img src="logo/tims-putih.png" alt="' + (tims.getAttribute('alt') || '') + '"></div>' : '') +
       '<button type="button" class="sb-x" aria-label="Tutup menu">' + ic('tutup') + '</button></div>' +
       '<nav class="sb-nav" aria-label="Halaman"></nav>' +
       '<div class="sb-bot">' + (document.querySelector('.tq-fab') ? '<button type="button" class="sb-tanya">' + ic('tanya') + '<span>Tanya Data</span></button>' : '') +
@@ -74,7 +73,7 @@
     });
     veil = el('div', 'sb-veil');
     veil.addEventListener('click', function(){ laci(false); });
-    topbar = el('div', 'sb-top', '<button type="button" class="sb-menu" aria-label="Buka menu" aria-controls="sb-side" aria-expanded="false">' + ic('menu') + '</button>' + (tims ? '<img class="sb-topik" src="logo/tims-ikon.png" alt="">' : '') + '<div class="sb-toptx"><b>TIMS</b><small></small></div>');
+    topbar = el('div', 'sb-top', '<button type="button" class="sb-menu" aria-label="Buka menu" aria-controls="sb-side" aria-expanded="false">' + ic('menu') + '</button>' + (tims ? '<img class="sb-topik" src="logo/tims-ikon-putih.png" alt="">' : '') + '<div class="sb-toptx"><b>TIMS</b><small></small></div>');
     btnMenu = topbar.querySelector('.sb-menu'); judulTop = topbar.querySelector('small');
     btnMenu.addEventListener('click', function(){ laci(!document.body.classList.contains('sb-laci')); });
     side.querySelector('.sb-x').addEventListener('click', function(){ laci(false); btnMenu.focus(); });
