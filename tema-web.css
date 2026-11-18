@@ -66,9 +66,15 @@ html,body{background:var(--tw-pasir)}
 #dash-root .pa-sw.jtm{background:linear-gradient(90deg,#2E75B6 0 25%,#0C9CB4 25% 50%,#B740DC 50% 75%,#F4625E 75%)}
 
 /* logo TIMS di kepala halaman (tampilan tanpa sidebar) */
-#dash-root .tw-tims{display:inline-block;background:#fff;border-radius:10px;padding:6px 10px;margin-bottom:8px}
-#dash-root .tw-tims img{display:block;height:64px;width:auto}
+#dash-root .tw-tims{display:block;margin-bottom:6px}
+#dash-root .tw-tims img{display:block;height:96px;width:auto;max-width:100%;filter:drop-shadow(0 2px 6px rgba(0,0,0,.35))}
+@media (max-width:640px){#dash-root .tw-tims img{height:64px}}
 #dash-root .tw-sr{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 /* 18 Nov 2026 (Zuhal): logo PLN dan Danantara tanpa kartu putih */
 #dash-root .tw-logo{background:transparent;box-shadow:none;padding:0;border-radius:0}
 @media (min-width:641px){#dash-root .td .td-head{min-height:156px;justify-content:center}}
+/* 18 Nov 2026 (Zuhal): kepala halaman terang, gambar energi terbarukan (konsep 2) */
+#dash-root .td .td-head{background:#F4FAFD url(logo/header-energi.jpg?v=2) right center/cover no-repeat}
+#dash-root .td .td-head::before{display:none}
+#dash-root .tw-tims img{filter:none}
+@media (max-width:640px){#dash-root .td .td-head{background-position:72% center}}
