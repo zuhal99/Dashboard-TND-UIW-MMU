@@ -1,6 +1,6 @@
 /* Peta Aset versi web (Leaflet). Melengkapi gaya .pa-* dari halaman dashboard. */
-.pa-stage .pa-map.pw-host{isolation:isolate;background:#16304A}
-.pa-map.pw-host .pw-map{position:absolute;inset:0;font:inherit;background:#16304A}
+.pa-stage .pa-map.pw-host{isolation:isolate;background:#16324A}
+.pa-map.pw-host .pw-map{position:absolute;inset:0;font:inherit;background:#16324A}
 .pa-map.pw-host .pw-map.pw-sat .leaflet-tile-pane{filter:saturate(1.08) contrast(1.04)}
 .pa-map.pw-host .pw-net{position:absolute;left:0;top:0;pointer-events:none}
 .pa-map.pw-host .pa-msg{z-index:900;background:rgba(244,248,251,.55)}
@@ -16,21 +16,21 @@
 .pa-legend-in .pw-lgsym>span{display:inline-flex;align-items:center;gap:4px}
 .pa-legend-in .pw-lgsym .pa-sw{margin:0}
 .pa-sw.lbl{width:14px;height:10px;border:0;background:none;position:relative}
-.pa-sw.lbl::before{content:"Aa";position:absolute;inset:-3px 0 0 0;font-size:10px;font-weight:600;color:#14263A;line-height:14px}
+.pa-sw.lbl::before{content:"Aa";position:absolute;inset:-3px 0 0 0;font-size:10px;font-weight:600;color:#12283C;line-height:14px}
 /* kontrol Leaflet */
-.pa-map.pw-host .leaflet-control-attribution{font-size:10.5px;line-height:1.35;background:rgba(255,255,255,.85);color:#14263A;max-width:calc(100% - 16px);white-space:normal;text-align:right}
-.pa-map.pw-host .leaflet-control-attribution a{color:#08508A}
+.pa-map.pw-host .leaflet-control-attribution{font-size:10.5px;line-height:1.35;background:rgba(255,255,255,.85);color:#12283C;max-width:calc(100% - 16px);white-space:normal;text-align:right}
+.pa-map.pw-host .leaflet-control-attribution a{color:#1F4C73}
 .pa-map.pw-host .leaflet-control-scale{margin-right:8px;margin-bottom:4px}
-.pa-map.pw-host .leaflet-control-scale-line{border-color:#14263A;color:#14263A;background:rgba(255,255,255,.85);font-size:11px}
+.pa-map.pw-host .leaflet-control-scale-line{border-color:#12283C;color:#12283C;background:rgba(255,255,255,.85);font-size:11px}
 .pa-map.pw-host .leaflet-container{font:inherit}
-.pa-map.pw-host .leaflet-container a.leaflet-popup-close-button{width:28px;height:28px;font-size:20px;line-height:26px;color:#5B6B7D}
+.pa-map.pw-host .leaflet-container a.leaflet-popup-close-button{width:28px;height:28px;font-size:20px;line-height:26px;color:#5B6C7D}
 /* kartu detail */
-.pw-pop .leaflet-popup-content-wrapper{border-radius:10px;box-shadow:0 6px 18px rgba(10,40,70,.25);padding:0}
+.pw-pop .leaflet-popup-content-wrapper{border-radius:10px;box-shadow:0 6px 18px rgba(18,41,62,.25);padding:0}
 .pw-pop .leaflet-popup-content{margin:10px 12px;font-size:12px;line-height:1.4;color:var(--color-fg)}
 .pa-map .pw-pop .pa-pin.pw-pin{position:static;width:auto;border:0;box-shadow:none;padding:0;background:transparent}
 .pa-map .pw-pop .pa-pinact a.pri{color:#fff}
 /* Street View di dalam kartu */
-.pa-map .pw-pop .pw-sv{position:relative;width:300px;height:170px;max-width:calc(100vw - 80px);margin:8px 0 6px;border-radius:8px;overflow:hidden;background:#DDE6EC;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+.pa-map .pw-pop .pw-sv{position:relative;width:300px;height:170px;max-width:calc(100vw - 80px);margin:8px 0 6px;border-radius:8px;overflow:hidden;background:#DDE5EC;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
 .pa-map .pw-pop .pw-sv iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .pa-map .pw-pop .pw-svbtn{position:absolute;right:6px;bottom:6px;z-index:2;font:inherit;font-size:11.5px;color:#fff;background:rgba(0,0,0,.62);border:0;border-radius:5px;padding:4px 8px;cursor:pointer}
 .pa-map .pw-pop .pw-svbtn:hover{background:rgba(0,0,0,.8)}
@@ -45,19 +45,19 @@
 .pa-stage .pa-legend-in{max-width:min(380px,calc(100% - 64px))}
 .pw-profpanel{padding:0!important}
 .pw-prof{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
-.pw-prof th{position:sticky;top:0;background:var(--tw-laut-muda,#EEF6FC);color:#2C4A5E;font-weight:500;font-size:11.5px;text-align:left;padding:9px 10px;border-bottom:1px solid var(--color-border-line)}
+.pw-prof th{position:sticky;top:0;background:var(--tw-laut-muda,#EFF5FB);color:#1D486D;font-weight:500;font-size:11.5px;text-align:left;padding:9px 10px;border-bottom:1px solid var(--color-border-line)}
 .pw-prof th small{display:block;font-weight:400;color:var(--color-fg-muted)}
 .pw-prof td{padding:10px;border-bottom:1px solid var(--color-border-line);vertical-align:top}
 .pw-prof td b{display:block;font-weight:600;color:var(--color-fg)}
 .pw-prof .pw-ulp small{display:block;color:var(--color-fg-muted);font-size:11px}
 .pw-prof tbody tr{cursor:pointer}
 .pw-prof tbody tr:hover{background:#F5FAFB}
-.pw-prof tbody tr.pw-on{background:#E6F4F8;box-shadow:inset 3px 0 0 var(--pln-blue)}
+.pw-prof tbody tr.pw-on{background:#E6F0F8;box-shadow:inset 3px 0 0 var(--pln-blue)}
 .pw-prof tbody tr:focus-visible{outline:2px solid var(--pln-blue);outline-offset:-2px}
 .pw-prof tfoot td{font-weight:600;background:#F7FAFB}
-.pw-track{display:block;height:6px;border-radius:3px;background:#E8EEF2;margin-top:5px;overflow:hidden}
+.pw-track{display:block;height:6px;border-radius:3px;background:#E8EDF2;margin-top:5px;overflow:hidden}
 .pw-bar{display:block;height:100%;border-radius:3px}
-.pw-bar.pw-jtm{background:#2E75B6}.pw-bar.pw-gd{background:#0C9CB4}.pw-bar.pw-kva{background:#216279}.pw-bar.pw-mw{background:#FFC000}.pw-bar.pw-sw{background:#B740DC}
+.pw-bar.pw-jtm{background:#3076B4}.pw-bar.pw-gd{background:#1B89A5}.pw-bar.pw-kva{background:#20507A}.pw-bar.pw-mw{background:#FFC000}.pw-bar.pw-sw{background:#B740DC}
 .pw-na{color:var(--color-fg-muted)}
 .pw-profcat{margin:10px 12px 12px;padding-left:18px;font-size:11.5px}
 .pw-profcat li{margin:2px 0}

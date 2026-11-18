@@ -3,18 +3,18 @@
    pita bermotif tenun ikat Tanimbar. */
 :root{
   /* palet tema PLN dari Zuhal (12 Nov 2026) */
-  --plt-kuning:#FFFF00; --plt-tosca:#0C9CB4; --plt-tosca-muda:#7BE4E9; --plt-petrol:#216279;
-  --plt-jingga:#FFC000; --plt-salmon:#F4625E; --plt-ungu:#B740DC; --plt-biru:#2E75B6;
-  --tw-laut:var(--plt-tosca); --tw-laut-muda:#E6F8FA; --tw-dalam:var(--plt-petrol); --tw-fuli:var(--plt-salmon); --tw-cengkih:#7A4A2A; --tw-pasir:#F4F8F9;
+  --plt-kuning:#FFC000; --plt-tosca:#1B89A5; --plt-tosca-muda:#7BD3E9; --plt-petrol:#20507A;
+  --plt-jingga:#FFC000; --plt-salmon:#F4625E; --plt-ungu:#B740DC; --plt-biru:#3076B4;
+  --tw-laut:var(--plt-tosca); --tw-laut-muda:#E6F6FA; --tw-dalam:var(--plt-petrol); --tw-fuli:var(--plt-salmon); --tw-cengkih:#7A4A2A; --tw-pasir:#F4F7F9;
   --tw-tenun:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='12' viewBox='0 0 36 12'%3E%3Crect width='36' height='12' fill='%23216279'/%3E%3Cpath d='M0 6 6 0 12 6 6 12Z' fill='%23FFC000'/%3E%3Cpath d='M3 6 6 3 9 6 6 9Z' fill='%23F4625E'/%3E%3Cpath d='M12 12 18 6 24 12ZM12 0 18 6 24 0Z' fill='%230C9CB4'/%3E%3Cpath d='M24 6 30 0 36 6 30 12Z' fill='%23FFC000'/%3E%3Cpath d='M27 6 30 3 33 6 30 9Z' fill='%23B740DC'/%3E%3Ccircle cx='18' cy='6' r='1.3' fill='%237BE4E9'/%3E%3C/svg%3E");
 }
-#dash-root .td{--pln-blue:#2E75B6;--pln-blue-dark:#216279;--pln-cyan:#0C9CB4;--pln-yellow:#FFC000;--color-panel:#F0F8FA;--color-border-line:#D3E5EA;--color-fg:#16313F}
+#dash-root .td{--pln-blue:#3076B4;--pln-blue-dark:#20507A;--pln-cyan:#1B89A5;--pln-yellow:#FFC000;--color-panel:#F0F8FA;--color-border-line:#CCE0F1;--color-fg:#132C42}
 html,body{background:var(--tw-pasir)}
 #dash-root .td{gap:var(--cds-gap-lg)}
 
 /* ---------- kepala halaman ---------- */
 #dash-root .td .td-head{position:relative;overflow:hidden;isolation:isolate;
-  background:linear-gradient(115deg,#173F52 0%,var(--plt-petrol) 35%,var(--plt-biru) 70%,var(--plt-tosca) 100%);
+  background:linear-gradient(115deg,#183651 0%,var(--plt-petrol) 35%,var(--plt-biru) 70%,var(--plt-tosca) 100%);
   border-bottom:0;padding-top:18px;padding-bottom:26px;gap:6px}
 #dash-root .td .td-head::before{content:"";position:absolute;inset:0;z-index:-1;opacity:.13;
   background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='40' viewBox='0 0 160 40'%3E%3Cpath d='M0 20c20-12 40-12 60 0s40 12 60 0 30-9 40-4' fill='none' stroke='%23fff' stroke-width='1.4'/%3E%3Cpath d='M0 34c20-10 40-10 60 0s40 10 60 0 30-8 40-3' fill='none' stroke='%23fff' stroke-width='1'/%3E%3C/svg%3E") 0 0/160px 40px}
@@ -25,32 +25,32 @@ html,body{background:var(--tw-pasir)}
 #dash-root .tw-logo img{height:30px;width:auto;display:block}
 #dash-root .tw-logo.tw-kosong{background:rgba(255,255,255,.12);border:1.5px dashed rgba(255,255,255,.6);color:#fff;font-size:11px;box-shadow:none;min-width:96px}
 #dash-root .tw-sep{width:1px;height:30px;background:rgba(255,255,255,.35)}
-#dash-root .td .td-head .td-eyebrow{color:#CFE8F3;letter-spacing:.08em}
+#dash-root .td .td-head .td-eyebrow{color:#D0E2F2;letter-spacing:.08em}
 #dash-root .td .td-title{font-family:var(--font-anthropic-sans);font-weight:700;font-size:clamp(1.35rem,2.6vw,1.85rem);letter-spacing:-.01em;color:#fff}
 #dash-root .td .td-title .tw-amp{color:var(--plt-kuning)}
-#dash-root .tw-tagline{font-size:12.5px;color:#E6F3F8;opacity:.92;max-width:52ch}
+#dash-root .tw-tagline{font-size:12.5px;color:#E6F0F8;opacity:.92;max-width:52ch}
 #dash-root .td .td-head .td-badge{background:rgba(0,0,0,.18);border-color:var(--plt-kuning);color:var(--plt-kuning)}
 
 /* ---------- tab ---------- */
 #dash-root .td-controls{border-bottom:0;padding:0;position:sticky;top:0;z-index:1500;background:var(--tw-pasir);padding:6px 0;margin-top:-6px}
-#dash-root .td-tabs{gap:6px;background:#fff;border:1px solid var(--color-border-line);border-radius:999px;padding:4px;box-shadow:0 1px 3px rgba(6,41,74,.06)}
-#dash-root .td-tab{border-radius:999px;padding:7px 16px;color:#33465A;font-weight:500}
+#dash-root .td-tabs{gap:6px;background:#fff;border:1px solid var(--color-border-line);border-radius:999px;padding:4px;box-shadow:0 1px 3px rgba(18,41,62,.06)}
+#dash-root .td-tab{border-radius:999px;padding:7px 16px;color:#1E496F;font-weight:500}
 #dash-root .td-tab:hover{background:var(--tw-laut-muda);border-color:transparent;color:var(--tw-dalam)}
 #dash-root .td-tab[aria-selected="true"]{background:var(--plt-petrol);color:#fff;border-color:var(--plt-petrol);box-shadow:inset 0 -3px 0 var(--plt-jingga)}
-#dash-root .td-scope{color:#4A5B6D}
+#dash-root .td-scope{color:#4D5B6A}
 
 /* ---------- kartu dan bagian ---------- */
-#dash-root .td-tile,#dash-root .td-card{background:#fff;border-color:#E2E8EE;box-shadow:0 1px 2px rgba(6,41,74,.05),0 4px 14px rgba(6,41,74,.05);border-radius:10px}
+#dash-root .td-tile,#dash-root .td-card{background:#fff;border-color:#E1E8EF;box-shadow:0 1px 2px rgba(18,41,62,.05),0 4px 14px rgba(18,41,62,.05);border-radius:10px}
 #dash-root .td-tile{border-top:0;position:relative;overflow:hidden}
 #dash-root .td-tile::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(90deg,var(--plt-biru),var(--plt-tosca) 55%,var(--plt-tosca-muda) 80%,var(--plt-jingga))}
 #dash-root .td-sec h2,#dash-root .pa-bh2{color:var(--tw-dalam)}
 #dash-root .td-sec>h2::after{content:"";display:block;width:42px;height:3px;border-radius:2px;margin-top:5px;background:linear-gradient(90deg,var(--plt-jingga),var(--plt-salmon) 60%,var(--plt-ungu))}
-#dash-root .td-table th{background:var(--tw-laut-muda);color:#2C4A5E}
+#dash-root .td-table th{background:var(--tw-laut-muda);color:#1D486D}
 #dash-root .kp-segbtn[aria-pressed="true"]{background:var(--plt-biru)}
 #dash-root .pa-map{border-radius:10px}
 
 /* ---------- kaki halaman ---------- */
-.web-foot{position:relative;border-top:0;padding-top:22px;color:#4A5B6D}
+.web-foot{position:relative;border-top:0;padding-top:22px;color:#4D5B6A}
 .web-foot::before{content:"";position:absolute;left:16px;right:16px;top:0;height:8px;border-radius:4px;background:var(--tw-tenun) 0 0/24px 8px;opacity:.9}
 .web-foot .tw-maluku{display:block;margin-top:4px;color:var(--tw-cengkih);font-style:italic}
 
@@ -63,7 +63,7 @@ html,body{background:var(--tw-pasir)}
   #dash-root .td-tab{flex:none;padding:7px 13px}
 }
 @media print{#dash-root .td-controls{position:static}}
-#dash-root .pa-sw.jtm{background:linear-gradient(90deg,#2E75B6 0 25%,#0C9CB4 25% 50%,#B740DC 50% 75%,#F4625E 75%)}
+#dash-root .pa-sw.jtm{background:linear-gradient(90deg,#3076B4 0 25%,#1B89A5 25% 50%,#B740DC 50% 75%,#F4625E 75%)}
 
 /* logo TIMS di kepala halaman (tampilan tanpa sidebar) */
 #dash-root .tw-tims{display:block;margin-bottom:6px}
@@ -74,19 +74,35 @@ html,body{background:var(--tw-pasir)}
 #dash-root .tw-logo{background:transparent;box-shadow:none;padding:0;border-radius:0}
 @media (min-width:641px){#dash-root .td .td-head{min-height:156px;justify-content:center}}
 /* 18 Nov 2026 (Zuhal): kepala halaman terang, gambar energi terbarukan (konsep 2) */
-#dash-root .td .td-head{background:#F4FAFD url(logo/header-energi.jpg?v=2) right center/cover no-repeat}
+#dash-root .td .td-head{background:#F5F9FC url(logo/header-energi.jpg?v=2) right center/cover no-repeat}
 #dash-root .td .td-head::before{display:none}
 #dash-root .tw-tims img{filter:none}
 @media (max-width:640px){#dash-root .td .td-head{background-position:72% center}}
 /* 18 Nov 2026 (Zuhal): logo TIMS baru (konsep 3, lingkaran energi, tower + tiang TM), lebih proporsional; lebih besar, di tengah tinggi kepala halaman, latar kiri dilembutkan */
 @media (min-width:641px){
 #dash-root .td .td-head{min-height:172px;padding:20px 32px 30px}
-#dash-root .td .td-head{background:linear-gradient(90deg,rgba(244,250,253,.97) 0,rgba(244,250,253,.92) 420px,rgba(244,250,253,0) 640px),#F4FAFD url(logo/header-energi.jpg?v=2) right center/cover no-repeat}
+#dash-root .td .td-head{background:linear-gradient(90deg,rgba(245,249,252,.97) 0,rgba(245,249,252,.92) 420px,rgba(245,249,252,0) 640px),#F5F9FC url(logo/header-energi.jpg?v=2) right center/cover no-repeat}
 #dash-root .tw-tims{margin:0}
 #dash-root .tw-tims img{height:112px}
 }
 @media (max-width:640px){
-#dash-root .td .td-head{padding-top:16px;padding-bottom:24px;background:linear-gradient(90deg,rgba(244,250,253,.95) 0,rgba(244,250,253,.8) 70%,rgba(244,250,253,.3) 100%),#F4FAFD url(logo/header-energi.jpg?v=2) 72% center/cover no-repeat}
+#dash-root .td .td-head{padding-top:16px;padding-bottom:24px;background:linear-gradient(90deg,rgba(245,249,252,.95) 0,rgba(245,249,252,.8) 70%,rgba(245,249,252,.3) 100%),#F5F9FC url(logo/header-energi.jpg?v=2) 72% center/cover no-repeat}
 #dash-root .tw-tims{margin:0}
 #dash-root .tw-tims img{height:auto;width:100%;max-width:330px}
+}
+/* 18 Nov 2026 (Zuhal): warna selaras konsep 2 "Biru PLN" (warna_web.py) + kepala halaman kecil tanpa pita tenun */
+html,body,#dash-root .td-controls{background:#F3F6FA}
+.sb-side{background:#153A5E;box-shadow:3px 0 0 #0C9CB4}
+.sb-laci .sb-side{box-shadow:3px 0 0 #0C9CB4,10px 0 30px rgba(0,0,0,.3)}
+.sb-top{background:#153A5E;border-bottom-color:#0C9CB4}
+.sb-i[aria-current="page"]{background:#2E75B6;box-shadow:inset 3px 0 0 #0C9CB4}
+.sb-head{border-color:rgba(255,255,255,.1)}
+#dash-root .td .td-head::after{display:none}
+@media (min-width:641px){
+#dash-root .td .td-head{min-height:0;padding:14px 28px}
+#dash-root .tw-tims img{height:76px}
+}
+@media (max-width:640px){
+#dash-root .td .td-head{padding-top:10px;padding-bottom:10px}
+#dash-root .tw-tims img{max-width:250px}
 }
