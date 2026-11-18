@@ -73,7 +73,7 @@
     });
     veil = el('div', 'sb-veil');
     veil.addEventListener('click', function(){ laci(false); });
-    topbar = el('div', 'sb-top', '<button type="button" class="sb-menu" aria-label="Buka menu" aria-controls="sb-side" aria-expanded="false">' + ic('menu') + '</button>' + (tims ? '<img class="sb-topik" src="logo/tims-ikon-putih.png" alt="">' : '') + '<div class="sb-toptx"><b>TIMS</b><small></small></div>');
+    topbar = el('div', 'sb-top', '<button type="button" class="sb-menu" aria-label="Buka menu" aria-controls="sb-side" aria-expanded="false">' + ic('menu') + '</button>' + (tims ? '<img class="sb-topik" src="logo/tims-ikon-putih.png?v=3" alt="">' : '') + '<div class="sb-toptx"><b>TIMS</b><small></small></div>');
     btnMenu = topbar.querySelector('.sb-menu'); judulTop = topbar.querySelector('small');
     btnMenu.addEventListener('click', function(){ laci(!document.body.classList.contains('sb-laci')); });
     side.querySelector('.sb-x').addEventListener('click', function(){ laci(false); btnMenu.focus(); });

@@ -78,3 +78,15 @@ html,body{background:var(--tw-pasir)}
 #dash-root .td .td-head::before{display:none}
 #dash-root .tw-tims img{filter:none}
 @media (max-width:640px){#dash-root .td .td-head{background-position:72% center}}
+/* 18 Nov 2026 (Zuhal): logo TIMS baru (konsep 3, lingkaran energi, tower + tiang TM), lebih proporsional; lebih besar, di tengah tinggi kepala halaman, latar kiri dilembutkan */
+@media (min-width:641px){
+#dash-root .td .td-head{min-height:172px;padding:20px 32px 30px}
+#dash-root .td .td-head{background:linear-gradient(90deg,rgba(244,250,253,.97) 0,rgba(244,250,253,.92) 420px,rgba(244,250,253,0) 640px),#F4FAFD url(logo/header-energi.jpg?v=2) right center/cover no-repeat}
+#dash-root .tw-tims{margin:0}
+#dash-root .tw-tims img{height:112px}
+}
+@media (max-width:640px){
+#dash-root .td .td-head{padding-top:16px;padding-bottom:24px;background:linear-gradient(90deg,rgba(244,250,253,.95) 0,rgba(244,250,253,.8) 70%,rgba(244,250,253,.3) 100%),#F4FAFD url(logo/header-energi.jpg?v=2) 72% center/cover no-repeat}
+#dash-root .tw-tims{margin:0}
+#dash-root .tw-tims img{height:auto;width:100%;max-width:330px}
+}
