@@ -74,7 +74,7 @@ html,body{background:var(--tw-pasir)}
 #dash-root .tw-logo{background:transparent;box-shadow:none;padding:0;border-radius:0}
 @media (min-width:641px){#dash-root .td .td-head{min-height:156px;justify-content:center}}
 /* 18 Nov 2026 (Zuhal): kepala halaman terang, gambar energi terbarukan (konsep 2) */
-#dash-root .td .td-head{background:#F4FAFD url(logo/header-energi.jpg) right center/cover no-repeat}
+#dash-root .td .td-head{background:#F4FAFD url(logo/header-energi.jpg?v=2) right center/cover no-repeat}
 #dash-root .td .td-head::before{display:none}
 #dash-root .tw-tims img{filter:none}
 @media (max-width:640px){#dash-root .td .td-head{background-position:72% center}}
