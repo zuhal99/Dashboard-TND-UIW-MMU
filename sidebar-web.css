@@ -2,7 +2,7 @@
 .sb-on #navigasi,.sb-on #jenis-anggaran,.sb-on #dash-root .td-eyebrow{display:none!important}
 .sb-unit{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:2px 2px}
 .sb-unit img{height:36px;width:auto;display:block}
-.sb-unit small{display:block;font-size:11px;line-height:1.5;letter-spacing:.06em;text-transform:uppercase;color:#CFE3EC}
+.sb-unit small{display:block;font-size:10.5px;line-height:1.5;letter-spacing:.02em;text-transform:uppercase;color:#CFE3EC}
 .sb-topik{height:32px;width:auto}
 .sb-side{position:fixed;left:0;top:0;bottom:0;width:256px;background:#16313F;color:#E6F1F4;display:flex;flex-direction:column;z-index:2500;font-family:var(--font-anthropic-sans,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif);font-size:14px;box-shadow:3px 0 0 #FFC000}
 .sb-head{position:relative;padding:18px 16px 14px;border-bottom:1px solid rgba(255,255,255,.1)}
