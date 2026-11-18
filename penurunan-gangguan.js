@@ -5,8 +5,8 @@
 const P=()=>TD.params();
 const KODE='OP05';
 const JENIS=['Permanen','Sementara','Cleansing','Logsheet'];
-const JCOL={Permanen:'#0A6EB4',Sementara:'#E8A317',Cleansing:'#7A8B99',Logsheet:'#B740DC'};
-const STT={ok:'#13693B',warn:'#8A6300',bad:'#B3261E'};
+const JCOL={Permanen:'#286396',Sementara:'#FFC000',Cleansing:'#77899C',Logsheet:'#B740DC'};
+const STT={ok:'#13693B',warn:'#FFC000',bad:'#B3261E'};
 const fI=v=>TD.loc.format(",.0f")(v);
 const f1=v=>TD.loc.format(",.1f")(v);
 const aktif=()=>P().sb==='Ophardist'&&TD.selKpi&&TD.selKpi()===KODE;
@@ -45,7 +45,7 @@ const g=svg.append('g').selectAll('g').data(bars).join('g').attr('transform',(d,
 .on('click',(ev,d)=>TD.setUp3(sel===d.up3?'Semua':d.up3))
 .on('pointerenter',(ev,d)=>{const sc=el.clientWidth/W;tip.show(d.up3+' · realisasi '+fI(d.realisasi)+' kali · target '+fI(d.target)+' kali · capaian '+TD.pct(d.capaian),x(Math.min(d.realisasi,mx))*sc-150,(m.t+bars.indexOf(d)*(bh+gap))*sc);})
 .on('pointerleave',tip.hide);
-g.append('rect').attr('x',0).attr('y',-gap/2+1).attr('width',W).attr('height',bh+gap-2).attr('rx',6).style('fill',d=>d.up3===sel?'#DCEBF7':'transparent');
+g.append('rect').attr('x',0).attr('y',-gap/2+1).attr('width',W).attr('height',bh+gap-2).attr('rx',6).style('fill',d=>d.up3===sel?'#DDEAF6':'transparent');
 g.append('text').attr('x',m.l-8).attr('y',bh/2+4).attr('text-anchor','end').style('font-weight',d=>d.up3===sel?'700':'400').text(d=>d.up3);
 g.append('rect').attr('x',m.l).attr('y',3).attr('height',bh-6).attr('rx',3).attr('width',d=>Math.max(1,x(d.realisasi)-m.l)).style('fill',TD.COL[0]);
 g.append('text').attr('x',d=>x(d.realisasi)+5).attr('y',bh/2+4).style('fill','var(--color-fg-muted)').style('font-size','11px').text(d=>fI(d.realisasi));
