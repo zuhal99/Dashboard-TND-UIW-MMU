@@ -4,7 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>Monitoring Bidang T&amp;D</title>
+<title>TIMS · Bidang T&amp;D PLN UIW MMU</title>
+<link rel="icon" type="image/png" href="logo/tims-ikon.png">
 <meta name="description" content="Dashboard monitoring Bidang Transmisi dan Distribusi PLN UIW Maluku dan Maluku Utara">
 <style>
 :root{--cds-gap-xl:2rem;--cds-gap-lg:1.25rem;--cds-gap-md:.75rem;--cds-gap-sm:.5rem;--cds-pad-lg:1rem;--cds-pad-md:.75rem;--cds-pad-sm:.5rem;--cds-radius:.5rem;--cds-font-size-body:.875rem;--cds-font-size-caption:.75rem;--cds-font-size-heading:.9375rem;--cds-font-size-title:1.375rem;--cds-font-weight-medium:500;--font-anthropic-sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--font-anthropic-serif:ui-serif,Georgia,"Times New Roman",serif;--color-fg:#14263A;--color-fg-muted:#5B6B7D;--color-bg:#FFFFFF;--color-panel:#F3F7FB;--color-border-line:#D7E2EC;--color-ok:#1E9E5A;--color-warn:#E0A100;--color-bad:#D62E24;color-scheme:light}
@@ -18,7 +19,7 @@ body{font-family:var(--font-anthropic-sans);-webkit-text-size-adjust:100%}
 <link rel="stylesheet" href="vendor/leaflet/leaflet.css?v=1.9.4">
 <link rel="stylesheet" href="peta-web.css?v=1ee6106ce0">
 <link rel="stylesheet" href="tanya-data.css?v=785322d826">
-<link rel="stylesheet" href="sidebar-web.css?v=43ad002428">
+<link rel="stylesheet" href="sidebar-web.css?v=8629d8c41a">
 <link rel="stylesheet" href="hi-web.css?v=2eec2a95b6">
 <link rel="stylesheet" href="transmisi-web.css?v=be8b53473c">
 <script src="d3.min.js"></script>
@@ -320,25 +321,11 @@ padding-block:0 24px; padding-left:max(16px,env(safe-area-inset-left,0px)); padd
 
 <div class="td">
 <header class="td-head" id="judul">
-<svg class="tw-hiasan" viewBox="0 0 440 150" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
-<g opacity=".28" fill="#06294A"><path d="M10 128c30-22 52-30 78-26 18 3 26 14 44 14 24 0 30-20 56-20 30 0 40 26 66 32H10z"/><path d="M250 132c18-14 30-20 48-18 14 2 22 10 36 10s24-12 40-10c16 2 24 12 40 18z"/></g>
-<g fill="none" stroke="#7BE4E9" stroke-width="1.6" opacity=".55"><path d="M0 136c22-8 44-8 66 0s44 8 66 0 44-8 66 0 44 8 66 0 44-8 66 0 44 8 66 0 22-4 44-2"/><path d="M30 146c22-6 44-6 66 0s44 6 66 0 44-6 66 0 44 6 66 0 44-6 66 0"/></g>
-<g transform="translate(338 22)">
-<path d="M8 40C-6 18 10-2 34 4" fill="none" stroke="#3E8E4E" stroke-width="3"/>
-<path d="M34 4c10-12 30-10 36 2-12 8-26 8-36-2z" fill="#4FA35F"/><path d="M30 6c-6-14 4-26 18-26 2 14-6 24-18 26z" fill="#3E8E4E"/>
-<circle cx="40" cy="56" r="30" fill="#F2DE8A"/><path d="M40 26a30 30 0 0 1 0 60" fill="#E7CC6A"/>
-<path d="M40 30c-14 0-22 12-22 26s8 26 22 26" fill="#F7EBC0"/>
-<ellipse cx="44" cy="56" rx="15" ry="18" fill="#5A341C"/>
-<g fill="none" stroke="#C8372D" stroke-width="3.2" stroke-linecap="round"><path d="M34 42c6 4 4 10 10 12s6 10 0 14"/><path d="M48 40c-4 6 4 10 0 16s4 10-2 16"/><path d="M56 48c-6 2-4 8-10 10"/><path d="M32 60c6-2 8 4 14 2"/></g>
-</g>
-<g transform="translate(296 70) rotate(-28)" fill="#7A4A2A"><rect x="0" y="0" width="4" height="34" rx="2"/><circle cx="2" cy="-2" r="5"/><rect x="10" y="6" width="4" height="30" rx="2" transform="rotate(14 12 6)"/><circle cx="13" cy="4" r="4.5" transform="rotate(14 12 6)"/></g>
-</svg>
+<svg class="tw-hiasan" viewBox="0 0 1200 150" preserveAspectRatio="xMaxYMax slice" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="twPudar" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".42" stop-color="#fff" stop-opacity=".55"/><stop offset=".6" stop-color="#fff" stop-opacity="1"/></linearGradient><mask id="twMask"><rect width="1200" height="150" fill="url(#twPudar)"/></mask><radialGradient id="twMatahari"><stop offset="0" stop-color="#FFE45C"/><stop offset=".55" stop-color="#FFD000" stop-opacity=".85"/><stop offset="1" stop-color="#FFD000" stop-opacity="0"/></radialGradient></defs><g mask="url(#twMask)"><circle cx="1050" cy="44" r="58" fill="url(#twMatahari)" opacity=".55"/><circle cx="1050" cy="44" r="20" fill="#FFE04A"/><path d="M420 150 C520 104 610 96 700 112 S880 92 960 104 S1120 84 1200 96 V150Z" fill="#0F3E57" opacity=".55"/><path d="M560 150 C660 122 760 118 860 128 S1040 112 1200 124 V150Z" fill="#0B3449" opacity=".7"/><g transform="translate(1128 34)"><path d="M-2.4 76 L-1.0 0 L1.0 0 L2.4 76Z" fill="#E8F4FA"/><g fill="#F4FAFD"><path d="M0 0 L-3.3 -31.9 Q0 -35.7 3.3 -31.9Z" transform="rotate(12)"/><path d="M0 0 L-3.3 -31.9 Q0 -35.7 3.3 -31.9Z" transform="rotate(132)"/><path d="M0 0 L-3.3 -31.9 Q0 -35.7 3.3 -31.9Z" transform="rotate(252)"/></g><circle r="3.3" fill="#fff"/></g><g transform="translate(1180 52)"><path d="M-1.9 58 L-0.8 0 L0.8 0 L1.9 58Z" fill="#E8F4FA"/><g fill="#F4FAFD"><path d="M0 0 L-2.6 -24.4 Q0 -27.3 2.6 -24.4Z" transform="rotate(40)"/><path d="M0 0 L-2.6 -24.4 Q0 -27.3 2.6 -24.4Z" transform="rotate(160)"/><path d="M0 0 L-2.6 -24.4 Q0 -27.3 2.6 -24.4Z" transform="rotate(280)"/></g><circle r="2.6" fill="#fff"/></g><g transform="translate(1076 60)"><path d="M-1.6 50 L-0.7 0 L0.7 0 L1.6 50Z" fill="#E8F4FA"/><g fill="#F4FAFD"><path d="M0 0 L-2.2 -21.0 Q0 -23.5 2.2 -21.0Z" transform="rotate(75)"/><path d="M0 0 L-2.2 -21.0 Q0 -23.5 2.2 -21.0Z" transform="rotate(195)"/><path d="M0 0 L-2.2 -21.0 Q0 -23.5 2.2 -21.0Z" transform="rotate(315)"/></g><circle r="2.2" fill="#fff"/></g><g transform="translate(842 112) skewX(-18)"><rect width="34" height="18" rx="1.5" fill="#15508A" stroke="#BFE3F5" stroke-width="1"/><path d="M11.3 0V18M22.7 0V18M0 9.0H34" stroke="#7FC4EA" stroke-width=".8"/></g><path d="M848 130 v8 M868 130 v8" stroke="#CFE6F2" stroke-width="1.6"/><g transform="translate(882 112) skewX(-18)"><rect width="34" height="18" rx="1.5" fill="#15508A" stroke="#BFE3F5" stroke-width="1"/><path d="M11.3 0V18M22.7 0V18M0 9.0H34" stroke="#7FC4EA" stroke-width=".8"/></g><path d="M888 130 v8 M908 130 v8" stroke="#CFE6F2" stroke-width="1.6"/><g transform="translate(922 112) skewX(-18)"><rect width="34" height="18" rx="1.5" fill="#15508A" stroke="#BFE3F5" stroke-width="1"/><path d="M11.3 0V18M22.7 0V18M0 9.0H34" stroke="#7FC4EA" stroke-width=".8"/></g><path d="M928 130 v8 M948 130 v8" stroke="#CFE6F2" stroke-width="1.6"/><g transform="translate(962 112) skewX(-18)"><rect width="34" height="18" rx="1.5" fill="#15508A" stroke="#BFE3F5" stroke-width="1"/><path d="M11.3 0V18M22.7 0V18M0 9.0H34" stroke="#7FC4EA" stroke-width=".8"/></g><path d="M968 130 v8 M988 130 v8" stroke="#CFE6F2" stroke-width="1.6"/><g transform="translate(640 34)" fill="none" stroke="#F3F9FC" stroke-width="1.8" stroke-linejoin="round"><path d="M-14.7 92 L-3 0 L3 0 L14.7 92"/><path d="M-10.6 66.2 L10.6 66.2 M-7.7 44.2 L7.7 44.2 M-4.7 23.9 L4.7 23.9"/><path d="M-10.6 66.2 L7.7 44.2 M10.6 66.2 L-7.7 44.2 M-7.7 44.2 L4.7 23.9 M7.7 44.2 L-4.7 23.9 M-13.5 92 L10.6 66.2 M13.5 92 L-10.6 66.2"/><path d="M-18.3 18.4 H18.3 M-14.7 33.1 H14.7"/></g><g transform="translate(760 52)" fill="none" stroke="#F3F9FC" stroke-width="1.8" stroke-linejoin="round"><path d="M-11.5 72 L-3 0 L3 0 L11.5 72"/><path d="M-8.3 51.8 L8.3 51.8 M-6.0 34.6 L6.0 34.6 M-3.7 18.7 L3.7 18.7"/><path d="M-8.3 51.8 L6.0 34.6 M8.3 51.8 L-6.0 34.6 M-6.0 34.6 L3.7 18.7 M6.0 34.6 L-3.7 18.7 M-10.6 72 L8.3 51.8 M10.6 72 L-8.3 51.8"/><path d="M-14.3 14.4 H14.3 M-11.5 25.9 H11.5"/></g><g fill="none" stroke="#FFD000" stroke-width="1.3" opacity=".9"><path d="M320 66 Q480 92 610 52"/><path d="M610 52 Q690 76 738 66"/><path d="M738 66 Q800 84 860 78"/></g><g fill="none" stroke="#DDF0F8" stroke-width="1" opacity=".75"><path d="M300 80 Q470 104 616 64"/><path d="M664 64 Q706 86 742 79"/><path d="M778 79 Q820 92 870 90"/></g><g stroke="#EAF5FA" stroke-width="2.4" fill="none"><path d="M980 150V96M970 100h20M1010 150V102M1000 106h20"/></g><path d="M970 100 Q995 110 1000 106M990 100 Q1005 112 1020 106" stroke="#DDF0F8" stroke-width="1" fill="none"/><path d="M700 18 l-10 18h8l-6 16 16-22h-9l7-12z" fill="#FFD000"/><g fill="none" stroke="#7BE4E9" stroke-width="1.6" opacity=".6"><path d="M420 142c22-6 44-6 66 0s44 6 66 0 44-6 66 0 44 6 66 0 44-6 66 0 44 6 66 0 44-6 66 0 44 6 66 0 44-6 66 0 44 6 66 0 44-6 66 0"/></g></g></svg>
+<div class="tw-tims"><img src="logo/tims.png" alt="Logo TIMS, TND Integrated Monitoring System, Bidang Transmisi dan Distribusi PLN UIW MMU"></div>
 <div class="tw-brand"><span class="tw-logo"><img src="logo/pln.png" alt="Logo PLN"></span><span class="tw-sep" aria-hidden="true"></span><span class="tw-logo"><img src="logo/danantara.png" alt="Logo Danantara Indonesia"></span></div>
 <div class="td-eyebrow">PLN UIW Maluku dan Maluku Utara · Bidang Transmisi dan Distribusi</div>
-<div class="td-titlerow">
-<h1 class="td-title">Monitoring Bidang T<span class="tw-amp">&amp;</span>D</h1>
-<span class="td-badge">DATA CONTOH, KECUALI ANGGARAN, PETA ASET, KINERJA EPM, DAN KINERJA OPHARDIST</span>
-</div>
+<h1 class="tw-sr">TIMS, TND Integrated Monitoring System</h1>
 </header>
 
 <nav class="td-controls" id="navigasi">
@@ -2986,13 +2973,13 @@ return best;
 </script>
 
 </div>
-<link rel="stylesheet" href="tema-web.css?v=367621a4ab">
+<link rel="stylesheet" href="tema-web.css?v=2fb53bf54d">
 <footer class="web-foot">Data kinerja terakhir diperbarui 16 November 2026 pukul 12.40 WIT. Dashboard ini juga tersedia di Claude; isi keduanya sama.<span class="tw-maluku">PLN UIW Maluku dan Maluku Utara, menerangi negeri seribu pulau.</span></footer>
 <script src="hi-web.js?v=45db6011ed"></script>
 <script src="transmisi-data.js?v=7d4cdc8ab0"></script>
 <script src="transmisi-web.js?v=fe1b91eed9"></script>
 <script>__mulai();</script>
 <script src="tanya-data.js?v=6ec60e2503"></script>
-<script src="sidebar-web.js?v=e96c52ae7e"></script>
+<script src="sidebar-web.js?v=bff5341ca2"></script>
 </body>
 </html>

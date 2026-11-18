@@ -19,7 +19,7 @@ html,body{background:var(--tw-pasir)}
 #dash-root .td .td-head::before{content:"";position:absolute;inset:0;z-index:-1;opacity:.13;
   background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='40' viewBox='0 0 160 40'%3E%3Cpath d='M0 20c20-12 40-12 60 0s40 12 60 0 30-9 40-4' fill='none' stroke='%23fff' stroke-width='1.4'/%3E%3Cpath d='M0 34c20-10 40-10 60 0s40 10 60 0 30-8 40-3' fill='none' stroke='%23fff' stroke-width='1'/%3E%3C/svg%3E") 0 0/160px 40px}
 #dash-root .td .td-head::after{content:"";position:absolute;left:0;right:0;bottom:0;height:10px;background:var(--tw-tenun) 0 0/30px 10px;border-top:2px solid var(--plt-kuning)}
-#dash-root .tw-hiasan{position:absolute;right:-6px;top:10px;height:calc(100% - 22px);max-height:150px;z-index:-1;opacity:.95;pointer-events:none}
+#dash-root .tw-hiasan{position:absolute;right:0;top:0;width:auto;height:calc(100% - 12px);max-width:none;z-index:-1;pointer-events:none}
 #dash-root .tw-brand{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:4px}
 #dash-root .tw-logo{display:flex;align-items:center;justify-content:center;background:#fff;border-radius:8px;padding:5px 9px;height:40px;box-sizing:border-box;box-shadow:0 2px 6px rgba(0,0,0,.18)}
 #dash-root .tw-logo img{height:30px;width:auto;display:block}
@@ -55,7 +55,7 @@ html,body{background:var(--tw-pasir)}
 .web-foot .tw-maluku{display:block;margin-top:4px;color:var(--tw-cengkih);font-style:italic}
 
 @media (max-width:640px){
-  #dash-root .tw-hiasan{opacity:.35;height:100%}
+  #dash-root .tw-hiasan{opacity:.55}
   #dash-root .tw-logo{height:34px;padding:4px 7px}
   #dash-root .tw-logo img{height:24px}
   #dash-root .td-tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
@@ -64,3 +64,11 @@ html,body{background:var(--tw-pasir)}
 }
 @media print{#dash-root .td-controls{position:static}}
 #dash-root .pa-sw.jtm{background:linear-gradient(90deg,#2E75B6 0 25%,#0C9CB4 25% 50%,#B740DC 50% 75%,#F4625E 75%)}
+
+/* logo TIMS di kepala halaman (tampilan tanpa sidebar) */
+#dash-root .tw-tims{display:inline-block;background:#fff;border-radius:10px;padding:6px 10px;margin-bottom:8px}
+#dash-root .tw-tims img{display:block;height:64px;width:auto}
+#dash-root .tw-sr{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+/* 18 Nov 2026 (Zuhal): logo PLN dan Danantara tanpa kartu putih */
+#dash-root .tw-logo{background:transparent;box-shadow:none;padding:0;border-radius:0}
+@media (min-width:641px){#dash-root .td .td-head{min-height:156px;justify-content:center}}
