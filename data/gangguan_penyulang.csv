@@ -3165,7 +3165,7 @@ bulan,tanggal,no_laporan,up3,ulp,penyulang,penyebab,kelompok_penyebab,durasi_men
 11,2026-11-04,J4126110400001,Masohi,Bula,WARU,Benda Asing,Kesalahan Operasional,4,Sementara
 11,2026-11-04,J4126110400002,Masohi,Bula,KWAOS,Benda Asing,Kesalahan Operasional,4,Sementara
 11,2026-11-04,J4126110400003,Masohi,Bula,WAWASA,Benda Asing,Kesalahan Operasional,4,Sementara
-11,2026-11-04,J4126110400004,Masohi,Kairatu,KAIRATU,Pohon,Kesalahan Operasional,107,Permanen
+11,2026-11-04,J4126110400004,Masohi,Kairatu,KAIRATU,Pohon,Kesalahan Operasional,2.27,Permanen
 11,2026-11-05,J4126110500001,Ambon,Ambon Kota,KARPAN 2,Dalam Investigasi,Kesalahan Operasional,15.27,Permanen
 11,2026-11-05,J4126110500002,Masohi,Kairatu,KAIRATU,Benda Asing,Kesalahan Operasional,19,Permanen
 11,2026-11-05,J4126110500003,Ambon,Ambon Kota,KARPAN 2,Dalam Investigasi,Kesalahan Operasional,3.33,Sementara
@@ -3236,7 +3236,7 @@ bulan,tanggal,no_laporan,up3,ulp,penyulang,penyebab,kelompok_penyebab,durasi_men
 11,2026-11-06,J4126110600044,Sofifi,Sofifi,SOFIFI KOTA,Dalam Investigasi,Kesalahan Operasional,4.95,Sementara
 11,2026-11-06,J4126110600045,Sofifi,Sofifi,SOFIFI UTARA,Dalam Investigasi,Kesalahan Operasional,4.63,Sementara
 11,2026-11-06,J4126110600046,Sofifi,Sofifi,SOFIFI UTARA,Dalam Investigasi,Kesalahan Operasional,4.03,Sementara
-11,2026-11-06,J4126110600048,Masohi,Masohi,MAKARIKI,Benda Asing,Kesalahan Operasional,3.37,Permanen
+11,2026-11-06,J4126110600048,Masohi,Masohi,MAKARIKI,Benda Asing,Kesalahan Operasional,22,Permanen
 11,2026-11-07,J4126110700001,Ambon,Baguala,WAYAME 3,Dalam Investigasi,Kesalahan Operasional,18.05,Permanen
 11,2026-11-08,J4126110800001,Sofifi,Sofifi,SOFIFI SELATAN,Dalam Investigasi,Kesalahan Operasional,4.13,Sementara
 11,2026-11-08,J4126110800002,Sofifi,Sofifi,SOFIFI UTARA,Dalam Investigasi,Kesalahan Operasional,4.7,Sementara
@@ -3256,7 +3256,7 @@ bulan,tanggal,no_laporan,up3,ulp,penyulang,penyebab,kelompok_penyebab,durasi_men
 11,2026-11-08,J4126110800016,Sofifi,Maba,BULI SOSOLAT,Dalam Investigasi,Kesalahan Operasional,4.37,Sementara
 11,2026-11-08,J4126110800017,Sofifi,Weda,PATANI TEPELEO,Dalam Investigasi,Kesalahan Operasional,4.57,Sementara
 11,2026-11-08,J4126110800018,Sofifi,Weda,WEDA UTARA,Dalam Investigasi,Kesalahan Operasional,4.85,Sementara
-11,2026-11-09,J4126110900001,Masohi,Bula,WARU,Pohon,Kesalahan Operasional,4,Permanen
+11,2026-11-09,J4126110900001,Masohi,Bula,WARU,Pohon,Kesalahan Operasional,60,Permanen
 11,2026-11-09,J4126110900002,Masohi,Bula,KWAOS,Benda Asing,Kesalahan Operasional,4,Sementara
 11,2026-11-09,J4126110900003,Tual,Elat,EXPRESS ELAT,Pohon,Kesalahan Operasional,5,Sementara
 11,2026-11-09,J4126110900004,Tual,Elat,EXPRESS ELAT,Pohon,Kesalahan Operasional,5,Sementara
@@ -3321,7 +3321,7 @@ bulan,tanggal,no_laporan,up3,ulp,penyulang,penyebab,kelompok_penyebab,durasi_men
 11,2026-11-10,J4126111000027,Sofifi,Weda,PATANI TEPELEO,Pohon,Kesalahan Operasional,4.92,Sementara
 11,2026-11-10,J4126111000028,Sofifi,Weda,GEBE KAPALEO,Binatang,Kesalahan Operasional,4.67,Sementara
 11,2026-11-10,J4126111000029,Sofifi,Weda,GEBE PANTURA,Pohon,Kesalahan Operasional,4.53,Sementara
-11,2026-11-10,J4126111000030,Masohi,Masohi,MAKARIKI,Benda Asing,Kesalahan Operasional,4.43,Permanen
+11,2026-11-10,J4126111000030,Masohi,Masohi,MAKARIKI,Benda Asing,Kesalahan Operasional,3.02,Permanen
 11,2026-11-10,J4126111000031,Masohi,Kobisonta,SAMAL,Benda Asing,Kesalahan Operasional,4,Sementara
 11,2026-11-11,J4126111100001,Saumlaki,Saumlaki,ILNGEY,Dalam Investigasi,Kesalahan Operasional,4.02,Sementara
 11,2026-11-11,J4126111100002,Saumlaki,Saumlaki,ILNGEY,Dalam Investigasi,Kesalahan Operasional,3.78,Sementara
@@ -3360,10 +3360,10 @@ bulan,tanggal,no_laporan,up3,ulp,penyulang,penyebab,kelompok_penyebab,durasi_men
 11,2026-11-12,J4126111200006,Sofifi,Jailolo,JAILOLO UTARA,Dalam Investigasi,Kesalahan Operasional,4.35,Sementara
 11,2026-11-12,J4126111200007,Sofifi,Maba,LOLOBATA MABO,Dalam Investigasi,Kesalahan Operasional,4.87,Sementara
 11,2026-11-12,J4126111200008,Ambon,Ambon Kota,KARPAN 2,Benda Asing,Kesalahan Operasional,9.72,Permanen
-11,2026-11-12,J4126111200009,Masohi,Masohi,MAKARIKI,Benda Asing,Kesalahan Operasional,5,Sementara
+11,2026-11-12,J4126111200009,Masohi,Masohi,MAKARIKI,Benda Asing,Kesalahan Operasional,3,Sementara
 11,2026-11-13,J4126111300001,Tual,Tual,EXPRESS MVTIC,Benda Asing,Kesalahan Operasional,6.05,Permanen
 11,2026-11-13,J4126111300002,Ambon,Baguala,WAYAME 2,Dalam Investigasi,Kesalahan Operasional,67.32,Permanen
-11,2026-11-13,J4126111300003,Masohi,Kairatu,WAISARISA,Benda Asing,Kesalahan Operasional,94,Permanen
+11,2026-11-13,J4126111300003,Masohi,Kairatu,WAISARISA,Benda Asing,Kesalahan Operasional,2.53,Permanen
 11,2026-11-13,J4126111300004,Masohi,Bula,WARU,Benda Asing,Kesalahan Operasional,4,Sementara
 11,2026-11-13,J4126111300005,Masohi,Bula,SUMELANG,Benda Asing,Kesalahan Operasional,4,Sementara
 11,2026-11-13,J4126111300006,Masohi,Bula,WARU,Benda Asing,Kesalahan Operasional,4,Sementara
@@ -3382,10 +3382,17 @@ bulan,tanggal,no_laporan,up3,ulp,penyulang,penyebab,kelompok_penyebab,durasi_men
 11,2026-11-14,J4126111400001,Tual,Tual,EXPRESS MVTIC,Pohon,Kesalahan Operasional,10.4,Permanen
 11,2026-11-14,J4126111400002,Tual,Tual,EXPRESS MVTIC,Benda Asing,Kesalahan Operasional,76.18,Permanen
 11,2026-11-14,J4126111400003,Tual,Tual,EXPRESS MVTIC,Pohon,Kesalahan Operasional,4.07,Sementara
-11,2026-11-14,J4126111400004,Tual,Tual,EXPRESS MVTIC,Pohon,Kesalahan Operasional,203.5,Permanen
-11,2026-11-14,J4126111400005,Masohi,Kairatu,RUMAHKAY,Pohon,Kesalahan Operasional,150,Permanen
+11,2026-11-14,J4126111400004,Tual,Tual,EXPRESS MVTIC,Pohon,Kesalahan Operasional,23.13,Permanen
+11,2026-11-14,J4126111400005,Masohi,Kairatu,RUMAHKAY,Pohon,Kesalahan Operasional,2,Permanen
 11,2026-11-14,J4126111400006,Tual,Tual,EXPRESS MVTIC,Benda Asing,Kesalahan Operasional,23.07,Permanen
 11,2026-11-14,J4126111400007,Tual,Tual,EXPRESS MVTIC,Benda Asing,Kesalahan Operasional,6,Permanen
 11,2026-11-15,J4126111500001,Masohi,Kairatu,RUMAHKAY,Binatang,Kesalahan Operasional,2,Permanen
 11,2026-11-15,J4126111500002,Masohi,Kairatu,KAIRATU,Benda Asing,Kesalahan Operasional,4,Sementara
+11,2026-11-15,J4126111500035,Tual,Tual,EXPRESS MVTIC,Benda Asing,Kesalahan Operasional,8.57,Permanen
+11,2026-11-15,J4126111500036,Tual,Tual,EXPRESS MVTIC,Benda Asing,Kesalahan Operasional,88.7,Permanen
+11,2026-11-16,J4126111600001,Tual,Tual,EXPRESS MVTIC,Benda Asing,Kesalahan Operasional,104.42,Permanen
 11,2026-11-16,J4126111600002,Tual,Tual,EXPRESS MVTIC,Benda Asing,Kesalahan Operasional,5,Sementara
+11,2026-11-17,J4126111700001,Ternate,Bobong,UTARA BOBONG,Pohon,Kesalahan Operasional,13.15,Permanen
+11,2026-11-17,J4126111700002,Ternate,Sanana,WAIKALOPA,Pohon,Kesalahan Operasional,10.03,Permanen
+11,2026-11-17,J4126111700003,Ternate,Dofa,BUYA,Pohon,Kesalahan Operasional,15.18,Permanen
+11,2026-11-17,J4126111700004,Ternate,Saketa,SELATAN SAKETA,Pohon,Kesalahan Operasional,15.05,Permanen
