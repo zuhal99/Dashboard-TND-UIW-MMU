@@ -1327,3 +1327,389 @@ periode,jenis_beban,up3,ulp,sistem,penyulang_sumber,penyulang,arus_a,tegangan_kv
 2026-08,puncak,Ambon,Namrole,Leksula,Mewa,Mewa,9.1,20,0.95,19.9,19.3,cocok,2026-11-19
 2026-09,puncak,Ambon,Namrole,Leksula,Mewa,Mewa,9,20,0.95,19.95,19.38,cocok,2026-11-19
 2026-10,puncak,Ambon,Namrole,Leksula,Mewa,Mewa,9.1,20,0.95,20.05,19.57,cocok,2026-11-19
+2026-01,puncak,Ternate,Sanana,Sanana,FUKWEU,Fukweu,7.18,20,0.95,20.5,18.98,cocok,2026-11-19
+2026-02,puncak,Ternate,Sanana,Sanana,FUKWEU,Fukweu,7.2,20,0.95,20.5,18.97,cocok,2026-11-19
+2026-03,puncak,Ternate,Sanana,Sanana,FUKWEU,Fukweu,7.25,20,0.95,20.51,18.98,cocok,2026-11-19
+2026-04,puncak,Ternate,Sanana,Sanana,FUKWEU,Fukweu,7.34,20,0.95,20.5,18.95,cocok,2026-11-19
+2026-05,puncak,Ternate,Sanana,Sanana,FUKWEU,Fukweu,7.4,20,0.95,20.51,18.98,cocok,2026-11-19
+2026-06,puncak,Ternate,Sanana,Sanana,FUKWEU,Fukweu,7.31,20,0.95,20.49,18.96,cocok,2026-11-19
+2026-07,puncak,Ternate,Sanana,Sanana,FUKWEU,Fukweu,7.48,20,0.95,20.48,18.96,cocok,2026-11-19
+2026-08,puncak,Ternate,Sanana,Sanana,FUKWEU,Fukweu,8.44,20,0.95,20.51,18.98,cocok,2026-11-19
+2026-09,puncak,Ternate,Sanana,Sanana,FUKWEU,Fukweu,8.54,20,0.95,20.51,18.96,cocok,2026-11-19
+2026-10,puncak,Ternate,Sanana,Sanana,FUKWEU,Fukweu,8.52,20,0.95,20.51,18.9,cocok,2026-11-19
+2026-01,puncak,Ternate,Sanana,Sanana,SANANA EXPRESS,Sanana Express,90.66,20,0.95,20.61,18.67,TIDAK ADA DI GIS,2026-11-19
+2026-02,puncak,Ternate,Sanana,Sanana,SANANA EXPRESS,Sanana Express,90.79,20,0.95,20.6,18.65,TIDAK ADA DI GIS,2026-11-19
+2026-03,puncak,Ternate,Sanana,Sanana,SANANA EXPRESS,Sanana Express,91.1,20,0.95,20.63,18.66,TIDAK ADA DI GIS,2026-11-19
+2026-04,puncak,Ternate,Sanana,Sanana,SANANA EXPRESS,Sanana Express,91.15,20,0.95,20.61,18.65,TIDAK ADA DI GIS,2026-11-19
+2026-05,puncak,Ternate,Sanana,Sanana,SANANA EXPRESS,Sanana Express,91.91,20,0.95,20.59,18.64,TIDAK ADA DI GIS,2026-11-19
+2026-06,puncak,Ternate,Sanana,Sanana,SANANA EXPRESS,Sanana Express,91.22,20,0.95,20.67,18.67,TIDAK ADA DI GIS,2026-11-19
+2026-07,puncak,Ternate,Sanana,Sanana,SANANA EXPRESS,Sanana Express,91.09,20,0.95,20.66,20.67,TIDAK ADA DI GIS,2026-11-19
+2026-08,puncak,Ternate,Sanana,Sanana,SANANA EXPRESS,Sanana Express,101.1,20,0.95,20.59,18.64,TIDAK ADA DI GIS,2026-11-19
+2026-09,puncak,Ternate,Sanana,Sanana,SANANA EXPRESS,Sanana Express,100.5,20,0.95,20.51,18.6,TIDAK ADA DI GIS,2026-11-19
+2026-10,puncak,Ternate,Sanana,Sanana,SANANA EXPRESS,Sanana Express,100.8,20,0.95,20.51,18.64,TIDAK ADA DI GIS,2026-11-19
+2026-01,puncak,Ternate,Laiwui,Laiwui,AIR MANGGA,Air Mangga,16.78,20,0.95,18.94,18.56,cocok,2026-11-19
+2026-02,puncak,Ternate,Laiwui,Laiwui,AIR MANGGA,Air Mangga,16.75,20,0.95,18.91,18.53,cocok,2026-11-19
+2026-03,puncak,Ternate,Laiwui,Laiwui,AIR MANGGA,Air Mangga,16.87,20,0.95,18.95,18.57,cocok,2026-11-19
+2026-04,puncak,Ternate,Laiwui,Laiwui,AIR MANGGA,Air Mangga,16.93,20,0.95,18.91,18.53,cocok,2026-11-19
+2026-05,puncak,Ternate,Laiwui,Laiwui,AIR MANGGA,Air Mangga,17.31,20,0.95,18.89,18.51,cocok,2026-11-19
+2026-06,puncak,Ternate,Laiwui,Laiwui,AIR MANGGA,Air Mangga,17.41,20,0.95,18.93,18.55,cocok,2026-11-19
+2026-07,puncak,Ternate,Laiwui,Laiwui,AIR MANGGA,Air Mangga,17.38,20,0.95,18.98,18.6,cocok,2026-11-19
+2026-08,puncak,Ternate,Laiwui,Laiwui,AIR MANGGA,Air Mangga,17.41,20,0.95,18.95,18.57,cocok,2026-11-19
+2026-09,puncak,Ternate,Laiwui,Laiwui,AIR MANGGA,Air Mangga,17.32,20,0.95,18.94,18.56,cocok,2026-11-19
+2026-10,puncak,Ternate,Laiwui,Laiwui,AIR MANGGA,Air Mangga,17.42,20,0.95,18.95,18.57,cocok,2026-11-19
+2026-01,puncak,Ternate,Dofa,Dofa,DOFA,Dofa,11.34,20,0.95,19.76,18.8,cocok,2026-11-19
+2026-02,puncak,Ternate,Dofa,Dofa,DOFA,Dofa,11.3,20,0.95,19.7,18.92,cocok,2026-11-19
+2026-03,puncak,Ternate,Dofa,Dofa,DOFA,Dofa,11,20,0.95,19.72,12.02,cocok,2026-11-19
+2026-04,puncak,Ternate,Dofa,Dofa,DOFA,Dofa,11.92,20,0.95,19.68,18.8,cocok,2026-11-19
+2026-05,puncak,Ternate,Dofa,Dofa,DOFA,Dofa,11.89,20,0.95,19.72,18.69,cocok,2026-11-19
+2026-06,puncak,Ternate,Dofa,Dofa,DOFA,Dofa,12,20,0.95,19.79,18.78,cocok,2026-11-19
+2026-07,puncak,Ternate,Dofa,Dofa,DOFA,Dofa,12.11,20,0.95,19.7,18.8,cocok,2026-11-19
+2026-08,puncak,Ternate,Dofa,Dofa,DOFA,Dofa,12.23,20,0.95,19.77,18.86,cocok,2026-11-19
+2026-09,puncak,Ternate,Dofa,Dofa,DOFA,Dofa,12.46,20,0.95,19.75,18.9,cocok,2026-11-19
+2026-10,puncak,Ternate,Dofa,Dofa,DOFA,Dofa,13.11,20,0.95,19.82,19.03,cocok,2026-11-19
+2026-01,puncak,Ternate,Dofa,Dofa,FALABISAHAYA,Falabisahaya,14.6,20,0.95,19.74,18.89,cocok,2026-11-19
+2026-02,puncak,Ternate,Dofa,Dofa,FALABISAHAYA,Falabisahaya,14,20,0.95,19.68,18.86,cocok,2026-11-19
+2026-03,puncak,Ternate,Dofa,Dofa,FALABISAHAYA,Falabisahaya,13.9,20,0.95,19.7,14,cocok,2026-11-19
+2026-04,puncak,Ternate,Dofa,Dofa,FALABISAHAYA,Falabisahaya,14.2,20,0.95,19.69,18.82,cocok,2026-11-19
+2026-05,puncak,Ternate,Dofa,Dofa,FALABISAHAYA,Falabisahaya,14.5,20,0.95,19.75,18.75,cocok,2026-11-19
+2026-06,puncak,Ternate,Dofa,Dofa,FALABISAHAYA,Falabisahaya,14.44,20,0.95,19.76,18.82,cocok,2026-11-19
+2026-07,puncak,Ternate,Dofa,Dofa,FALABISAHAYA,Falabisahaya,14.26,20,0.95,19.72,18.76,cocok,2026-11-19
+2026-08,puncak,Ternate,Dofa,Dofa,FALABISAHAYA,Falabisahaya,14.42,20,0.95,19.84,18.93,cocok,2026-11-19
+2026-09,puncak,Ternate,Dofa,Dofa,FALABISAHAYA,Falabisahaya,15,20,0.95,19.7,18.86,cocok,2026-11-19
+2026-10,puncak,Ternate,Dofa,Dofa,FALABISAHAYA,Falabisahaya,15.06,20,0.95,19.84,18.98,cocok,2026-11-19
+2026-01,puncak,Ternate,Bobong,Bobong,BOBONG SELATAN,Selatan Bobong,7.23,20,0.95,19.78,19.08,cocok (urutan kata),2026-11-19
+2026-02,puncak,Ternate,Bobong,Bobong,BOBONG SELATAN,Selatan Bobong,6.67,20,0.95,19.87,18.9,cocok (urutan kata),2026-11-19
+2026-03,puncak,Ternate,Bobong,Bobong,BOBONG SELATAN,Selatan Bobong,7.86,20,0.95,19.66,18.56,cocok (urutan kata),2026-11-19
+2026-04,puncak,Ternate,Bobong,Bobong,BOBONG SELATAN,Selatan Bobong,7.44,20,0.95,19.89,18.78,cocok (urutan kata),2026-11-19
+2026-05,puncak,Ternate,Bobong,Bobong,BOBONG SELATAN,Selatan Bobong,6.98,20,0.95,19.9,19.3,cocok (urutan kata),2026-11-19
+2026-06,puncak,Ternate,Bobong,Bobong,BOBONG SELATAN,Selatan Bobong,7.2,20,0.95,19.74,18.98,cocok (urutan kata),2026-11-19
+2026-07,puncak,Ternate,Bobong,Bobong,BOBONG SELATAN,Selatan Bobong,7.83,20,0.95,19.79,19.1,cocok (urutan kata),2026-11-19
+2026-08,puncak,Ternate,Bobong,Bobong,BOBONG SELATAN,Selatan Bobong,7.1,20,0.95,18.99,17.87,cocok (urutan kata),2026-11-19
+2026-09,puncak,Ternate,Bobong,Bobong,BOBONG SELATAN,Selatan Bobong,7.82,20,0.95,19.89,18.97,cocok (urutan kata),2026-11-19
+2026-10,puncak,Ternate,Bobong,Bobong,BOBONG SELATAN,Selatan Bobong,7.33,20,0.95,19.88,18.9,cocok (urutan kata),2026-11-19
+2026-01,puncak,Ternate,Bobong,Bobong,BOBONG UTARA,Utara Bobong,13.53,20,0.95,19.98,18.68,cocok (urutan kata),2026-11-19
+2026-02,puncak,Ternate,Bobong,Bobong,BOBONG UTARA,Utara Bobong,14.4,20,0.95,19.77,18.9,cocok (urutan kata),2026-11-19
+2026-03,puncak,Ternate,Bobong,Bobong,BOBONG UTARA,Utara Bobong,14.2,20,0.95,19.73,18.38,cocok (urutan kata),2026-11-19
+2026-04,puncak,Ternate,Bobong,Bobong,BOBONG UTARA,Utara Bobong,14.89,20,0.95,19.93,18.58,cocok (urutan kata),2026-11-19
+2026-05,puncak,Ternate,Bobong,Bobong,BOBONG UTARA,Utara Bobong,13.45,20,0.95,19.88,18.98,cocok (urutan kata),2026-11-19
+2026-06,puncak,Ternate,Bobong,Bobong,BOBONG UTARA,Utara Bobong,14.92,20,0.95,19.89,18.48,cocok (urutan kata),2026-11-19
+2026-07,puncak,Ternate,Bobong,Bobong,BOBONG UTARA,Utara Bobong,14.21,20,0.95,19.48,18.38,cocok (urutan kata),2026-11-19
+2026-08,puncak,Ternate,Bobong,Bobong,BOBONG UTARA,Utara Bobong,13.49,20,0.95,19.89,18.83,cocok (urutan kata),2026-11-19
+2026-09,puncak,Ternate,Bobong,Bobong,BOBONG UTARA,Utara Bobong,14.39,20,0.95,19.88,18.43,cocok (urutan kata),2026-11-19
+2026-10,puncak,Ternate,Bobong,Bobong,BOBONG UTARA,Utara Bobong,13.93,20,0.95,19.83,18.37,cocok (urutan kata),2026-11-19
+2026-01,puncak,Ternate,Saketa,Saketa,SAKETA UTARA,Utara Saketa,14.14,20,0.95,19.97,19.58,cocok (urutan kata),2026-11-19
+2026-02,puncak,Ternate,Saketa,Saketa,SAKETA UTARA,Utara Saketa,13.85,20,0.95,19.94,19.56,cocok (urutan kata),2026-11-19
+2026-03,puncak,Ternate,Saketa,Saketa,SAKETA UTARA,Utara Saketa,12.32,20,0.95,19.93,19.59,cocok (urutan kata),2026-11-19
+2026-04,puncak,Ternate,Saketa,Saketa,SAKETA UTARA,Utara Saketa,13.56,20,0.95,19.99,19.56,cocok (urutan kata),2026-11-19
+2026-05,puncak,Ternate,Saketa,Saketa,SAKETA UTARA,Utara Saketa,13.78,20,0.95,19.98,19.5,cocok (urutan kata),2026-11-19
+2026-06,puncak,Ternate,Saketa,Saketa,SAKETA UTARA,Utara Saketa,14.14,20,0.95,19.97,19.56,cocok (urutan kata),2026-11-19
+2026-07,puncak,Ternate,Saketa,Saketa,SAKETA UTARA,Utara Saketa,12.65,20,0.95,19.98,19.54,cocok (urutan kata),2026-11-19
+2026-08,puncak,Ternate,Saketa,Saketa,SAKETA UTARA,Utara Saketa,11.99,20,0.95,19.55,19.58,cocok (urutan kata),2026-11-19
+2026-09,puncak,Ternate,Saketa,Saketa,SAKETA UTARA,Utara Saketa,12.64,20,0.95,19.57,19.59,cocok (urutan kata),2026-11-19
+2026-10,puncak,Ternate,Saketa,Saketa,SAKETA UTARA,Utara Saketa,11.99,20,0.95,20.11,19.98,cocok (urutan kata),2026-11-19
+2026-01,puncak,Ternate,Saketa,Saketa,SAKETA SELATAN,Selatan Saketa,20.93,20,0.95,19.95,19.6,cocok (urutan kata),2026-11-19
+2026-02,puncak,Ternate,Saketa,Saketa,SAKETA SELATAN,Selatan Saketa,20.75,20,0.95,19.9,19.6,cocok (urutan kata),2026-11-19
+2026-03,puncak,Ternate,Saketa,Saketa,SAKETA SELATAN,Selatan Saketa,20.37,20,0.95,19.92,19.62,cocok (urutan kata),2026-11-19
+2026-04,puncak,Ternate,Saketa,Saketa,SAKETA SELATAN,Selatan Saketa,20.48,20,0.95,19.97,19.6,cocok (urutan kata),2026-11-19
+2026-05,puncak,Ternate,Saketa,Saketa,SAKETA SELATAN,Selatan Saketa,20.78,20,0.95,19.99,19.63,cocok (urutan kata),2026-11-19
+2026-06,puncak,Ternate,Saketa,Saketa,SAKETA SELATAN,Selatan Saketa,20.8,20,0.95,19.98,19.58,cocok (urutan kata),2026-11-19
+2026-07,puncak,Ternate,Saketa,Saketa,SAKETA SELATAN,Selatan Saketa,21.18,20,0.95,19.96,19.55,cocok (urutan kata),2026-11-19
+2026-08,puncak,Ternate,Saketa,Saketa,SAKETA SELATAN,Selatan Saketa,20.98,20,0.95,19.56,19.57,cocok (urutan kata),2026-11-19
+2026-09,puncak,Ternate,Saketa,Saketa,SAKETA SELATAN,Selatan Saketa,21.13,20,0.95,19.56,19.55,cocok (urutan kata),2026-11-19
+2026-10,puncak,Ternate,Saketa,Saketa,SAKETA SELATAN,Selatan Saketa,22.57,20,0.95,20.12,19.97,cocok (urutan kata),2026-11-19
+2026-01,puncak,Ternate,Ternate,Ternate - Tidore,TERNATE KOTA,Kota Ternate,88,20,0.95,19.9,18.95,cocok (urutan kata),2026-11-19
+2026-02,puncak,Ternate,Ternate,Ternate - Tidore,TERNATE KOTA,Kota Ternate,84,20,0.95,19.9,18.95,cocok (urutan kata),2026-11-19
+2026-03,puncak,Ternate,Ternate,Ternate - Tidore,TERNATE KOTA,Kota Ternate,98,20,0.95,19.91,18.92,cocok (urutan kata),2026-11-19
+2026-04,puncak,Ternate,Ternate,Ternate - Tidore,TERNATE KOTA,Kota Ternate,96,20,0.95,19.92,18.92,cocok (urutan kata),2026-11-19
+2026-05,puncak,Ternate,Ternate,Ternate - Tidore,TERNATE KOTA,Kota Ternate,92,20,0.95,19.93,18.92,cocok (urutan kata),2026-11-19
+2026-06,puncak,Ternate,Ternate,Ternate - Tidore,TERNATE KOTA,Kota Ternate,95,20,0.95,19.92,18.93,cocok (urutan kata),2026-11-19
+2026-07,puncak,Ternate,Ternate,Ternate - Tidore,TERNATE KOTA,Kota Ternate,93,20,0.95,19.9,18.91,cocok (urutan kata),2026-11-19
+2026-08,puncak,Ternate,Ternate,Ternate - Tidore,TERNATE KOTA,Kota Ternate,93,20,0.95,19.76,19.65,cocok (urutan kata),2026-11-19
+2026-09,puncak,Ternate,Ternate,Ternate - Tidore,TERNATE KOTA,Kota Ternate,96,20,0.95,19.75,19.5,cocok (urutan kata),2026-11-19
+2026-10,puncak,Ternate,Ternate,Ternate - Tidore,TERNATE KOTA,Kota Ternate,93,20,0.95,19.76,19.51,cocok (urutan kata),2026-11-19
+2026-01,puncak,Ternate,Ternate,Ternate - Tidore,TERNATE EXPRESS,Express Ternate,150,20,0.95,19.98,18.96,cocok (urutan kata),2026-11-19
+2026-02,puncak,Ternate,Ternate,Ternate - Tidore,TERNATE EXPRESS,Express Ternate,152,20,0.95,19.98,18.96,cocok (urutan kata),2026-11-19
+2026-03,puncak,Ternate,Ternate,Ternate - Tidore,TERNATE EXPRESS,Express Ternate,165,20,0.95,19.97,18.95,cocok (urutan kata),2026-11-19
+2026-04,puncak,Ternate,Ternate,Ternate - Tidore,TERNATE EXPRESS,Express Ternate,160,20,0.95,19.97,18.98,cocok (urutan kata),2026-11-19
+2026-05,puncak,Ternate,Ternate,Ternate - Tidore,TERNATE EXPRESS,Express Ternate,162,20,0.95,19.97,18.95,cocok (urutan kata),2026-11-19
+2026-06,puncak,Ternate,Ternate,Ternate - Tidore,TERNATE EXPRESS,Express Ternate,161,20,0.95,19.97,18.95,cocok (urutan kata),2026-11-19
+2026-07,puncak,Ternate,Ternate,Ternate - Tidore,TERNATE EXPRESS,Express Ternate,161,20,0.95,19.96,18.92,cocok (urutan kata),2026-11-19
+2026-08,puncak,Ternate,Ternate,Ternate - Tidore,TERNATE EXPRESS,Express Ternate,130,20,0.95,19.79,19.55,cocok (urutan kata),2026-11-19
+2026-09,puncak,Ternate,Ternate,Ternate - Tidore,TERNATE EXPRESS,Express Ternate,163,20,0.95,19.78,19.55,cocok (urutan kata),2026-11-19
+2026-10,puncak,Ternate,Ternate,Ternate - Tidore,TERNATE EXPRESS,Express Ternate,160,20,0.95,19.79,19.55,cocok (urutan kata),2026-11-19
+2026-01,puncak,Ternate,Ternate,Ternate - Tidore,MANGGA DUA,Mangga Dua,131,20,0.95,19.99,18.97,cocok,2026-11-19
+2026-02,puncak,Ternate,Ternate,Ternate - Tidore,MANGGA DUA,Mangga Dua,129,20,0.95,19.98,18.97,cocok,2026-11-19
+2026-03,puncak,Ternate,Ternate,Ternate - Tidore,MANGGA DUA,Mangga Dua,141,20,0.95,19.98,18.98,cocok,2026-11-19
+2026-04,puncak,Ternate,Ternate,Ternate - Tidore,MANGGA DUA,Mangga Dua,144,20,0.95,19.98,18.97,cocok,2026-11-19
+2026-05,puncak,Ternate,Ternate,Ternate - Tidore,MANGGA DUA,Mangga Dua,131,20,0.95,19.99,18.97,cocok,2026-11-19
+2026-06,puncak,Ternate,Ternate,Ternate - Tidore,MANGGA DUA,Mangga Dua,138,20,0.95,19.98,18.97,cocok,2026-11-19
+2026-07,puncak,Ternate,Ternate,Ternate - Tidore,MANGGA DUA,Mangga Dua,146,20,0.95,19.98,18.97,cocok,2026-11-19
+2026-08,puncak,Ternate,Ternate,Ternate - Tidore,MANGGA DUA,Mangga Dua,134,20,0.95,19.8,19.59,cocok,2026-11-19
+2026-09,puncak,Ternate,Ternate,Ternate - Tidore,MANGGA DUA,Mangga Dua,139,20,0.95,19.77,19.5,cocok,2026-11-19
+2026-10,puncak,Ternate,Ternate,Ternate - Tidore,MANGGA DUA,Mangga Dua,137,20,0.95,19.8,19.47,cocok,2026-11-19
+2026-01,puncak,Ternate,Ternate,Ternate - Tidore,SULAMADAHA,Sulamadaha,143,20,0.95,19.86,18.9,cocok,2026-11-19
+2026-02,puncak,Ternate,Ternate,Ternate - Tidore,SULAMADAHA,Sulamadaha,147,20,0.95,19.86,18.9,cocok,2026-11-19
+2026-03,puncak,Ternate,Ternate,Ternate - Tidore,SULAMADAHA,Sulamadaha,170,20,0.95,19.86,18.9,cocok,2026-11-19
+2026-04,puncak,Ternate,Ternate,Ternate - Tidore,SULAMADAHA,Sulamadaha,156,20,0.95,19.86,18.95,cocok,2026-11-19
+2026-05,puncak,Ternate,Ternate,Ternate - Tidore,SULAMADAHA,Sulamadaha,158,20,0.95,19.85,18.92,cocok,2026-11-19
+2026-06,puncak,Ternate,Ternate,Ternate - Tidore,SULAMADAHA,Sulamadaha,158,20,0.95,19.84,18.9,cocok,2026-11-19
+2026-07,puncak,Ternate,Ternate,Ternate - Tidore,SULAMADAHA,Sulamadaha,159,20,0.95,19.83,18.9,cocok,2026-11-19
+2026-08,puncak,Ternate,Ternate,Ternate - Tidore,SULAMADAHA,Sulamadaha,181,20,0.95,19.69,19.2,cocok,2026-11-19
+2026-09,puncak,Ternate,Ternate,Ternate - Tidore,SULAMADAHA,Sulamadaha,159,20,0.95,19.7,19.22,cocok,2026-11-19
+2026-10,puncak,Ternate,Ternate,Ternate - Tidore,SULAMADAHA,Sulamadaha,159,20,0.95,19.69,19.3,cocok,2026-11-19
+2026-01,puncak,Ternate,Ternate,Ternate - Tidore,JAMBULA,Jambula,18,20,0.95,19.84,18.92,cocok,2026-11-19
+2026-02,puncak,Ternate,Ternate,Ternate - Tidore,JAMBULA,Jambula,19,20,0.95,19.84,18.92,cocok,2026-11-19
+2026-03,puncak,Ternate,Ternate,Ternate - Tidore,JAMBULA,Jambula,20,20,0.95,19.84,18.91,cocok,2026-11-19
+2026-04,puncak,Ternate,Ternate,Ternate - Tidore,JAMBULA,Jambula,19,20,0.95,19.84,18.9,cocok,2026-11-19
+2026-05,puncak,Ternate,Ternate,Ternate - Tidore,JAMBULA,Jambula,20,20,0.95,19.83,18.9,cocok,2026-11-19
+2026-06,puncak,Ternate,Ternate,Ternate - Tidore,JAMBULA,Jambula,20,20,0.95,19.83,18.9,cocok,2026-11-19
+2026-07,puncak,Ternate,Ternate,Ternate - Tidore,JAMBULA,Jambula,20,20,0.95,19.83,18.9,cocok,2026-11-19
+2026-08,puncak,Ternate,Ternate,Ternate - Tidore,JAMBULA,Jambula,19,20,0.95,19.69,18.82,cocok,2026-11-19
+2026-09,puncak,Ternate,Ternate,Ternate - Tidore,JAMBULA,Jambula,20,20,0.95,19.69,19.89,cocok,2026-11-19
+2026-10,puncak,Ternate,Ternate,Ternate - Tidore,JAMBULA,Jambula,19,20,0.95,19.69,18.9,cocok,2026-11-19
+2026-01,puncak,Ternate,Ternate,Ternate - Tidore,STADION,Stadion,144,20,0.95,19.85,18.92,cocok,2026-11-19
+2026-02,puncak,Ternate,Ternate,Ternate - Tidore,STADION,Stadion,134,20,0.95,19.86,18.94,cocok,2026-11-19
+2026-03,puncak,Ternate,Ternate,Ternate - Tidore,STADION,Stadion,159,20,0.95,19.84,18.9,cocok,2026-11-19
+2026-04,puncak,Ternate,Ternate,Ternate - Tidore,STADION,Stadion,169,20,0.95,19.83,18.9,cocok,2026-11-19
+2026-05,puncak,Ternate,Ternate,Ternate - Tidore,STADION,Stadion,162,20,0.95,19.83,18.9,cocok,2026-11-19
+2026-06,puncak,Ternate,Ternate,Ternate - Tidore,STADION,Stadion,164,20,0.95,19.83,18.9,cocok,2026-11-19
+2026-07,puncak,Ternate,Ternate,Ternate - Tidore,STADION,Stadion,165,20,0.95,19.83,18.9,cocok,2026-11-19
+2026-08,puncak,Ternate,Ternate,Ternate - Tidore,STADION,Stadion,155,20,0.95,19.71,19.41,cocok,2026-11-19
+2026-09,puncak,Ternate,Ternate,Ternate - Tidore,STADION,Stadion,162,20,0.95,19.7,19.4,cocok,2026-11-19
+2026-10,puncak,Ternate,Ternate,Ternate - Tidore,STADION,Stadion,163,20,0.95,19.71,19.5,cocok,2026-11-19
+2026-01,puncak,Ternate,Ternate,Ternate - Tidore,MVTIC FITU,Fitu,0,20,0.95,,,cocok (MVTIC Fitu = penyulang Fitu di JTM),2026-11-19
+2026-02,puncak,Ternate,Ternate,Ternate - Tidore,MVTIC FITU,Fitu,0,20,0.95,,,cocok (MVTIC Fitu = penyulang Fitu di JTM),2026-11-19
+2026-03,puncak,Ternate,Ternate,Ternate - Tidore,MVTIC FITU,Fitu,0,20,0.95,,,cocok (MVTIC Fitu = penyulang Fitu di JTM),2026-11-19
+2026-04,puncak,Ternate,Ternate,Ternate - Tidore,MVTIC FITU,Fitu,0,20,0.95,,,cocok (MVTIC Fitu = penyulang Fitu di JTM),2026-11-19
+2026-05,puncak,Ternate,Ternate,Ternate - Tidore,MVTIC FITU,Fitu,0,20,0.95,,,cocok (MVTIC Fitu = penyulang Fitu di JTM),2026-11-19
+2026-06,puncak,Ternate,Ternate,Ternate - Tidore,MVTIC FITU,Fitu,0,20,0.95,,,cocok (MVTIC Fitu = penyulang Fitu di JTM),2026-11-19
+2026-07,puncak,Ternate,Ternate,Ternate - Tidore,MVTIC FITU,Fitu,0,20,0.95,,,cocok (MVTIC Fitu = penyulang Fitu di JTM),2026-11-19
+2026-08,puncak,Ternate,Ternate,Ternate - Tidore,MVTIC FITU,Fitu,0,20,0.95,0,,cocok (MVTIC Fitu = penyulang Fitu di JTM),2026-11-19
+2026-09,puncak,Ternate,Ternate,Ternate - Tidore,MVTIC FITU,Fitu,0,20,0.95,0,0,cocok (MVTIC Fitu = penyulang Fitu di JTM),2026-11-19
+2026-10,puncak,Ternate,Ternate,Ternate - Tidore,MVTIC FITU,Fitu,0,20,0.95,0,0,cocok (MVTIC Fitu = penyulang Fitu di JTM),2026-11-19
+2026-01,puncak,Ternate,Ternate,Ternate - Tidore,MVTIC SASA,Sasa,0,20,0.95,,,cocok (MVTIC Sasa = penyulang Sasa di JTM),2026-11-19
+2026-02,puncak,Ternate,Ternate,Ternate - Tidore,MVTIC SASA,Sasa,0,20,0.95,,,cocok (MVTIC Sasa = penyulang Sasa di JTM),2026-11-19
+2026-03,puncak,Ternate,Ternate,Ternate - Tidore,MVTIC SASA,Sasa,0,20,0.95,,,cocok (MVTIC Sasa = penyulang Sasa di JTM),2026-11-19
+2026-04,puncak,Ternate,Ternate,Ternate - Tidore,MVTIC SASA,Sasa,0,20,0.95,,,cocok (MVTIC Sasa = penyulang Sasa di JTM),2026-11-19
+2026-05,puncak,Ternate,Ternate,Ternate - Tidore,MVTIC SASA,Sasa,0,20,0.95,,,cocok (MVTIC Sasa = penyulang Sasa di JTM),2026-11-19
+2026-06,puncak,Ternate,Ternate,Ternate - Tidore,MVTIC SASA,Sasa,0,20,0.95,,,cocok (MVTIC Sasa = penyulang Sasa di JTM),2026-11-19
+2026-07,puncak,Ternate,Ternate,Ternate - Tidore,MVTIC SASA,Sasa,0,20,0.95,,,cocok (MVTIC Sasa = penyulang Sasa di JTM),2026-11-19
+2026-08,puncak,Ternate,Ternate,Ternate - Tidore,MVTIC SASA,Sasa,0,20,0.95,0,,cocok (MVTIC Sasa = penyulang Sasa di JTM),2026-11-19
+2026-09,puncak,Ternate,Ternate,Ternate - Tidore,MVTIC SASA,Sasa,0,20,0.95,0,0,cocok (MVTIC Sasa = penyulang Sasa di JTM),2026-11-19
+2026-10,puncak,Ternate,Ternate,Ternate - Tidore,MVTIC SASA,Sasa,0,20,0.95,0,0,cocok (MVTIC Sasa = penyulang Sasa di JTM),2026-11-19
+2026-01,puncak,Ternate,Ternate,Ternate - Tidore,KALUMATA,Kalumata,118,20,0.95,19.85,18.8,cocok,2026-11-19
+2026-02,puncak,Ternate,Ternate,Ternate - Tidore,KALUMATA,Kalumata,120,20,0.95,19.85,18.8,cocok,2026-11-19
+2026-03,puncak,Ternate,Ternate,Ternate - Tidore,KALUMATA,Kalumata,130,20,0.95,19.85,18.8,cocok,2026-11-19
+2026-04,puncak,Ternate,Ternate,Ternate - Tidore,KALUMATA,Kalumata,136,20,0.95,19.85,18.78,cocok,2026-11-19
+2026-05,puncak,Ternate,Ternate,Ternate - Tidore,KALUMATA,Kalumata,131,20,0.95,19.85,18.8,cocok,2026-11-19
+2026-06,puncak,Ternate,Ternate,Ternate - Tidore,KALUMATA,Kalumata,125,20,0.95,19.85,18.8,cocok,2026-11-19
+2026-07,puncak,Ternate,Ternate,Ternate - Tidore,KALUMATA,Kalumata,128,20,0.95,19.84,18.78,cocok,2026-11-19
+2026-08,puncak,Ternate,Ternate,Ternate - Tidore,KALUMATA,Kalumata,135,20,0.95,19.7,19.42,cocok,2026-11-19
+2026-09,puncak,Ternate,Ternate,Ternate - Tidore,KALUMATA,Kalumata,139,20,0.95,19.71,19.4,cocok,2026-11-19
+2026-10,puncak,Ternate,Ternate,Ternate - Tidore,KALUMATA,Kalumata,138,20,0.95,19.7,19.52,cocok,2026-11-19
+2026-01,puncak,Ternate,Soa Siu,Ternate - Tidore,GOTO GIS KAYUMERAH,Goto Gis Kayu Merah,5,20,0.95,19.99,19.98,cocok (ejaan),2026-11-19
+2026-02,puncak,Ternate,Soa Siu,Ternate - Tidore,GOTO GIS KAYUMERAH,Goto Gis Kayu Merah,5,20,0.95,19.99,19.98,cocok (ejaan),2026-11-19
+2026-03,puncak,Ternate,Soa Siu,Ternate - Tidore,GOTO GIS KAYUMERAH,Goto Gis Kayu Merah,5,20,0.95,19.99,19.98,cocok (ejaan),2026-11-19
+2026-04,puncak,Ternate,Soa Siu,Ternate - Tidore,GOTO GIS KAYUMERAH,Goto Gis Kayu Merah,5,20,0.95,19.99,19.98,cocok (ejaan),2026-11-19
+2026-05,puncak,Ternate,Soa Siu,Ternate - Tidore,GOTO GIS KAYUMERAH,Goto Gis Kayu Merah,5,20,0.95,19.99,19.98,cocok (ejaan),2026-11-19
+2026-06,puncak,Ternate,Soa Siu,Ternate - Tidore,GOTO GIS KAYUMERAH,Goto Gis Kayu Merah,5,20,0.95,19.99,19.98,cocok (ejaan),2026-11-19
+2026-07,puncak,Ternate,Soa Siu,Ternate - Tidore,GOTO GIS KAYUMERAH,Goto Gis Kayu Merah,5,20,0.95,19.99,19.98,cocok (ejaan),2026-11-19
+2026-08,puncak,Ternate,Soa Siu,Ternate - Tidore,GOTO GIS KAYUMERAH,Goto Gis Kayu Merah,5,20,0.95,19.69,18.9,cocok (ejaan),2026-11-19
+2026-09,puncak,Ternate,Soa Siu,Ternate - Tidore,GOTO GIS KAYUMERAH,Goto Gis Kayu Merah,6,20,0.95,19.7,18.99,cocok (ejaan),2026-11-19
+2026-10,puncak,Ternate,Soa Siu,Ternate - Tidore,GOTO GIS KAYUMERAH,Goto Gis Kayu Merah,4,20,0.95,19.69,18.98,cocok (ejaan),2026-11-19
+2026-01,puncak,Ternate,Soa Siu,Ternate - Tidore,PLTU 1,Pltu 1,171,20,0.95,19.99,19.98,TIDAK ADA DI GIS,2026-11-19
+2026-02,puncak,Ternate,Soa Siu,Ternate - Tidore,PLTU 1,Pltu 1,167,20,0.95,19.99,19.98,TIDAK ADA DI GIS,2026-11-19
+2026-03,puncak,Ternate,Soa Siu,Ternate - Tidore,PLTU 1,Pltu 1,122,20,0.95,19.99,19.98,TIDAK ADA DI GIS,2026-11-19
+2026-04,puncak,Ternate,Soa Siu,Ternate - Tidore,PLTU 1,Pltu 1,125,20,0.95,19.99,19.98,TIDAK ADA DI GIS,2026-11-19
+2026-05,puncak,Ternate,Soa Siu,Ternate - Tidore,PLTU 1,Pltu 1,152,20,0.95,19.99,19.98,TIDAK ADA DI GIS,2026-11-19
+2026-06,puncak,Ternate,Soa Siu,Ternate - Tidore,PLTU 1,Pltu 1,155,20,0.95,19.99,19.98,TIDAK ADA DI GIS,2026-11-19
+2026-07,puncak,Ternate,Soa Siu,Ternate - Tidore,PLTU 1,Pltu 1,128,20,0.95,19.99,19.98,TIDAK ADA DI GIS,2026-11-19
+2026-08,puncak,Ternate,Soa Siu,Ternate - Tidore,PLTU 1,Pltu 1,25,20,0.95,19.7,18.9,TIDAK ADA DI GIS,2026-11-19
+2026-09,puncak,Ternate,Soa Siu,Ternate - Tidore,PLTU 1,Pltu 1,28,20,0.95,19.78,19.2,TIDAK ADA DI GIS,2026-11-19
+2026-10,puncak,Ternate,Soa Siu,Ternate - Tidore,PLTU 1,Pltu 1,28,20,0.95,19.78,19.2,TIDAK ADA DI GIS,2026-11-19
+2026-01,puncak,Ternate,Soa Siu,Ternate - Tidore,PLTU 2,Pltu 2,172,20,0.95,19.99,19.98,TIDAK ADA DI GIS,2026-11-19
+2026-02,puncak,Ternate,Soa Siu,Ternate - Tidore,PLTU 2,Pltu 2,189,20,0.95,19.99,19.98,TIDAK ADA DI GIS,2026-11-19
+2026-03,puncak,Ternate,Soa Siu,Ternate - Tidore,PLTU 2,Pltu 2,120,20,0.95,19.99,19.98,TIDAK ADA DI GIS,2026-11-19
+2026-04,puncak,Ternate,Soa Siu,Ternate - Tidore,PLTU 2,Pltu 2,183,20,0.95,19.99,19.98,TIDAK ADA DI GIS,2026-11-19
+2026-05,puncak,Ternate,Soa Siu,Ternate - Tidore,PLTU 2,Pltu 2,184,20,0.95,19.99,19.98,TIDAK ADA DI GIS,2026-11-19
+2026-06,puncak,Ternate,Soa Siu,Ternate - Tidore,PLTU 2,Pltu 2,182,20,0.95,19.99,19.98,TIDAK ADA DI GIS,2026-11-19
+2026-07,puncak,Ternate,Soa Siu,Ternate - Tidore,PLTU 2,Pltu 2,188,20,0.95,19.99,19.98,TIDAK ADA DI GIS,2026-11-19
+2026-08,puncak,Ternate,Soa Siu,Ternate - Tidore,PLTU 2,Pltu 2,23,20,0.95,19.7,18.9,TIDAK ADA DI GIS,2026-11-19
+2026-09,puncak,Ternate,Soa Siu,Ternate - Tidore,PLTU 2,Pltu 2,24,20,0.95,19.77,19.21,TIDAK ADA DI GIS,2026-11-19
+2026-10,puncak,Ternate,Soa Siu,Ternate - Tidore,PLTU 2,Pltu 2,24,20,0.95,19.77,19.2,TIDAK ADA DI GIS,2026-11-19
+2026-01,puncak,Ternate,Soa Siu,Ternate - Tidore,BATUBARA,Batubara,188,20,0.95,19.99,18.34,cocok,2026-11-19
+2026-02,puncak,Ternate,Soa Siu,Ternate - Tidore,BATUBARA,Batubara,181,20,0.95,19.99,18.34,cocok,2026-11-19
+2026-03,puncak,Ternate,Soa Siu,Ternate - Tidore,BATUBARA,Batubara,193,20,0.95,19.99,18.34,cocok,2026-11-19
+2026-04,puncak,Ternate,Soa Siu,Ternate - Tidore,BATUBARA,Batubara,189,20,0.95,19.99,18.34,cocok,2026-11-19
+2026-05,puncak,Ternate,Soa Siu,Ternate - Tidore,BATUBARA,Batubara,191,20,0.95,19.99,18.34,cocok,2026-11-19
+2026-06,puncak,Ternate,Soa Siu,Ternate - Tidore,BATUBARA,Batubara,190,20,0.95,19.99,18.34,cocok,2026-11-19
+2026-07,puncak,Ternate,Soa Siu,Ternate - Tidore,BATUBARA,Batubara,190,20,0.95,19.99,18.34,cocok,2026-11-19
+2026-08,puncak,Ternate,Soa Siu,Ternate - Tidore,BATUBARA,Batubara,192,20,0.95,19.75,18.77,cocok,2026-11-19
+2026-09,puncak,Ternate,Soa Siu,Ternate - Tidore,BATUBARA,Batubara,193,20,0.95,19.67,18.77,cocok,2026-11-19
+2026-10,puncak,Ternate,Soa Siu,Ternate - Tidore,BATUBARA,Batubara,193,20,0.95,19.55,18.76,cocok,2026-11-19
+2026-01,puncak,Ternate,Soa Siu,Makian,WAILOA,Wailoa,14.6,20,0.95,19.9,19,cocok,2026-11-19
+2026-02,puncak,Ternate,Soa Siu,Makian,WAILOA,Wailoa,14.5,20,0.95,19.89,19,cocok,2026-11-19
+2026-03,puncak,Ternate,Soa Siu,Makian,WAILOA,Wailoa,14.3,20,0.95,19.88,18.99,cocok,2026-11-19
+2026-04,puncak,Ternate,Soa Siu,Makian,WAILOA,Wailoa,14.4,20,0.95,19.8,18.99,cocok,2026-11-19
+2026-05,puncak,Ternate,Soa Siu,Makian,WAILOA,Wailoa,14.3,20,0.95,19.78,19,cocok,2026-11-19
+2026-06,puncak,Ternate,Soa Siu,Makian,WAILOA,Wailoa,14.5,20,0.95,19.89,19.1,cocok,2026-11-19
+2026-07,puncak,Ternate,Soa Siu,Makian,WAILOA,Wailoa,14.6,20,0.95,19.8,18.99,cocok,2026-11-19
+2026-08,puncak,Ternate,Soa Siu,Makian,WAILOA,Wailoa,14.5,20,0.95,19.87,19.12,cocok,2026-11-19
+2026-09,puncak,Ternate,Soa Siu,Makian,WAILOA,Wailoa,14.4,20,0.95,19.88,19.76,cocok,2026-11-19
+2026-10,puncak,Ternate,Soa Siu,Makian,WAILOA,Wailoa,14.4,20,0.95,19.89,19.67,cocok,2026-11-19
+2026-01,puncak,Ternate,Soa Siu,Makian,MALAPAT,Malapat,7,20,0.95,19.89,19,cocok,2026-11-19
+2026-02,puncak,Ternate,Soa Siu,Makian,MALAPAT,Malapat,7,20,0.95,19.9,19.1,cocok,2026-11-19
+2026-03,puncak,Ternate,Soa Siu,Makian,MALAPAT,Malapat,7,20,0.95,19.89,19,cocok,2026-11-19
+2026-04,puncak,Ternate,Soa Siu,Makian,MALAPAT,Malapat,7,20,0.95,19.85,19,cocok,2026-11-19
+2026-05,puncak,Ternate,Soa Siu,Makian,MALAPAT,Malapat,7,20,0.95,19.8,19,cocok,2026-11-19
+2026-06,puncak,Ternate,Soa Siu,Makian,MALAPAT,Malapat,7.1,20,0.95,19.9,19.1,cocok,2026-11-19
+2026-07,puncak,Ternate,Soa Siu,Makian,MALAPAT,Malapat,7.1,20,0.95,19.85,19,cocok,2026-11-19
+2026-08,puncak,Ternate,Soa Siu,Makian,MALAPAT,Malapat,7.1,20,0.95,19.91,19.8,cocok,2026-11-19
+2026-09,puncak,Ternate,Soa Siu,Makian,MALAPAT,Malapat,7.2,20,0.95,19.95,19.6,cocok,2026-11-19
+2026-10,puncak,Ternate,Soa Siu,Makian,MALAPAT,Malapat,7.1,20,0.95,19.88,19.78,cocok,2026-11-19
+2026-01,puncak,Ternate,Soa Siu,Moti,MOTI,Moti,7.4,20,0.95,19.9,19.8,cocok,2026-11-19
+2026-02,puncak,Ternate,Soa Siu,Moti,MOTI,Moti,7.5,20,0.95,19.9,19.8,cocok,2026-11-19
+2026-03,puncak,Ternate,Soa Siu,Moti,MOTI,Moti,7.3,20,0.95,19.9,19.8,cocok,2026-11-19
+2026-04,puncak,Ternate,Soa Siu,Moti,MOTI,Moti,7.4,20,0.95,19.9,19.8,cocok,2026-11-19
+2026-05,puncak,Ternate,Soa Siu,Moti,MOTI,Moti,7.5,20,0.95,19.9,19.8,cocok,2026-11-19
+2026-06,puncak,Ternate,Soa Siu,Moti,MOTI,Moti,7.6,20,0.95,19.9,19.8,cocok,2026-11-19
+2026-07,puncak,Ternate,Soa Siu,Moti,MOTI,Moti,7.5,20,0.95,19.9,19.8,cocok,2026-11-19
+2026-08,puncak,Ternate,Soa Siu,Moti,MOTI,Moti,7.5,20,0.95,19.76,19.34,cocok,2026-11-19
+2026-09,puncak,Ternate,Soa Siu,Moti,MOTI,Moti,7.6,20,0.95,19.99,19.88,cocok,2026-11-19
+2026-10,puncak,Ternate,Soa Siu,Moti,MOTI,Moti,7.5,20,0.95,19.95,19.65,cocok,2026-11-19
+2026-01,puncak,Ternate,Soa Siu,Kayoa,KAYOA UTARA,Utara Kayoa,7.4,20,0.95,19.89,18.9,cocok (urutan kata),2026-11-19
+2026-02,puncak,Ternate,Soa Siu,Kayoa,KAYOA UTARA,Utara Kayoa,7.5,20,0.95,19.89,18.9,cocok (urutan kata),2026-11-19
+2026-03,puncak,Ternate,Soa Siu,Kayoa,KAYOA UTARA,Utara Kayoa,7.6,20,0.95,19.89,18.9,cocok (urutan kata),2026-11-19
+2026-04,puncak,Ternate,Soa Siu,Kayoa,KAYOA UTARA,Utara Kayoa,7.5,20,0.95,19.89,18.9,cocok (urutan kata),2026-11-19
+2026-05,puncak,Ternate,Soa Siu,Kayoa,KAYOA UTARA,Utara Kayoa,7.5,20,0.95,19.89,18.9,cocok (urutan kata),2026-11-19
+2026-06,puncak,Ternate,Soa Siu,Kayoa,KAYOA UTARA,Utara Kayoa,7.6,20,0.95,19.89,18.9,cocok (urutan kata),2026-11-19
+2026-07,puncak,Ternate,Soa Siu,Kayoa,KAYOA UTARA,Utara Kayoa,7.6,20,0.95,19.89,18.9,cocok (urutan kata),2026-11-19
+2026-08,puncak,Ternate,Soa Siu,Kayoa,KAYOA UTARA,Utara Kayoa,7.5,20,0.95,19.89,19.23,cocok (urutan kata),2026-11-19
+2026-09,puncak,Ternate,Soa Siu,Kayoa,KAYOA UTARA,Utara Kayoa,7.5,20,0.95,19.88,19,cocok (urutan kata),2026-11-19
+2026-10,puncak,Ternate,Soa Siu,Kayoa,KAYOA UTARA,Utara Kayoa,7.6,20,0.95,19.77,19.22,cocok (urutan kata),2026-11-19
+2026-01,puncak,Ternate,Soa Siu,Kayoa,KAYOA KOTA,Kota Kayoa,5.7,20,0.95,19.89,19.5,cocok (urutan kata),2026-11-19
+2026-02,puncak,Ternate,Soa Siu,Kayoa,KAYOA KOTA,Kota Kayoa,5.8,20,0.95,19.89,19.5,cocok (urutan kata),2026-11-19
+2026-03,puncak,Ternate,Soa Siu,Kayoa,KAYOA KOTA,Kota Kayoa,5.9,20,0.95,19.89,19.5,cocok (urutan kata),2026-11-19
+2026-04,puncak,Ternate,Soa Siu,Kayoa,KAYOA KOTA,Kota Kayoa,5.7,20,0.95,19.89,19.5,cocok (urutan kata),2026-11-19
+2026-05,puncak,Ternate,Soa Siu,Kayoa,KAYOA KOTA,Kota Kayoa,5.8,20,0.95,19.89,19.5,cocok (urutan kata),2026-11-19
+2026-06,puncak,Ternate,Soa Siu,Kayoa,KAYOA KOTA,Kota Kayoa,5.9,20,0.95,19.89,19.5,cocok (urutan kata),2026-11-19
+2026-07,puncak,Ternate,Soa Siu,Kayoa,KAYOA KOTA,Kota Kayoa,5.8,20,0.95,19.89,19.5,cocok (urutan kata),2026-11-19
+2026-08,puncak,Ternate,Soa Siu,Kayoa,KAYOA KOTA,Kota Kayoa,5.9,20,0.95,19.8,19.1,cocok (urutan kata),2026-11-19
+2026-09,puncak,Ternate,Soa Siu,Kayoa,KAYOA KOTA,Kota Kayoa,5.8,20,0.95,19.8,19.11,cocok (urutan kata),2026-11-19
+2026-10,puncak,Ternate,Soa Siu,Kayoa,KAYOA KOTA,Kota Kayoa,5.8,20,0.95,19.91,19.5,cocok (urutan kata),2026-11-19
+2026-01,puncak,Ternate,Soa Siu,Kayoa,KAYOA SELATAN,Selatan Kayoa,5.6,20,0.95,19.89,18.9,cocok (urutan kata),2026-11-19
+2026-02,puncak,Ternate,Soa Siu,Kayoa,KAYOA SELATAN,Selatan Kayoa,5.6,20,0.95,19.89,18.9,cocok (urutan kata),2026-11-19
+2026-03,puncak,Ternate,Soa Siu,Kayoa,KAYOA SELATAN,Selatan Kayoa,5.7,20,0.95,19.89,18.9,cocok (urutan kata),2026-11-19
+2026-04,puncak,Ternate,Soa Siu,Kayoa,KAYOA SELATAN,Selatan Kayoa,5.7,20,0.95,19.89,18.9,cocok (urutan kata),2026-11-19
+2026-05,puncak,Ternate,Soa Siu,Kayoa,KAYOA SELATAN,Selatan Kayoa,5.7,20,0.95,19.89,18.9,cocok (urutan kata),2026-11-19
+2026-06,puncak,Ternate,Soa Siu,Kayoa,KAYOA SELATAN,Selatan Kayoa,5.6,20,0.95,19.89,18.9,cocok (urutan kata),2026-11-19
+2026-07,puncak,Ternate,Soa Siu,Kayoa,KAYOA SELATAN,Selatan Kayoa,5.8,20,0.95,19.89,18.9,cocok (urutan kata),2026-11-19
+2026-08,puncak,Ternate,Soa Siu,Kayoa,KAYOA SELATAN,Selatan Kayoa,5.7,20,0.95,19.8,18.9,cocok (urutan kata),2026-11-19
+2026-09,puncak,Ternate,Soa Siu,Kayoa,KAYOA SELATAN,Selatan Kayoa,5.6,20,0.95,19.81,18.9,cocok (urutan kata),2026-11-19
+2026-10,puncak,Ternate,Soa Siu,Kayoa,KAYOA SELATAN,Selatan Kayoa,5.7,20,0.95,19.7,18.8,cocok (urutan kata),2026-11-19
+2026-01,puncak,Ternate,Sanana,Sanana,SANANA KOTA,Kota Sanana,19.65,20,0.95,20.76,19.15,cocok (urutan kata),2026-11-19
+2026-02,puncak,Ternate,Sanana,Sanana,SANANA KOTA,Kota Sanana,19.71,20,0.95,20.75,19.14,cocok (urutan kata),2026-11-19
+2026-03,puncak,Ternate,Sanana,Sanana,SANANA KOTA,Kota Sanana,19.74,20,0.95,20.75,19.14,cocok (urutan kata),2026-11-19
+2026-04,puncak,Ternate,Sanana,Sanana,SANANA KOTA,Kota Sanana,19.8,20,0.95,20.6,19.02,cocok (urutan kata),2026-11-19
+2026-05,puncak,Ternate,Sanana,Sanana,SANANA KOTA,Kota Sanana,19.82,20,0.95,20.61,19.1,cocok (urutan kata),2026-11-19
+2026-06,puncak,Ternate,Sanana,Sanana,SANANA KOTA,Kota Sanana,19.68,20,0.95,20.6,19,cocok (urutan kata),2026-11-19
+2026-07,puncak,Ternate,Sanana,Sanana,SANANA KOTA,Kota Sanana,19.8,20,0.95,20.62,18.98,cocok (urutan kata),2026-11-19
+2026-08,puncak,Ternate,Sanana,Sanana,SANANA KOTA,Kota Sanana,19.8,20,0.95,20.59,18.96,cocok (urutan kata),2026-11-19
+2026-09,puncak,Ternate,Sanana,Sanana,SANANA KOTA,Kota Sanana,19.9,20,0.95,20.5,18.97,cocok (urutan kata),2026-11-19
+2026-10,puncak,Ternate,Sanana,Sanana,SANANA KOTA,Kota Sanana,19.78,20,0.95,20.52,19.9,cocok (urutan kata),2026-11-19
+2026-01,puncak,Ternate,Ternate,Ternate - Tidore,SIKO,Siko,142,20,0.95,19.98,18.89,cocok,2026-11-19
+2026-02,puncak,Ternate,Ternate,Ternate - Tidore,SIKO,Siko,144,20,0.95,19.98,18.88,cocok,2026-11-19
+2026-03,puncak,Ternate,Ternate,Ternate - Tidore,SIKO,Siko,158,20,0.95,19.97,18.88,cocok,2026-11-19
+2026-04,puncak,Ternate,Ternate,Ternate - Tidore,SIKO,Siko,161,20,0.95,19.97,18.88,cocok,2026-11-19
+2026-05,puncak,Ternate,Ternate,Ternate - Tidore,SIKO,Siko,158,20,0.95,19.97,18.87,cocok,2026-11-19
+2026-06,puncak,Ternate,Ternate,Ternate - Tidore,SIKO,Siko,159,20,0.95,19.97,18.88,cocok,2026-11-19
+2026-07,puncak,Ternate,Ternate,Ternate - Tidore,SIKO,Siko,157,20,0.95,19.97,18.88,cocok,2026-11-19
+2026-08,puncak,Ternate,Ternate,Ternate - Tidore,SIKO,Siko,158,20,0.95,19.79,18.9,cocok,2026-11-19
+2026-09,puncak,Ternate,Ternate,Ternate - Tidore,SIKO,Siko,162,20,0.95,19.8,19.52,cocok,2026-11-19
+2026-10,puncak,Ternate,Ternate,Ternate - Tidore,SIKO,Siko,163,20,0.95,19.8,19.5,cocok,2026-11-19
+2026-01,puncak,Ternate,Ternate,Ternate - Tidore,MALIARO,Maliaro,78,20,0.95,19.99,18.86,cocok,2026-11-19
+2026-02,puncak,Ternate,Ternate,Ternate - Tidore,MALIARO,Maliaro,79,20,0.95,19.98,18.82,cocok,2026-11-19
+2026-03,puncak,Ternate,Ternate,Ternate - Tidore,MALIARO,Maliaro,91,20,0.95,19.98,18.82,cocok,2026-11-19
+2026-04,puncak,Ternate,Ternate,Ternate - Tidore,MALIARO,Maliaro,90,20,0.95,19.98,18.82,cocok,2026-11-19
+2026-05,puncak,Ternate,Ternate,Ternate - Tidore,MALIARO,Maliaro,88,20,0.95,19.99,18.84,cocok,2026-11-19
+2026-06,puncak,Ternate,Ternate,Ternate - Tidore,MALIARO,Maliaro,86,20,0.95,19.99,18.84,cocok,2026-11-19
+2026-07,puncak,Ternate,Ternate,Ternate - Tidore,MALIARO,Maliaro,87,20,0.95,19.98,18.84,cocok,2026-11-19
+2026-08,puncak,Ternate,Ternate,Ternate - Tidore,MALIARO,Maliaro,84,20,0.95,19.8,19.21,cocok,2026-11-19
+2026-09,puncak,Ternate,Ternate,Ternate - Tidore,MALIARO,Maliaro,90,20,0.95,19.78,19.49,cocok,2026-11-19
+2026-10,puncak,Ternate,Ternate,Ternate - Tidore,MALIARO,Maliaro,90,20,0.95,19.8,19.45,cocok,2026-11-19
+2026-01,puncak,Ternate,Ternate,Hiri,HIRI,Hiri,3.49,20,0.95,19.8,18.92,cocok,2026-11-19
+2026-02,puncak,Ternate,Ternate,Hiri,HIRI,Hiri,4.15,20,0.95,19.8,18.91,cocok,2026-11-19
+2026-03,puncak,Ternate,Ternate,Hiri,HIRI,Hiri,4.02,20,0.95,19.8,18.91,cocok,2026-11-19
+2026-04,puncak,Ternate,Ternate,Hiri,HIRI,Hiri,3.98,20,0.95,19.81,18.92,cocok,2026-11-19
+2026-05,puncak,Ternate,Ternate,Hiri,HIRI,Hiri,4.2,20,0.95,19.8,18.91,cocok,2026-11-19
+2026-06,puncak,Ternate,Ternate,Hiri,HIRI,Hiri,4.88,20,0.95,19.8,18.9,cocok,2026-11-19
+2026-07,puncak,Ternate,Ternate,Hiri,HIRI,Hiri,4.1,20,0.95,19.8,18.9,cocok,2026-11-19
+2026-08,puncak,Ternate,Ternate,Hiri,HIRI,Hiri,4.2,20,0.95,19.79,18.89,cocok,2026-11-19
+2026-09,puncak,Ternate,Ternate,Hiri,HIRI,Hiri,4.3,20,0.95,19.8,18.78,cocok,2026-11-19
+2026-10,puncak,Ternate,Ternate,Hiri,HIRI,Hiri,4.3,20,0.95,19.8,18.77,cocok,2026-11-19
+2026-01,puncak,Ternate,Ternate,Batang Dua,BATANG DUA,Batang Dua,3,20,0.95,19.52,18.8,cocok,2026-11-19
+2026-02,puncak,Ternate,Ternate,Batang Dua,BATANG DUA,Batang Dua,3.1,20,0.95,19.53,18.8,cocok,2026-11-19
+2026-03,puncak,Ternate,Ternate,Batang Dua,BATANG DUA,Batang Dua,3.1,20,0.95,19.53,18.8,cocok,2026-11-19
+2026-04,puncak,Ternate,Ternate,Batang Dua,BATANG DUA,Batang Dua,3.2,20,0.95,19.51,18.79,cocok,2026-11-19
+2026-05,puncak,Ternate,Ternate,Batang Dua,BATANG DUA,Batang Dua,3,20,0.95,19.52,18.81,cocok,2026-11-19
+2026-06,puncak,Ternate,Ternate,Batang Dua,BATANG DUA,Batang Dua,2.98,20,0.95,19.53,18.82,cocok,2026-11-19
+2026-07,puncak,Ternate,Ternate,Batang Dua,BATANG DUA,Batang Dua,3,20,0.95,19.52,18.8,cocok,2026-11-19
+2026-08,puncak,Ternate,Ternate,Batang Dua,BATANG DUA,Batang Dua,2.9,20,0.95,19.52,18.78,cocok,2026-11-19
+2026-09,puncak,Ternate,Ternate,Batang Dua,BATANG DUA,Batang Dua,3.1,20,0.95,19.5,18.8,cocok,2026-11-19
+2026-10,puncak,Ternate,Ternate,Batang Dua,BATANG DUA,Batang Dua,3.1,20,0.95,19.52,18.89,cocok,2026-11-19
+2026-01,puncak,Ternate,Laiwui,Madopolo,MADOPOLO,Madopolo,11.45,20,0.95,19.58,19.18,cocok,2026-11-19
+2026-02,puncak,Ternate,Laiwui,Madopolo,MADOPOLO,Madopolo,11.32,20,0.95,19.52,19.12,cocok,2026-11-19
+2026-03,puncak,Ternate,Laiwui,Madopolo,MADOPOLO,Madopolo,11.67,20,0.95,19.43,19.04,cocok,2026-11-19
+2026-04,puncak,Ternate,Laiwui,Madopolo,MADOPOLO,Madopolo,11.14,20,0.95,19.78,19.38,cocok,2026-11-19
+2026-05,puncak,Ternate,Laiwui,Madopolo,MADOPOLO,Madopolo,11.21,20,0.95,19.59,19.19,cocok,2026-11-19
+2026-06,puncak,Ternate,Laiwui,Madopolo,MADOPOLO,Madopolo,11.65,20,0.95,19.55,19.15,cocok,2026-11-19
+2026-07,puncak,Ternate,Laiwui,Madopolo,MADOPOLO,Madopolo,11.89,20,0.95,19.59,19.19,cocok,2026-11-19
+2026-08,puncak,Ternate,Laiwui,Madopolo,MADOPOLO,Madopolo,11.74,20,0.95,19.58,19.18,cocok,2026-11-19
+2026-09,puncak,Ternate,Laiwui,Madopolo,MADOPOLO,Madopolo,11.67,20,0.95,19.56,19.16,cocok,2026-11-19
+2026-10,puncak,Ternate,Laiwui,Madopolo,MADOPOLO,Madopolo,11.67,20,0.95,19.6,19.2,cocok,2026-11-19
+2026-01,puncak,Ternate,Dofa,Mangoli,BUYA,Buya,10,20,0.95,19.8,18.9,cocok,2026-11-19
+2026-02,puncak,Ternate,Dofa,Mangoli,BUYA,Buya,10.7,20,0.95,19.84,18.86,cocok,2026-11-19
+2026-03,puncak,Ternate,Dofa,Mangoli,BUYA,Buya,10.4,20,0.95,19.8,18.83,cocok,2026-11-19
+2026-04,puncak,Ternate,Dofa,Mangoli,BUYA,Buya,10,20,0.95,19.78,18.85,cocok,2026-11-19
+2026-05,puncak,Ternate,Dofa,Mangoli,BUYA,Buya,10.2,20,0.95,19.8,18.9,cocok,2026-11-19
+2026-06,puncak,Ternate,Dofa,Mangoli,BUYA,Buya,10.4,20,0.95,19.82,18.92,cocok,2026-11-19
+2026-07,puncak,Ternate,Dofa,Mangoli,BUYA,Buya,10.7,20,0.95,19.8,18.8,cocok,2026-11-19
+2026-08,puncak,Ternate,Dofa,Mangoli,BUYA,Buya,11,20,0.95,19.7,18.83,cocok,2026-11-19
+2026-09,puncak,Ternate,Dofa,Mangoli,BUYA,Buya,11.6,20,0.95,19.82,18.9,cocok,2026-11-19
+2026-10,puncak,Ternate,Dofa,Mangoli,BUYA,Buya,11.4,20,0.95,19.78,18.9,cocok,2026-11-19
+2026-01,puncak,Ternate,Dofa,Waisakai,WAISAKAI,Waisakai,7.3,20,0.95,19.76,18.94,cocok,2026-11-19
+2026-02,puncak,Ternate,Dofa,Waisakai,WAISAKAI,Waisakai,7.1,20,0.95,19.91,18.8,cocok,2026-11-19
+2026-03,puncak,Ternate,Dofa,Waisakai,WAISAKAI,Waisakai,7.5,20,0.95,19.78,18.88,cocok,2026-11-19
+2026-04,puncak,Ternate,Dofa,Waisakai,WAISAKAI,Waisakai,7,20,0.95,19.85,18.9,cocok,2026-11-19
+2026-05,puncak,Ternate,Dofa,Waisakai,WAISAKAI,Waisakai,7.4,20,0.95,19.7,18.86,cocok,2026-11-19
+2026-06,puncak,Ternate,Dofa,Waisakai,WAISAKAI,Waisakai,7.8,20,0.95,19.8,18.9,cocok,2026-11-19
+2026-07,puncak,Ternate,Dofa,Waisakai,WAISAKAI,Waisakai,8,20,0.95,19.7,18.93,cocok,2026-11-19
+2026-08,puncak,Ternate,Dofa,Waisakai,WAISAKAI,Waisakai,8.4,20,0.95,19.76,18.92,cocok,2026-11-19
+2026-09,puncak,Ternate,Dofa,Waisakai,WAISAKAI,Waisakai,8.7,20,0.95,19.8,18.84,cocok,2026-11-19
+2026-10,puncak,Ternate,Dofa,Waisakai,WAISAKAI,Waisakai,9,20,0.95,19.8,18.8,cocok,2026-11-19
+2026-01,puncak,Ternate,Bobong,Bobong,BOBONG KOTA,Kota Bobong,15,20,0.95,19.97,18.99,cocok (urutan kata),2026-11-19
+2026-02,puncak,Ternate,Bobong,Bobong,BOBONG KOTA,Kota Bobong,15,20,0.95,20,,cocok (urutan kata),2026-11-19
+2026-03,puncak,Ternate,Bobong,Bobong,BOBONG KOTA,Kota Bobong,25,20,0.95,20,,cocok (urutan kata),2026-11-19
+2026-04,puncak,Ternate,Bobong,Bobong,BOBONG KOTA,Kota Bobong,25,20,0.95,20,,cocok (urutan kata),2026-11-19
+2026-05,puncak,Ternate,Bobong,Bobong,BOBONG KOTA,Kota Bobong,26,20,0.95,20,,cocok (urutan kata),2026-11-19
+2026-06,puncak,Ternate,Bobong,Bobong,BOBONG KOTA,Kota Bobong,26,20,0.95,20,,cocok (urutan kata),2026-11-19
+2026-01,puncak,Ternate,Dofa,Mangoli,MANGOLI,Kota Mangoli,6,20,0.95,19.9,18.9,cocok (nama + sistem),2026-11-19
+2026-02,puncak,Ternate,Dofa,Mangoli,MANGOLI,Kota Mangoli,6,20,0.95,19.4,18.92,cocok (nama + sistem),2026-11-19
+2026-03,puncak,Ternate,Dofa,Mangoli,MANGOLI,Kota Mangoli,6.5,20,0.95,19.44,18.86,cocok (nama + sistem),2026-11-19
+2026-04,puncak,Ternate,Dofa,Mangoli,MANGOLI,Kota Mangoli,6.2,20,0.95,19.4,18.98,cocok (nama + sistem),2026-11-19
+2026-05,puncak,Ternate,Dofa,Mangoli,MANGOLI,Kota Mangoli,6,20,0.95,19.3,18.86,cocok (nama + sistem),2026-11-19
+2026-06,puncak,Ternate,Dofa,Mangoli,MANGOLI,Kota Mangoli,6.1,20,0.95,19.2,18.9,cocok (nama + sistem),2026-11-19
+2026-07,puncak,Ternate,Dofa,Mangoli,MANGOLI,Kota Mangoli,6,20,0.95,19.22,18.9,cocok (nama + sistem),2026-11-19
+2026-08,puncak,Ternate,Dofa,Mangoli,MANGOLI,Kota Mangoli,6.6,20,0.95,19.32,19.88,cocok (nama + sistem),2026-11-19
+2026-09,puncak,Ternate,Dofa,Mangoli,MANGOLI,Kota Mangoli,6.8,20,0.95,10.3,18.92,cocok (nama + sistem),2026-11-19
+2026-10,puncak,Ternate,Dofa,Mangoli,MANGOLI,Kota Mangoli,7.1,20,0.95,19.21,18.9,cocok (nama + sistem),2026-11-19
+2026-01,puncak,Ternate,Laiwui,Laiwui,JIKOTAMO,Jikotamo,24.34,20,0.95,18.94,18.56,cocok,2026-11-19
+2026-02,puncak,Ternate,Laiwui,Laiwui,JIKOTAMO,Jikotamo,24.41,20,0.95,18.93,18.55,cocok,2026-11-19
+2026-03,puncak,Ternate,Laiwui,Laiwui,JIKOTAMO,Jikotamo,24.54,20,0.95,18.94,18.56,cocok,2026-11-19
+2026-04,puncak,Ternate,Laiwui,Laiwui,JIKOTAMO,Jikotamo,24.55,20,0.95,18.93,18.55,cocok,2026-11-19
+2026-05,puncak,Ternate,Laiwui,Laiwui,JIKOTAMO,Jikotamo,24.51,20,0.95,18.96,18.58,cocok,2026-11-19
+2026-06,puncak,Ternate,Laiwui,Laiwui,JIKOTAMO,Jikotamo,24.63,20,0.95,18.95,18.57,cocok,2026-11-19
+2026-07,puncak,Ternate,Laiwui,Laiwui,JIKOTAMO,Jikotamo,25.13,20,0.95,18.98,18.6,cocok,2026-11-19
+2026-08,puncak,Ternate,Laiwui,Laiwui,JIKOTAMO,Jikotamo,25.13,20,0.95,18.98,18.6,cocok,2026-11-19
+2026-09,puncak,Ternate,Laiwui,Laiwui,JIKOTAMO,Jikotamo,24.57,20,0.95,18.94,18.56,cocok,2026-11-19
+2026-10,puncak,Ternate,Laiwui,Laiwui,JIKOTAMO,Jikotamo,25.1,20,0.95,18.96,18.58,cocok,2026-11-19
