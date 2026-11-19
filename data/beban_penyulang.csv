@@ -1507,36 +1507,6 @@ periode,jenis_beban,up3,ulp,sistem,penyulang_sumber,penyulang,arus_a,tegangan_kv
 2026-08,puncak,Ternate,Ternate,Ternate - Tidore,KALUMATA,Kalumata,135,20,0.95,19.7,19.42,cocok,2026-11-19
 2026-09,puncak,Ternate,Ternate,Ternate - Tidore,KALUMATA,Kalumata,139,20,0.95,19.71,19.4,cocok,2026-11-19
 2026-10,puncak,Ternate,Ternate,Ternate - Tidore,KALUMATA,Kalumata,138,20,0.95,19.7,19.52,cocok,2026-11-19
-2026-01,puncak,Ternate,Bacan,Bacan,BABANG,Babang,44,20,0.95,19.99,18.8,TIDAK ADA DI GIS,2026-11-19
-2026-02,puncak,Ternate,Bacan,Bacan,BABANG,Babang,44,20,0.95,19.99,18.8,TIDAK ADA DI GIS,2026-11-19
-2026-03,puncak,Ternate,Bacan,Bacan,BABANG,Babang,40,20,0.95,19.99,18.8,TIDAK ADA DI GIS,2026-11-19
-2026-04,puncak,Ternate,Bacan,Bacan,BABANG,Babang,42,20,0.95,19.99,18.8,TIDAK ADA DI GIS,2026-11-19
-2026-05,puncak,Ternate,Bacan,Bacan,BABANG,Babang,45,20,0.95,19.99,18.8,TIDAK ADA DI GIS,2026-11-19
-2026-06,puncak,Ternate,Bacan,Bacan,BABANG,Babang,44,20,0.95,19.99,18.8,TIDAK ADA DI GIS,2026-11-19
-2026-07,puncak,Ternate,Bacan,Bacan,BABANG,Babang,44,20,0.95,19.99,18.8,TIDAK ADA DI GIS,2026-11-19
-2026-08,puncak,Ternate,Bacan,Bacan,BABANG,Babang,44,20,0.95,19.99,18.8,TIDAK ADA DI GIS,2026-11-19
-2026-09,puncak,Ternate,Bacan,Bacan,BABANG,Babang,43,20,0.95,19.99,18.8,TIDAK ADA DI GIS,2026-11-19
-2026-10,puncak,Ternate,Bacan,Bacan,BABANG,Babang,44,20,0.95,19.99,18.8,TIDAK ADA DI GIS,2026-11-19
-2026-01,puncak,Ternate,Bacan,Bacan,LABUHA,Labuha,60,20,0.95,19.99,18.8,TIDAK ADA DI GIS,2026-11-19
-2026-02,puncak,Ternate,Bacan,Bacan,LABUHA,Labuha,60,20,0.95,19.99,18.8,TIDAK ADA DI GIS,2026-11-19
-2026-03,puncak,Ternate,Bacan,Bacan,LABUHA,Labuha,60,20,0.95,19.99,18.8,TIDAK ADA DI GIS,2026-11-19
-2026-04,puncak,Ternate,Bacan,Bacan,LABUHA,Labuha,64,20,0.95,19.99,18.8,TIDAK ADA DI GIS,2026-11-19
-2026-05,puncak,Ternate,Bacan,Bacan,LABUHA,Labuha,60,20,0.95,19.99,18.8,TIDAK ADA DI GIS,2026-11-19
-2026-06,puncak,Ternate,Bacan,Bacan,LABUHA,Labuha,60,20,0.95,19.99,18.8,TIDAK ADA DI GIS,2026-11-19
-2026-07,puncak,Ternate,Bacan,Bacan,LABUHA,Labuha,62,20,0.95,19.99,18.8,TIDAK ADA DI GIS,2026-11-19
-2026-08,puncak,Ternate,Bacan,Bacan,LABUHA,Labuha,62,20,0.95,19.99,18.8,TIDAK ADA DI GIS,2026-11-19
-2026-09,puncak,Ternate,Bacan,Bacan,LABUHA,Labuha,60,20,0.95,19.99,18.8,TIDAK ADA DI GIS,2026-11-19
-2026-10,puncak,Ternate,Bacan,Bacan,LABUHA,Labuha,60,20,0.95,19.99,18.8,TIDAK ADA DI GIS,2026-11-19
-2026-01,puncak,Ternate,Bacan,Bacan,PANAMBUANG,Panambuang,62,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-02,puncak,Ternate,Bacan,Bacan,PANAMBUANG,Panambuang,62,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-03,puncak,Ternate,Bacan,Bacan,PANAMBUANG,Panambuang,62,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-04,puncak,Ternate,Bacan,Bacan,PANAMBUANG,Panambuang,62,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-05,puncak,Ternate,Bacan,Bacan,PANAMBUANG,Panambuang,62,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-06,puncak,Ternate,Bacan,Bacan,PANAMBUANG,Panambuang,60,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-07,puncak,Ternate,Bacan,Bacan,PANAMBUANG,Panambuang,60,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-08,puncak,Ternate,Bacan,Bacan,PANAMBUANG,Panambuang,60,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-09,puncak,Ternate,Bacan,Bacan,PANAMBUANG,Panambuang,77,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-10,puncak,Ternate,Bacan,Bacan,PANAMBUANG,Panambuang,50,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
 2026-01,puncak,Ternate,Soa Siu,Ternate - Tidore,GOTO GIS KAYUMERAH,Goto Gis Kayu Merah,5,20,0.95,19.99,19.98,cocok (ejaan),2026-11-19
 2026-02,puncak,Ternate,Soa Siu,Ternate - Tidore,GOTO GIS KAYUMERAH,Goto Gis Kayu Merah,5,20,0.95,19.99,19.98,cocok (ejaan),2026-11-19
 2026-03,puncak,Ternate,Soa Siu,Ternate - Tidore,GOTO GIS KAYUMERAH,Goto Gis Kayu Merah,5,20,0.95,19.99,19.98,cocok (ejaan),2026-11-19
@@ -1647,26 +1617,6 @@ periode,jenis_beban,up3,ulp,sistem,penyulang_sumber,penyulang,arus_a,tegangan_kv
 2026-08,puncak,Ternate,Sanana,Sanana,SANANA KOTA,Kota Sanana,19.8,20,0.95,20.59,18.96,cocok (urutan kata),2026-11-19
 2026-09,puncak,Ternate,Sanana,Sanana,SANANA KOTA,Kota Sanana,19.9,20,0.95,20.5,18.97,cocok (urutan kata),2026-11-19
 2026-10,puncak,Ternate,Sanana,Sanana,SANANA KOTA,Kota Sanana,19.78,20,0.95,20.52,19.9,cocok (urutan kata),2026-11-19
-2026-01,puncak,Ternate,Bacan,Bacan,BACAN EXPRESS #1,Bacan Express #1,62,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-02,puncak,Ternate,Bacan,Bacan,BACAN EXPRESS #1,Bacan Express #1,62,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-03,puncak,Ternate,Bacan,Bacan,BACAN EXPRESS #1,Bacan Express #1,62,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-04,puncak,Ternate,Bacan,Bacan,BACAN EXPRESS #1,Bacan Express #1,62,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-05,puncak,Ternate,Bacan,Bacan,BACAN EXPRESS #1,Bacan Express #1,62,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-06,puncak,Ternate,Bacan,Bacan,BACAN EXPRESS #1,Bacan Express #1,60,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-07,puncak,Ternate,Bacan,Bacan,BACAN EXPRESS #1,Bacan Express #1,60,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-08,puncak,Ternate,Bacan,Bacan,BACAN EXPRESS #1,Bacan Express #1,60,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-09,puncak,Ternate,Bacan,Bacan,BACAN EXPRESS #1,Bacan Express #1,77,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-10,puncak,Ternate,Bacan,Bacan,BACAN EXPRESS #1,Bacan Express #1,50,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-01,puncak,Ternate,Bacan,Jiko,JIKO,Jiko,10,20,0.95,19.99,19.5,cocok,2026-11-19
-2026-02,puncak,Ternate,Bacan,Jiko,JIKO,Jiko,10,20,0.95,19.99,19.5,cocok,2026-11-19
-2026-03,puncak,Ternate,Bacan,Jiko,JIKO,Jiko,10,20,0.95,19.99,19.5,cocok,2026-11-19
-2026-04,puncak,Ternate,Bacan,Jiko,JIKO,Jiko,10,20,0.95,19.99,19.5,cocok,2026-11-19
-2026-05,puncak,Ternate,Bacan,Jiko,JIKO,Jiko,10,20,0.95,19.99,19.5,cocok,2026-11-19
-2026-06,puncak,Ternate,Bacan,Jiko,JIKO,Jiko,10,20,0.95,19.99,19.5,cocok,2026-11-19
-2026-07,puncak,Ternate,Bacan,Jiko,JIKO,Jiko,10,20,0.95,19.99,19.5,cocok,2026-11-19
-2026-08,puncak,Ternate,Bacan,Jiko,JIKO,Jiko,10,20,0.95,19.99,19.5,cocok,2026-11-19
-2026-09,puncak,Ternate,Bacan,Jiko,JIKO,Jiko,10,20,0.95,19.99,19.5,cocok,2026-11-19
-2026-10,puncak,Ternate,Bacan,Jiko,JIKO,Jiko,10,20,0.95,19.99,19.5,cocok,2026-11-19
 2026-01,puncak,Ternate,Ternate,Ternate - Tidore,SIKO,Siko,142,20,0.95,19.98,18.89,cocok,2026-11-19
 2026-02,puncak,Ternate,Ternate,Ternate - Tidore,SIKO,Siko,144,20,0.95,19.98,18.88,cocok,2026-11-19
 2026-03,puncak,Ternate,Ternate,Ternate - Tidore,SIKO,Siko,158,20,0.95,19.97,18.88,cocok,2026-11-19
@@ -1763,43 +1713,3 @@ periode,jenis_beban,up3,ulp,sistem,penyulang_sumber,penyulang,arus_a,tegangan_kv
 2026-08,puncak,Ternate,Laiwui,Laiwui,JIKOTAMO,Jikotamo,25.13,20,0.95,18.98,18.6,cocok,2026-11-19
 2026-09,puncak,Ternate,Laiwui,Laiwui,JIKOTAMO,Jikotamo,24.57,20,0.95,18.94,18.56,cocok,2026-11-19
 2026-10,puncak,Ternate,Laiwui,Laiwui,JIKOTAMO,Jikotamo,25.1,20,0.95,18.96,18.58,cocok,2026-11-19
-2026-01,puncak,Ternate,Bacan,Bacan,BACAN EXPRESS #3,Bacan Express #3,37,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-02,puncak,Ternate,Bacan,Bacan,BACAN EXPRESS #3,Bacan Express #3,37,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-03,puncak,Ternate,Bacan,Bacan,BACAN EXPRESS #3,Bacan Express #3,37,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-04,puncak,Ternate,Bacan,Bacan,BACAN EXPRESS #3,Bacan Express #3,40,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-05,puncak,Ternate,Bacan,Bacan,BACAN EXPRESS #3,Bacan Express #3,39,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-06,puncak,Ternate,Bacan,Bacan,BACAN EXPRESS #3,Bacan Express #3,37,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-07,puncak,Ternate,Bacan,Bacan,BACAN EXPRESS #3,Bacan Express #3,40,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-08,puncak,Ternate,Bacan,Bacan,BACAN EXPRESS #3,Bacan Express #3,37,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-09,puncak,Ternate,Bacan,Bacan,BACAN EXPRESS #3,Bacan Express #3,40,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-10,puncak,Ternate,Bacan,Bacan,BACAN EXPRESS #3,Bacan Express #3,38,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-01,puncak,Ternate,Bacan,Bacan,RSU,Rsu,37,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-02,puncak,Ternate,Bacan,Bacan,RSU,Rsu,37,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-03,puncak,Ternate,Bacan,Bacan,RSU,Rsu,37,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-04,puncak,Ternate,Bacan,Bacan,RSU,Rsu,40,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-05,puncak,Ternate,Bacan,Bacan,RSU,Rsu,39,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-06,puncak,Ternate,Bacan,Bacan,RSU,Rsu,37,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-07,puncak,Ternate,Bacan,Bacan,RSU,Rsu,40,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-08,puncak,Ternate,Bacan,Bacan,RSU,Rsu,37,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-09,puncak,Ternate,Bacan,Bacan,RSU,Rsu,40,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-10,puncak,Ternate,Bacan,Bacan,RSU,Rsu,38,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-01,puncak,Ternate,Bacan,Bacan,BACAN EXPRESS #2,Bacan Express #2,108,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-02,puncak,Ternate,Bacan,Bacan,BACAN EXPRESS #2,Bacan Express #2,104,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-03,puncak,Ternate,Bacan,Bacan,BACAN EXPRESS #2,Bacan Express #2,100,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-04,puncak,Ternate,Bacan,Bacan,BACAN EXPRESS #2,Bacan Express #2,106,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-05,puncak,Ternate,Bacan,Bacan,BACAN EXPRESS #2,Bacan Express #2,105,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-06,puncak,Ternate,Bacan,Bacan,BACAN EXPRESS #2,Bacan Express #2,104,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-07,puncak,Ternate,Bacan,Bacan,BACAN EXPRESS #2,Bacan Express #2,106,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-08,puncak,Ternate,Bacan,Bacan,BACAN EXPRESS #2,Bacan Express #2,106,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-09,puncak,Ternate,Bacan,Bacan,BACAN EXPRESS #2,Bacan Express #2,103,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-10,puncak,Ternate,Bacan,Bacan,BACAN EXPRESS #2,Bacan Express #2,104,20,0.95,19.99,19.5,TIDAK ADA DI GIS,2026-11-19
-2026-01,puncak,Ternate,Bacan,Bacan,UMAMOI,Omamoi,5,20,0.95,19.99,19.5,cocok (ejaan Umamoi dibaca Omamoi),2026-11-19
-2026-02,puncak,Ternate,Bacan,Bacan,UMAMOI,Omamoi,5,20,0.95,19.99,19.5,cocok (ejaan Umamoi dibaca Omamoi),2026-11-19
-2026-03,puncak,Ternate,Bacan,Bacan,UMAMOI,Omamoi,5,20,0.95,19.99,19.5,cocok (ejaan Umamoi dibaca Omamoi),2026-11-19
-2026-04,puncak,Ternate,Bacan,Bacan,UMAMOI,Omamoi,5,20,0.95,19.99,19.5,cocok (ejaan Umamoi dibaca Omamoi),2026-11-19
-2026-05,puncak,Ternate,Bacan,Bacan,UMAMOI,Omamoi,5,20,0.95,19.99,19.5,cocok (ejaan Umamoi dibaca Omamoi),2026-11-19
-2026-06,puncak,Ternate,Bacan,Bacan,UMAMOI,Omamoi,5,20,0.95,19.99,19.5,cocok (ejaan Umamoi dibaca Omamoi),2026-11-19
-2026-07,puncak,Ternate,Bacan,Bacan,UMAMOI,Omamoi,5,20,0.95,19.99,19.5,cocok (ejaan Umamoi dibaca Omamoi),2026-11-19
-2026-08,puncak,Ternate,Bacan,Bacan,UMAMOI,Omamoi,5,20,0.95,19.99,19.5,cocok (ejaan Umamoi dibaca Omamoi),2026-11-19
-2026-09,puncak,Ternate,Bacan,Bacan,UMAMOI,Omamoi,5,20,0.95,19.99,19.5,cocok (ejaan Umamoi dibaca Omamoi),2026-11-19
-2026-10,puncak,Ternate,Bacan,Bacan,UMAMOI,Omamoi,38,20,0.95,19.99,19.5,cocok (ejaan Umamoi dibaca Omamoi),2026-11-19
