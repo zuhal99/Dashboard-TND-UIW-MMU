@@ -667,7 +667,7 @@
     trs_ai:'https://docs.google.com/spreadsheets/d/1G_Wspp-EKb7E2XOGRaBjZMmxAuZlqqAQ/edit?gid=56154097#gid=56154097',
     trs_scada:'https://docs.google.com/spreadsheets/d/1txdrftRIr5zLWs8Ayj2LfvkpyYegT8cm/edit?gid=1132446219#gid=1132446219'
   };
-  var OTOMATIS = 'Health index dan daftar gangguan penyulang diperiksa otomatis setiap pagi pukul 06.34 WIT. Kinerja EPM (susut, penggantian meter, P2TL), SAIDI SAIFI dan KPI penurunan gangguan penyulang (sheet PENURUNAN GANGGUAN) diperiksa otomatis sebulan sekali, setiap tanggal 10 pukul 07.04 WIT. Data divalidasi lebih dulu; bila ada perubahan, data di dashboard Claude dan web ini diperbarui. Anggaran AI dan AO, Peta Aset dan Transmisi diperbarui saat ada data atau permintaan baru.';
+  var OTOMATIS = 'Health index dan daftar gangguan penyulang diperiksa otomatis setiap pagi pukul 06.34 WIT. Kinerja EPM (susut, penggantian meter, P2TL), SAIDI SAIFI dan KPI penurunan gangguan penyulang (sheet PENURUNAN GANGGUAN) diperiksa otomatis sebulan sekali, setiap tanggal 10 pukul 07.04 WIT. Anggaran Investasi (LKAI) dan Anggaran Operasi (MONITORING AO) diperiksa otomatis seminggu sekali, setiap Senin pukul 08.00 WIT. Data divalidasi lebih dulu; bila ada perubahan, data di dashboard Claude dan web ini diperbarui. Peta Aset dan Transmisi diperbarui saat ada data atau permintaan baru.';
   function jwbTanggal(){
     var ai = need('ai_unit'), ao = need('ao_unit'), ep = need('epm_unit'), P = p2tlModel();
     var f = (document.querySelector('.web-foot') || {}).textContent || '';
@@ -694,8 +694,8 @@
   }
   function jwbSumber(){
     var li = [
-      '<b>Anggaran Investasi Distribusi</b>: spreadsheet LKAI 2026 UIW MMU (' + tautan(SRC.ai, 'buka') + '). Dimuat ulang atas permintaan.',
-      '<b>Anggaran Operasi Distribusi</b>: Google Sheet MONITORING AO 2026 POST 53 DIS (spreadsheet asli), sheet REKAP DETAIL (pagu Rekomposisi II). Dimuat ulang atas permintaan.',
+      '<b>Anggaran Investasi Distribusi</b>: spreadsheet LKAI 2026 UIW MMU (' + tautan(SRC.ai, 'buka') + '). Diperiksa otomatis setiap Senin pukul 08.00 WIT.',
+      '<b>Anggaran Operasi Distribusi</b>: Google Sheet MONITORING AO 2026 POST 53 DIS (spreadsheet asli), sheet REKAP DETAIL (pagu Rekomposisi II). Diperiksa otomatis setiap Senin pukul 08.00 WIT.',
       '<b>Kinerja EPM</b> (susut, penggantian meter, P2TL): spreadsheet Laporan Kinerja EPM 2026, sheet Susut UP3 MMU, GAMET dan P2TL Maluku (' + tautan(SRC.epm, 'buka') + '). Diperiksa otomatis setiap tanggal 10.',
       '<b>Kinerja Ophardist</b>: SAIDI dan SAIFI dari spreadsheet SAIDI SAIFI 2026, sheet REAL VS TARGET 2026; penurunan gangguan penyulang dari spreadsheet Gangguan Distribusi APKT, sheet PENURUNAN GANGGUAN (' + tautan(SRC.gu, 'buka') + '). Diperiksa otomatis setiap tanggal 10.',
       '<b>Health index dan gangguan penyulang</b>: spreadsheet Gangguan Distribusi APKT, sheet HEALTH INDEX dan sheet bulanan (' + tautan(SRC.hi, 'buka') + '). Diperiksa otomatis setiap pagi.',
