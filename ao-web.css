@@ -1,0 +1,29 @@
+/* Tab Anggaran Operasi versi web, gaya "Tiga Gauge" (27 Nov 2026). Memakai .aiw-* dari ai-web.css. Dipasang oleh build_web.py. */
+.aow-on #anggaran-ao .kp-intro,.aow-on #ao-alert,.aow-on #kartu-ao,.aow-on #ao-per-unit,.aow-on #anggaran-ao>.td-grid2{display:none!important}
+#anggaran-ao .aow{margin-top:18px}
+.aow-over{color:#C8403B;font-weight:600}
+.aow-merah{color:#C8403B!important}
+.aow .aiw-ub{overflow:visible}
+.aow .aiw-ub i.x{top:0;bottom:0;background:#F4625E;border-radius:0 5px 5px 0}
+.aow .aiw-ub em{position:absolute;top:-3px;bottom:-3px;width:0;border-left:1.5px dashed #4A5F73}
+.aow-kr{grid-template-columns:200px minmax(0,1fr) 64px;cursor:default}
+.aow-kr:hover{background:none}
+.aow-kr .aiw-un{text-align:left;font-weight:500;display:flex;flex-direction:column;line-height:1.25}
+.aow-kr .aiw-un small{font-size:12px;color:var(--aw-ink3);font-weight:400}
+.aow-kel{padding:12px 8px;border-radius:10px;cursor:pointer;border-top:1px solid var(--aw-line)}
+.aow-kel:first-of-type{border-top:0}
+.aow-kel:hover{background:#F5F8FB}.aow-kel.on{background:#EAF2FA}.aow-kel:focus-visible{outline:2px solid #2E75B6}
+.aow-kh{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline;margin-bottom:8px}
+.aow-kh b{font-size:15.5px}.aow-kh span{font-size:14px;color:var(--aw-ink2)}
+.aow-kb{display:flex;height:20px;border-radius:5px;overflow:hidden;background:var(--aw-track)}
+.aow-kb i{display:block;height:100%}
+.aow-kv{display:flex;gap:18px;flex-wrap:wrap;font-size:13.5px;color:var(--aw-ink2);margin-top:8px}.aow-kv b{color:var(--aw-ink);font-weight:700}
+.aow-rr{display:grid;grid-template-columns:110px minmax(0,1fr) 64px;align-items:center;gap:12px;padding:5px 6px;border-radius:8px;cursor:pointer}
+.aow-rr:hover{background:#F5F8FB}.aow-rr.on{background:#EAF2FA}.aow-rr:focus-visible{outline:2px solid #2E75B6}
+.aow-rr>b{font-size:14.5px;font-weight:700;text-align:right}
+.aow-rt{position:relative;height:16px}
+.aow-rt::before{content:"";position:absolute;left:50%;top:-4px;bottom:-4px;border-left:1px solid #B7C6D4}
+.aow-rt i{position:absolute;top:0;bottom:0;border-radius:4px}
+@media(max-width:900px){
+.aow-kr{grid-template-columns:120px minmax(0,1fr) 56px}.aow-kr .aiw-un{font-size:13px;white-space:normal}
+.aow-rr{grid-template-columns:84px minmax(0,1fr) 56px;gap:8px}}
