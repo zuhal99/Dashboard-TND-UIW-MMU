@@ -1,0 +1,35 @@
+/* Tab Anggaran Operasi versi web, Konsep 3 "Kartu Unit" (27 Nov 2026). Memakai .aiw-* dari ai-web.css. Dipasang oleh build_web.py. */
+.aow-on #anggaran-ao .kp-intro,.aow-on #ao-alert,.aow-on #kartu-ao,.aow-on #ao-per-unit,.aow-on #anggaran-ao>.td-grid2{display:none!important}
+#anggaran-ao .aow{margin-top:18px}
+.aow-over{color:#C8403B;font-weight:600}
+.aow-merah{color:#C8403B!important}
+.k3-u:focus-visible,.k3-kc:focus-visible{outline:2px solid #2E75B6;outline-offset:0}
+.k-st{position:relative;display:flex;height:16px;border-radius:5px;overflow:visible;background:var(--aw-track)}
+.k-st i{display:block;height:100%}.k-st i:first-child{border-radius:5px 0 0 5px}.k-st i:last-of-type{border-radius:0 5px 5px 0}
+.k-st em{position:absolute;top:-3px;bottom:-3px;border-left:2px solid #F4625E}
+.k-neg{color:#C8403B}.k-pos{color:#2E75B6}
+.k2-hero{padding:24px 28px}.k2-nums{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px;margin-bottom:18px}
+.k2-nums small{display:flex;align-items:center;gap:7px;font-size:13.5px;color:var(--aw-ink2)}.k2-nums small i{width:11px;height:11px;border-radius:3px;display:inline-block}
+.k2-nums b{display:block;font-size:28px;font-weight:700;margin:4px 0 2px}.k2-nums span{font-size:13.5px;color:var(--aw-ink3)}
+.k2-pita .k-st{height:30px;border-radius:8px}.k2-pita .k-st i:first-child{border-radius:8px 0 0 8px}.k2-pita .k-st i:last-of-type{border-radius:0 8px 8px 0}
+.k2-th,.k2-tr{display:grid;grid-template-columns:110px minmax(0,1fr) 80px 76px 70px 92px;gap:14px;align-items:center;padding:8px 6px}
+.k2-th{font-size:12.5px;color:var(--aw-ink3);text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid var(--aw-line)}
+.k2-th span:nth-child(n+3),.k2-tr>span:nth-child(n+3),.k2-tr>b{text-align:right}
+.k2-tr{border-bottom:1px solid var(--aw-line);cursor:pointer;font-size:14.5px;border-radius:6px}.k2-tr:hover{background:#F5F8FB}.k2-tr.on{background:#EAF2FA}
+.k2-n{font-weight:600;text-align:right}.k2-tr b{font-weight:700}
+.k2-kr{display:grid;grid-template-columns:190px minmax(0,1fr) 60px;gap:12px;align-items:center;padding:7px 0}.k2-kr b{text-align:right}
+.k2-kn{display:flex;flex-direction:column;font-size:14px;line-height:1.25}.k2-kn small{font-size:12px;color:var(--aw-ink3)}
+.k3-tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.k3-t{display:flex;flex-direction:column;gap:2px;padding:18px 20px}.k3-t small{font-size:13.5px;color:var(--aw-ink2)}.k3-t b{font-size:28px;font-weight:700}.k3-t span{font-size:13.5px;color:var(--aw-ink3)}
+.k3-ln{display:block;height:6px;border-radius:3px;background:var(--aw-track);margin-top:10px;overflow:hidden}.k3-ln i{display:block;height:100%;border-radius:3px}
+.k3-sh{display:flex;align-items:baseline;gap:14px;margin:4px 0 12px;flex-wrap:wrap}.k3-sh h3{font-size:17px;margin:0}.k3-sh span{font-size:14px;color:var(--aw-ink2)}
+.k3-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.k3-u{display:flex;gap:14px;align-items:center;padding:14px 16px;cursor:pointer}.k3-u:hover{border-color:#B7C6D4}.k3-u.on{border-color:#2E75B6;background:#F4F9FD}.k3-u.over{border-left:4px solid #F4625E}
+.k3-u div{display:flex;flex-direction:column;gap:1px;font-size:13.5px;color:var(--aw-ink2)}.k3-u div b{font-size:15.5px;color:var(--aw-ink);margin-bottom:2px}
+.k3-kr{display:grid;grid-template-columns:220px minmax(0,1fr) 60px;gap:12px;align-items:center;padding:8px 0;border-top:1px solid var(--aw-line)}.k3-kr .k3-ln{margin:0;height:10px}.k3-kr b{text-align:right}
+.k3-kr span{display:flex;flex-direction:column;font-size:14px;line-height:1.25}.k3-kr small{font-size:12px;color:var(--aw-ink3)}
+.k3-kel{display:grid;grid-template-columns:1fr 1fr;gap:14px}.k3-kc{display:flex;flex-direction:column;align-items:center;gap:2px;padding:12px;border-radius:12px;cursor:pointer;font-size:13.5px;color:var(--aw-ink2)}
+.k3-kc:hover{background:#F5F8FB}.k3-kc.on{background:#EAF2FA}.k3-kc b{color:var(--aw-ink);font-size:15px;margin-top:6px}
+@media(max-width:900px){.k2-nums{grid-template-columns:1fr 1fr}.k2-nums b{font-size:22px}
+.k2-th,.k2-tr{grid-template-columns:70px minmax(0,1fr) 56px;gap:8px}.k2-th span:nth-child(3),.k2-th span:nth-child(4),.k2-th span:nth-child(6),.k2-tr>span:nth-child(3),.k2-tr>span:nth-child(4),.k2-tr>span:nth-child(6){display:none}
+.k2-kr{grid-template-columns:120px minmax(0,1fr) 52px}.k3-tiles{grid-template-columns:1fr 1fr;gap:10px}.k3-t b{font-size:22px}.k3-grid{grid-template-columns:1fr}.k3-kr{grid-template-columns:130px minmax(0,1fr) 52px}}
