@@ -23,7 +23,7 @@ body{font-family:var(--font-anthropic-sans);-webkit-text-size-adjust:100%}
 <link rel="stylesheet" href="hi-web.css?v=f20eb88753">
 <link rel="stylesheet" href="transmisi-web.css?v=43705b30a4">
 <link rel="stylesheet" href="mdu-web.css?v=32d65fa5c9">
-<link rel="stylesheet" href="ai-web.css?v=bc460dce75">
+<link rel="stylesheet" href="ai-web.css?v=3ecf346dbd">
 <link rel="stylesheet" href="transisi-web.css?v=135a302c82">
 <script src="d3.min.js"></script>
 <script src="vendor/leaflet/leaflet.js?v=1.9.4"></script>
@@ -2065,7 +2065,7 @@ const KAT={'Semua':['Semua kontrak',d=>true],'sel':['Fisik selesai',d=>d.fisik_s
 'lewat':['Lewat tanggal selesai',d=>d.lewat_tgl_selesai==='ya'],'perhatian':['Perlu perhatian',d=>!!d.alasan],'luncur':['Rencana bayar meluncur (murni)',d=>d.meluncur==='ya']};
 TD.AIKEL.forEach(k=>{KAT['g:'+k]=[KNM[k]||k,d=>d.kelompok===k];});
 TD.AIPF.forEach(x=>{KAT['p:'+x]=[PFNM[x],d=>d.progres===x];});
-const katOf=(k)=>KAT[k]||KAT['Semua'];
+window.aiKAT=KAT;const katOf=(k)=>KAT[k]||KAT['Semua'];
 const kontrak=(opt)=>{const r=data('ai_kontrak');if(!r)return null;const p=P();const o=opt||{};
 const q=p.q.toLowerCase();
 return r.filter(d=>d.jenis===p.j&&(p.u==='Semua'||d.unit===p.u)&&(o.semuaKat||katOf(p.k)[1](d))&&(o.semuaKat||!q||(d.no_kontrak+' '+d.pekerjaan+' '+d.pelaksana+' '+d.prk+' '+d.program).toLowerCase().includes(q)));};
@@ -2986,7 +2986,7 @@ return best;
 <script src="transmisi-web.js?v=fe1b91eed9"></script>
 <script src="mdu-data.js?v=d9d0fe374f"></script>
 <script src="mdu-web.js?v=11596adfc0"></script>
-<script src="ai-web.js?v=427026fd02"></script>
+<script src="ai-web.js?v=5defb70bbc"></script>
 <script>__mulai();</script>
 <script src="tanya-data.js?v=4bb6e97506"></script>
 <script src="sidebar-web.js?v=027d06199d"></script>

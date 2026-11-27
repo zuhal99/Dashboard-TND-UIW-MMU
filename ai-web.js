@@ -43,7 +43,7 @@
     '<div class="aiw-card"><h3>Per unit</h3><p class="aiw-q">Urut dari terbayar terendah. Klik baris untuk memfilter unit.</p>' +
     '<div class="aiw-lg"><span><b style="background:' + C.muda + '"></b>Fisik selesai</span><span><b style="background:' + C.petrol + '"></b>Terbayar (angka kanan)</span></div>' +
     '<div class="aiw-units" data-aiw="units"></div></div>' +
-    '<div class="aiw-card"><h3>Proyeksi pembayaran</h3><p class="aiw-q">Rp miliar, menurut rencana bayar tiap kontrak.</p>' +
+    '<div class="aiw-card"><h3>Proyeksi pembayaran</h3><p class="aiw-q">Rp miliar, menurut rencana bayar tiap kontrak. Klik kolom untuk melihat daftar kontraknya.</p>' +
     '<div class="aiw-cols" data-aiw="bayar"></div><p class="aiw-note" data-aiw="bayar-note"></p></div></section>' +
     '<section class="aiw-card aiw-pf"><h3>Per progres fisik</h3><p class="aiw-q">Jumlah dan nilai kontrak menurut tahap progres fisik. Klik baris untuk melihat daftar kontraknya.</p>' +
     '<div class="aiw-pfg"><div class="aiw-donut" data-aiw="donut"></div><div data-aiw="tahap"></div></div></section>';
@@ -64,7 +64,7 @@
     if (det) { det.open = true; setTimeout(function () { det.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 60); }
   }
   root.addEventListener('click', function (ev) {
-    var k = ev.target.closest('[data-kat]'); if (k) { bukaDaftar(k.getAttribute('data-kat')); return; }
+    var k = ev.target.closest('[data-kat]'); if (k) { ev.preventDefault(); bukaDaftar(k.getAttribute('data-kat')); return; }
     var r = ev.target.closest('[data-unit]');
     if (r) { var u = r.getAttribute('data-unit'); dash.setParams({ up3_ai: prm().u === u ? 'Semua' : u }); }
   });
@@ -124,16 +124,40 @@
     return s + '<text x="90" y="92" text-anchor="middle" font-size="34" font-weight="700" fill="#132C42">' + total + '</text><text x="90" y="114" text-anchor="middle" font-size="13" fill="#4A5F73">kontrak</text></svg>';
   }
   /* sisa bayar per kontrak menurut kolom rencana bayar/selesai */
+  function sisaBayar(d) { return ((+d.nilai_rp || 0) - (+d.terbayar_jt || 0) * 1e6) / 1e9; }
+  /* kolom proyeksi sebuah kontrak: nov, des, lewat (rencana Jan–Okt), l2027 (meluncur), lain; null bila sudah lunas */
+  function kunciBayar(d) {
+    if (sisaBayar(d) <= 0.0005) return null;
+    var r = String(d.rencana || '').toLowerCase();
+    if (r.indexOf('luncur') >= 0 || r.indexOf('2027') >= 0) return 'l2027';
+    for (var i = 0; i < BL.length; i++) if (r.indexOf(BL[i]) >= 0) return i < 10 ? 'lewat' : i === 10 ? 'nov' : 'des';
+    return 'lain';
+  }
   function proyeksi(K) {
     var o = { nov: [0, 0], des: [0, 0], lewat: [0, 0], l2027: [0, 0], lain: [0, 0] };
-    K.forEach(function (d) {
-      var sisa = ((+d.nilai_rp || 0) - (+d.terbayar_jt || 0) * 1e6) / 1e9; if (sisa <= 0.0005) return;
-      var r = String(d.rencana || '').toLowerCase(), k = 'lain';
-      if (r.indexOf('luncur') >= 0 || r.indexOf('2027') >= 0) k = 'l2027';
-      else { for (var i = 0; i < BL.length; i++) if (r.indexOf(BL[i]) >= 0) { k = i < 10 ? 'lewat' : i === 10 ? 'nov' : 'des'; break; } }
-      o[k][0] += sisa; o[k][1]++;
-    });
+    K.forEach(function (d) { var k = kunciBayar(d); if (k) { o[k][0] += sisaBayar(d); o[k][1]++; } });
     return o;
+  }
+  /* saringan daftar kontrak per kolom proyeksi pembayaran (KAT dibuka halaman lewat window.aiKAT, tambalan build_web.py) */
+  var BAYAR = [['b:bayar', 'Bayar: sudah ada pembayaran', function (d) { return (+d.terbayar_jt || 0) > 0; }],
+    ['b:nov', 'Bayar: sisa rencana November', function (d) { return kunciBayar(d) === 'nov'; }],
+    ['b:des', 'Bayar: sisa rencana Desember', function (d) { return kunciBayar(d) === 'des'; }],
+    ['b:lewat', 'Bayar: terlambat (rencana Jan–Okt)', function (d) { return kunciBayar(d) === 'lewat'; }],
+    ['b:l2027', 'Bayar: rencana 2027 (meluncur)', function (d) { return kunciBayar(d) === 'l2027'; }],
+    ['b:lain', 'Bayar: belum ada rencana bayar', function (d) { return kunciBayar(d) === 'lain'; }]];
+  var bisaKlikBayar = false;
+  function pasangKatBayar() {
+    if (bisaKlikBayar) return true;
+    var K = window.aiKAT; if (!K) return false;
+    BAYAR.forEach(function (b) { K[b[0]] = [b[1], b[2]]; });
+    var sel = document.getElementById('ai-kat');
+    if (sel && !sel.querySelector('option[value="b:nov"]')) {
+      var g = document.createElement('optgroup'); g.label = 'Proyeksi pembayaran';
+      BAYAR.forEach(function (b) { var o = document.createElement('option'); o.value = b[0]; o.textContent = b[1].replace(/^Bayar: /, ''); g.appendChild(o); });
+      sel.appendChild(g);
+      var v = dash.params().ai_kat; if (v && v.indexOf('b:') === 0) sel.value = v;
+    }
+    return (bisaKlikBayar = true);
   }
 
   function render() {
@@ -163,15 +187,16 @@
       /* proyeksi pembayaran */
       var K = KT.filter(function (d) { return d.jenis === p.j && (p.u === 'Semua' || d.unit === p.u); });
       var o = proyeksi(K);
-      var cols = [['Terbayar', t.terbayar_miliar, C.petrol, 's.d. ' + tgl(t.posisi).replace(/ \d{4}$/, '')], ['Nov', o.nov[0], C.biru, o.nov[1] + ' kontrak'], ['Des', o.des[0], C.biru, o.des[1] + ' kontrak'],
-        ['Terlambat', o.lewat[0], C.salmon, o.lewat[1] + ' kontrak'], ['2027', o.l2027[0], C.kuning, o.l2027[1] + ' kontrak']];
+      var cols = [['Terbayar', t.terbayar_miliar, C.petrol, 's.d. ' + tgl(t.posisi).replace(/ \d{4}$/, ''), 'b:bayar'], ['Nov', o.nov[0], C.biru, o.nov[1] + ' kontrak', 'b:nov'], ['Des', o.des[0], C.biru, o.des[1] + ' kontrak', 'b:des'],
+        ['Terlambat', o.lewat[0], C.salmon, o.lewat[1] + ' kontrak', 'b:lewat'], ['2027', o.l2027[0], C.kuning, o.l2027[1] + ' kontrak', 'b:l2027']];
+      var klik = pasangKatBayar();
       var mx = Math.max.apply(null, cols.map(function (c) { return c[1]; })) || 1;
       Q('bayar').innerHTML = cols.map(function (c) {
-        return '<div class="aiw-col" title="' + c[0] + ': ' + RP(c[1]) + '"><b>' + fx(c[1], 1) + '</b><i style="height:calc((100% - 72px) * ' + Math.max(0.01, c[1] / mx).toFixed(3) + ');background:' + c[2] + '"></i><span>' + c[0] + '</span><small>' + c[3] + '</small></div>';
+        return '<div class="aiw-col' + (klik ? ' aiw-klik" data-kat="' + c[4] + '" role="button" tabindex="0"' : '"') + ' title="' + c[0] + ': ' + RP(c[1]) + (klik ? '. Klik untuk melihat daftar kontraknya.' : '') + '"><b>' + fx(c[1], 1) + '</b><i style="height:calc((100% - 72px) * ' + Math.max(0.01, c[1] / mx).toFixed(3) + ');background:' + c[2] + '"></i><span>' + c[0] + '</span><small>' + c[3] + '</small></div>';
       }).join('');
       var th = t.terbayar_miliar + o.nov[0] + o.des[0];
       Q('bayar-note').innerHTML = 'Bila rencana Nov–Des terealisasi, terbayar 2026 mencapai <b>' + RP(th) + '</b> (' + PC(th / t.pagu_miliar * 100) + ' pagu). ' +
-        '<b>Terlambat</b>: rencana bayarnya Januari–Oktober tetapi belum dibayar. <b>2027</b>: rencana bayarnya meluncur.' + (o.lain[1] ? ' ' + o.lain[1] + ' kontrak (' + RP(o.lain[0]) + ') belum punya rencana bayar yang jelas.' : '');
+        '<b>Terlambat</b>: rencana bayarnya Januari–Oktober tetapi belum dibayar. <b>2027</b>: rencana bayarnya meluncur.' + (o.lain[1] ? ' ' + (klik ? '<a href="#" data-kat="b:lain">' + o.lain[1] + ' kontrak</a>' : o.lain[1] + ' kontrak') + ' (' + RP(o.lain[0]) + ') belum punya rencana bayar yang jelas.' : '');
 
       /* per progres fisik */
       var pr = PG.filter(function (d) { return d.jenis === p.j && d.unit === p.u; });
