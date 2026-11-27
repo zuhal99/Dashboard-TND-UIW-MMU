@@ -1,0 +1,10 @@
+/* Huruf web: Myriad Pro (permintaan Zuhal 27 Nov 2026).
+   Myriad Pro berlisensi Adobe dan tidak boleh disematkan di situs publik, jadi dipakai bila sudah terpasang di perangkat
+   pembaca. Cadangan: Source Sans 3 (rancangan Adobe, bentuknya sangat mirip Myriad, lisensi terbuka SIL OFL). */
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap');
+:root{
+  --font-myriad:"Myriad Pro","MyriadPro-Regular","Myriad","Source Sans 3","Source Sans Pro","Segoe UI",system-ui,-apple-system,sans-serif;
+  --font-anthropic-sans:var(--font-myriad);
+  --font-anthropic-serif:var(--font-myriad);
+}
+body,#dash-root,.leaflet-container,button,input,select,textarea{font-family:var(--font-myriad)}
