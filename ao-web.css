@@ -33,3 +33,4 @@
 @media(max-width:900px){.k2-nums{grid-template-columns:1fr 1fr}.k2-nums b{font-size:22px}
 .k2-th,.k2-tr{grid-template-columns:70px minmax(0,1fr) 56px;gap:8px}.k2-th span:nth-child(3),.k2-th span:nth-child(4),.k2-th span:nth-child(6),.k2-tr>span:nth-child(3),.k2-tr>span:nth-child(4),.k2-tr>span:nth-child(6){display:none}
 .k2-kr{grid-template-columns:120px minmax(0,1fr) 52px}.k3-tiles{grid-template-columns:1fr 1fr;gap:10px}.k3-t b{font-size:22px}.k3-grid{grid-template-columns:1fr}.k3-kr{grid-template-columns:130px minmax(0,1fr) 52px}}
+.k3-u svg{flex:0 0 auto}

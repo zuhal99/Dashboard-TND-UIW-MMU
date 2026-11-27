@@ -45,11 +45,31 @@
   /* KONSEP 3: Kartu Unit — strip angka ringkas, lalu kartu per unit dengan cincin terbayar */
   function cincin(v, col, sz) { var R = 30, Cc = 2 * Math.PI * R, l = Math.max(0, Math.min(v, 100)) / 100 * Cc;
     return '<svg viewBox="0 0 80 80" width="' + sz + '" height="' + sz + '"><circle cx="40" cy="40" r="' + R + '" fill="none" stroke="#E8EEF4" stroke-width="9"/>' +
-      '<circle cx="40" cy="40" r="' + R + '" fill="none" stroke="' + col + '" stroke-width="9" stroke-linecap="round" stroke-dasharray="' + l.toFixed(1) + ' ' + Cc.toFixed(1) + '" transform="rotate(-90 40 40)"/>' +
-      '<text x="40" y="45" text-anchor="middle" font-size="15" font-weight="700" fill="#132C42">' + Math.round(v) + '%</text></svg>'; }
+      '<circle class="k-arc" data-v="' + Math.max(0, Math.min(v, 100)) + '" cx="40" cy="40" r="' + R + '" fill="none" stroke="' + col + '" stroke-width="9" stroke-linecap="round" stroke-dasharray="' + l.toFixed(1) + ' ' + Cc.toFixed(1) + '" transform="rotate(-90 40 40)"' + (v <= 0 ? ' stroke-opacity="0"' : '') + '/>' +
+      '<text class="k-num" data-v="' + (+v || 0) + '" x="40" y="45" text-anchor="middle" font-size="15" font-weight="700" fill="#132C42">' + Math.round(v) + '%</text></svg>'; }
+  /* animasi: cincin dan batang naik dari 0 saat pertama tampil, filter berubah, atau tab dibuka kembali */
+  var diam = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches, animId = 0, kunciLalu = '', tadiTersembunyi = true;
+  var CR = 2 * Math.PI * 30;
+  function atur(k) {
+    root.querySelectorAll('.k-arc').forEach(function (c) { var v = +c.getAttribute('data-v') * k; c.setAttribute('stroke-dasharray', (v / 100 * CR).toFixed(1) + ' ' + CR.toFixed(1)); });
+    root.querySelectorAll('.k-num').forEach(function (t) { t.textContent = Math.round(+t.getAttribute('data-v') * k) + '%'; });
+    root.querySelectorAll('.k-bar').forEach(function (b) { b.style.width = (+b.getAttribute('data-w') * k).toFixed(2) + '%'; });
+  }
+  function animasi() {
+    var id = ++animId; if (diam) { atur(1); return; }
+    atur(0); var t0 = null, dur = 1200;
+    function step(ts) { if (id !== animId) return; if (t0 == null) t0 = ts; var k = Math.min(1, (ts - t0) / dur); atur(1 - Math.pow(1 - k, 3)); if (k < 1) requestAnimationFrame(step); }
+    requestAnimationFrame(step);
+  }
+  if (window.IntersectionObserver) new IntersectionObserver(function (en) {
+    en.forEach(function (x) {
+      if (!x.isIntersecting) { if (!root.offsetParent) tadiTersembunyi = true; return; }
+      if (tadiTersembunyi && root.querySelector('.k-arc')) { tadiTersembunyi = false; animasi(); }
+    });
+  }).observe(root);
   function render() {
     if (root.closest('[hidden]')) return; var a = ambil(); if (!a || !a.t) return; var t = a.t, p = a.p;
-    var tile = function (l, v, s, pct, col) { return '<div class="aiw-card k3-t"><small>' + l + '</small><b>' + v + '</b><span>' + s + '</span>' + (pct != null ? '<i class="k3-ln"><i style="width:' + Math.min(100, pct) + '%;background:' + col + '"></i></i>' : '') + '</div>'; };
+    var tile = function (l, v, s, pct, col) { return '<div class="aiw-card k3-t"><small>' + l + '</small><b>' + v + '</b><span>' + s + '</span>' + (pct != null ? '<i class="k3-ln"><i class="k-bar" data-w="' + Math.min(100, pct) + '" style="width:' + Math.min(100, pct) + '%;background:' + col + '"></i></i>' : '') + '</div>'; };
     root.innerHTML =
       '<div class="aiw-head"><h2 class="aiw-title">Anggaran Operasi Pos 53 Distribusi 2026</h2><p class="aiw-meta">' + a.meta + '</p></div>' +
       '<section class="k3-tiles">' + tile('Pagu', RP(t.pagu_miliar, 2), 'awal ' + RP(t.pagu_awal_miliar, 2)) +
@@ -61,9 +81,17 @@
           '<div><b>' + esc(nama(d.unit)) + '</b><span>Pagu ' + RP(d.pagu_miliar, 2) + '</span><span' + (over ? ' class="aow-merah"' : '') + '>Terkontrak ' + PC(d.pct_kontrak) + (over ? ' (melebihi pagu)' : '') + '</span>' +
           '<span class="' + (g < 0 ? 'k-neg' : 'k-pos') + '">Rekomposisi ' + (g > 0 ? '+' : g < 0 ? '−' : '') + fx(Math.abs(g), 2) + ' M</span></div></div>'; }).join('') + '</div></section>' +
       '<section class="aiw-row"><div class="aiw-card"><h3>Per PRK</h3><p class="aiw-q">Terbayar terhadap pagu, PRK sejenis digabung, urut dari pagu terbesar.</p>' +
-      a.kg.map(function (d) { return '<div class="k3-kr"><span>' + esc(d.kegiatan) + '<small>' + RP(d.pagu_miliar) + ' · kontrak ' + PC(d.pct_kontrak) + '</small></span><i class="k3-ln"><i style="width:' + Math.min(100, d.pct_bayar) + '%;background:' + C.petrol + '"></i></i><b>' + PC(d.pct_bayar) + '</b></div>'; }).join('') + '</div>' +
+      a.kg.map(function (d) { return '<div class="k3-kr"><span>' + esc(d.kegiatan) + '<small>' + RP(d.pagu_miliar) + ' · kontrak ' + PC(d.pct_kontrak) + '</small></span><i class="k3-ln"><i class="k-bar" data-w="' + Math.min(100, d.pct_bayar) + '" style="width:' + Math.min(100, d.pct_bayar) + '%;background:' + C.petrol + '"></i></i><b>' + PC(d.pct_bayar) + '</b></div>'; }).join('') + '</div>' +
       '<div class="aiw-card"><h3>Murni dan hutang usaha</h3><p class="aiw-q">Klik untuk memfilter kelompok.</p><div class="k3-kel">' +
       a.ks.map(function (x) { var d = x.d; return '<div tabindex="0" role="button" class="k3-kc' + (p.k === x.k ? ' on' : '') + '" data-kel="' + x.k + '">' + cincin(d.pct_bayar, C.petrol, 110) + '<b>' + x.l + '</b><span>Pagu ' + RP(d.pagu_miliar) + '</span><span>Terkontrak ' + PC(d.pct_kontrak) + '</span></div>'; }).join('') + '</div></div></section>';
   }
-  dash.onData(function () { try { render(); } catch (e) { console.error('k3: ' + e.stack); } });
+  dash.onData(function () {
+    try {
+      var p = prm(), kunci = p.u + '|' + p.k, ada = !!root.querySelector('.k-arc');
+      render();
+      /* hanya beranimasi bila pilihan berubah atau tampilan baru dibuat; pembaruan lain langsung ke nilai akhir */
+      if (!root.offsetParent) return;
+      if (kunci !== kunciLalu || !ada) { kunciLalu = kunci; tadiTersembunyi = false; animasi(); }
+    } catch (e) { console.error('ao-web: ' + e.stack); }
+  });
 })();
