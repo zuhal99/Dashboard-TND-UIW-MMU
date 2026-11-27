@@ -1,0 +1,62 @@
+/* Sub-tab Rensisdist dan monitoring MDU (mdu-web.js), 27 Nov 2026. */
+:root{--mdu-hijau:#3E9B4F;--mdu-kuning:#E0A100;--mdu-merah:#D62E24;--mdu-ungu:#7B3FA0}
+html:not(.rs-v-kinerja) #rs-subnav:not([hidden]) ~ #kinerja{display:none!important}
+html:not(.rs-v-mdu) #mdu{display:none!important}
+.rs-subnav{padding-bottom:0}
+.rs-subtabs{display:flex;gap:4px;border-bottom:1px solid var(--color-border-line);margin:2px 0 4px}
+.rs-subtab{font:inherit;font-size:15px;background:none;border:0;border-bottom:3px solid transparent;color:var(--color-fg-muted);padding:9px 18px;cursor:pointer}
+.rs-subtab[aria-selected="true"]{color:var(--pln-blue-dark);font-weight:600;border-bottom-color:var(--pln-blue)}
+.rs-subtab:focus-visible{outline:2px solid var(--pln-blue);outline-offset:2px}
+.mdu .mdu-fbar{margin:4px 0 18px}
+.mdu .mdu-fbar .kp-seg{margin-left:0}
+.mdu-cards{display:grid;gap:12px;margin-bottom:20px}
+.mdu-c6{grid-template-columns:repeat(6,1fr)}.mdu-c4{grid-template-columns:repeat(4,1fr)}.mdu-c3{grid-template-columns:repeat(3,1fr)}
+.mdu-card{border:1px solid var(--color-border-line);border-top:4px solid var(--c);border-radius:10px;padding:12px 14px;background:var(--color-bg);min-width:0}
+.mdu-card .l{font-size:13px;font-weight:600}
+.mdu-card .v{font-family:var(--font-anthropic-serif);font-size:26px;color:var(--c);margin:4px 0;line-height:1.15}
+.mdu-card .v small{font-size:15px}
+.mdu-card .n{font-size:12px;color:var(--color-fg-muted);line-height:1.45}
+.mdu-card .n b{color:var(--color-fg)}
+.mdu-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
+.mdu-box{padding:16px 18px;margin-bottom:18px}
+.mdu-row .mdu-box{margin-bottom:0}
+.mdu-box h3{font-size:15px;font-weight:600;margin:0 0 4px}
+.mdu-h3b{margin-top:18px!important}
+.mdu-sub{margin:0 0 4px}
+.mdu-muted{font-weight:400;color:var(--color-fg-muted)}
+.mdu-h2{font-size:21px;margin:10px 0 4px}
+.mdu-leg{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--color-fg-muted);margin:6px 0 8px}
+.mdu-leg span:before{content:"";display:inline-block;width:11px;height:11px;border-radius:2px;margin-right:5px;vertical-align:-1px;background:var(--c)}
+.mdu-stack{display:flex;height:18px;border-radius:4px;overflow:hidden;background:#EEF3F8}
+.mdu-stack i{display:block;height:100%}
+.mdu-pbar{height:10px;width:100%;margin:6px 0 4px}
+.mdu-hrow{display:grid;grid-template-columns:92px 1fr 140px;gap:10px;align-items:center;font-size:12.5px;margin:7px 0}
+.mdu-hu{grid-template-columns:64px 1fr 150px}
+.mdu-hv{grid-template-columns:minmax(150px,230px) 1fr 70px}
+.mdu-hrow .r{text-align:right;color:var(--color-fg-muted)}.mdu-hrow .r b{color:var(--color-fg)}
+.mdu-var{font-size:11.5px;word-break:break-word}
+.mdu-ana{margin-top:14px;border-top:1px solid #EEF3F8;padding-top:10px}
+.mdu-ana ol,.mdu-def ol{margin:6px 0 0;padding-left:20px;font-size:13px;line-height:1.55}
+.mdu-ana li{margin-bottom:6px}
+.mdu-scroll{overflow-x:auto}
+.mdu-t{width:100%;border-collapse:collapse;font-size:12.5px}
+.mdu-t th{text-align:left;font-weight:600;color:var(--color-fg-muted);font-size:11.5px;border-bottom:1px solid var(--color-border-line);padding:7px 8px;white-space:nowrap}
+.mdu-t td{border-bottom:1px solid #EEF3F8;padding:7px 8px;vertical-align:top}
+.mdu-t .num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.mdu-t .mdu-pbar{margin:4px 0 0}
+.mdu-tv{display:flex;justify-content:space-between;gap:8px}
+.mdu-tot td{border-bottom:0}
+.mdu-nil{color:#A4B3C2}
+.mdu-merah{color:var(--mdu-merah)}
+.mdu-wpt{width:170px}
+.mdu-pt{display:flex;align-items:center;gap:6px}.mdu-pt .mdu-pbar{margin:0;flex:1}.mdu-pt span{width:46px;text-align:right}
+.mdu-tag{display:inline-block;font-size:11px;padding:1px 8px;border-radius:999px;background:#FDECEA;color:#B0231B;margin:1px 3px 1px 0;white-space:nowrap}
+.mdu-tag.w{background:#FFF4D6;color:#8A6300}
+.mdu-note{font-size:11.5px;color:var(--color-fg-muted);margin:8px 0 0}
+.mdu-more{font:inherit;font-size:13px;margin-top:10px;border:1px solid var(--color-border-line);background:var(--color-panel);color:var(--pln-blue-dark);border-radius:999px;padding:6px 14px;cursor:pointer}
+.mdu-def{font-size:13px;margin:6px 0 10px}.mdu-def summary{cursor:pointer;color:var(--pln-blue-dark)}
+.mdu-kosong{padding:18px}
+@media (max-width:1200px){.mdu-c6{grid-template-columns:repeat(3,1fr)}.mdu-row{grid-template-columns:1fr}}
+@media (max-width:700px){.mdu-c6,.mdu-c4,.mdu-c3{grid-template-columns:1fr 1fr}.mdu-hrow,.mdu-hp{grid-template-columns:70px 1fr 104px}.mdu-hv{grid-template-columns:1fr;gap:3px}.mdu-hv .r{text-align:left}.mdu-hu{grid-template-columns:52px 1fr}.mdu-hu .r{grid-column:2;text-align:left}.mdu-card .v{font-size:21px}.rs-subtab{padding:9px 14px}}
+.mdu-tv span{white-space:nowrap}
+@media (max-width:700px){.mdu-t{min-width:600px}}
