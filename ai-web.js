@@ -1,8 +1,8 @@
-/* Tab Anggaran Investasi versi web: tampilan "Ringkasan Tenang" (Konsep 1), pilihan Zuhal 27 Nov 2026.
-   Konsep: /mnt/project-files/anggaran/ai/konsep-minimalis/.
-   Menyembunyikan isi lama (#kartu-ai, #ai-r2, #ai-r3, #ai-r4, kp-intro) lewat ai-web.css, lalu menyisipkan #aiw tepat setelah
-   bilah filter. Angka dibaca dari calc halaman yang sama (ai_unit, ai_luncur) lewat dash.data, mengikuti filter unit
-   (up3_ai) dan status (ai_jenis). Daftar kontrak lama dipindah ke dalam <details id="aiw-daftar">. */
+/* Tab Anggaran Investasi versi web: konsep "Tiga Gauge" (pilihan Zuhal 27 Nov 2026, tanpa grafik bulanan, dengan per progres fisik).
+   Konsep: /mnt/project-files/anggaran/ai/konsep-tata-letak/p3-konsep-1-tiga-gauge*.png (skrip gen3.js).
+   Menyembunyikan isi lama tab AI lewat ai-web.css, lalu menyisipkan #aiw setelah bilah filter. Angka dibaca dari calc halaman
+   (ai_unit, ai_progres, ai_kontrak) lewat dash.data dan mengikuti filter unit (up3_ai) serta status (ai_jenis).
+   Daftar kontrak lama dipindah ke <details id="aiw-daftar">. Cadangan versi sebelumnya: ai-web_2026-11-27_sebelum-tiga-gauge.* */
 (function () {
   'use strict';
   var sec = document.getElementById('anggaran');
@@ -10,41 +10,53 @@
   if (!sec || !bar || !window.dash) return;
   document.documentElement.classList.add('aiw-on');
 
+  var C = { biru: '#2E75B6', tosca: '#0C9CB4', petrol: '#216279', kuning: '#FFC000', salmon: '#F4625E', muda: '#9CD3E2', abu: '#DCE5EE' };
+  var BL = ['januari', 'februari', 'maret', 'april', 'mei', 'juni', 'juli', 'agustus', 'september', 'oktober', 'november', 'desember'];
+  var BLN = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+  /* tahap progres fisik: kelompok di calc ai_progres -> label, warna, kunci saringan daftar kontrak */
+  var TAHAP = [
+    ['Fisik 0%', 'Belum mulai (0%)', C.salmon],
+    ['Fisik 1–50%', 'Berjalan 1–50%', C.muda],
+    ['Fisik 51–99%', 'Berjalan 51–99%', C.tosca],
+    ['Selesai, belum terbayar', 'Selesai, belum dibayar', C.biru],
+    ['Terbayar', 'Terbayar', C.petrol],
+    ['Belum diisi', 'Progres belum diisi', C.abu]
+  ];
+
   function E(tag, cls, html) { var e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; }
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function fx(v, d) { return (+v || 0).toLocaleString('id-ID', { minimumFractionDigits: d, maximumFractionDigits: d }); }
   function RP(v) { return 'Rp ' + fx(v, 1) + ' M'; }
   function PC(v) { return v == null || !isFinite(v) ? '—' : fx(v, 1) + '%'; }
-  var BLN = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
   function tgl(s) { var p = String(s || '').split('-'); return p.length === 3 ? +p[2] + ' ' + BLN[+p[1] - 1] + ' ' + p[0] : '—'; }
-  function nama(u) { return u === 'Semua' ? 'semua unit' : (window.TD && TD.unitNama ? TD.unitNama(u) : u); }
+  function nama(u) { return u === 'Semua' ? 'Semua unit' : (window.TD && TD.unitNama ? TD.unitNama(u) : u); }
+  function pendek(u) { return nama(u).replace(/^UP3 /, ''); }
   function prm() { var p = dash.params(); return { u: p.up3_ai || 'Semua', j: p.ai_jenis || 'Semua' }; }
   function data(id) { var r = dash.data(id); return r && r.status === 'ok' ? r.data : null; }
 
   /* ---------- kerangka ---------- */
   var root = E('div', 'aiw'); root.id = 'aiw';
   root.innerHTML =
-    '<section class="aiw-hero"><div><div class="aiw-eyebrow" data-aiw="judul">Anggaran Investasi Distribusi 2026</div>' +
-    '<div class="aiw-big" data-aiw="pagu">—</div><div class="aiw-sub" data-aiw="pagu-sub"></div></div>' +
-    '<div><div class="aiw-sbar" data-aiw="sbar" role="img"></div><div class="aiw-slab" data-aiw="slab"></div></div></section>' +
-    '<section class="aiw-stats" data-aiw="stats"></section>' +
-    '<section class="aiw-two"><div class="aiw-blk"><h2>Per unit</h2>' +
-    '<p class="aiw-note">Urut dari persen terbayar terendah. Terkontrak dan terbayar terhadap pagu; fisik selesai terhadap jumlah kontrak. Klik baris untuk memfilter unit.</p>' +
-    '<div class="aiw-tw"><table class="aiw-t"><thead><tr><th>Unit</th><th class="r">Pagu (Rp M)</th><th>Terkontrak</th><th>Terbayar</th><th>Fisik selesai</th><th class="c">Perhatian</th></tr></thead>' +
-    '<tbody data-aiw="rows"></tbody></table></div></div>' +
-    '<aside class="aiw-act"><h2>Perlu tindakan</h2><p class="aiw-note" data-aiw="act-sub"></p><ol data-aiw="act"></ol>' +
-    '<button type="button" class="aiw-more" data-kat="Semua">Lihat daftar kontrak →</button></aside></section>';
+    '<div class="aiw-head"><h2 class="aiw-title" data-aiw="judul">Anggaran Investasi Distribusi 2026</h2><p class="aiw-meta" data-aiw="meta"></p></div>' +
+    '<section class="aiw-gauges" data-aiw="gauges"></section>' +
+    '<section class="aiw-row">' +
+    '<div class="aiw-card"><h3>Per unit</h3><p class="aiw-q">Urut dari terbayar terendah. Klik baris untuk memfilter unit.</p>' +
+    '<div class="aiw-lg"><span><b style="background:' + C.muda + '"></b>Fisik selesai</span><span><b style="background:' + C.petrol + '"></b>Terbayar (angka kanan)</span></div>' +
+    '<div class="aiw-units" data-aiw="units"></div></div>' +
+    '<div class="aiw-card"><h3>Proyeksi pembayaran</h3><p class="aiw-q">Rp miliar, menurut rencana bayar tiap kontrak.</p>' +
+    '<div class="aiw-cols" data-aiw="bayar"></div><p class="aiw-note" data-aiw="bayar-note"></p></div></section>' +
+    '<section class="aiw-card aiw-pf"><h3>Per progres fisik</h3><p class="aiw-q">Jumlah dan nilai kontrak menurut tahap progres fisik. Klik baris untuk melihat daftar kontraknya.</p>' +
+    '<div class="aiw-pfg"><div class="aiw-donut" data-aiw="donut"></div><div data-aiw="tahap"></div></div></section>';
   var akt = sec.querySelector('.ai-aktif');
   (akt || bar).insertAdjacentElement('afterend', root);
   var Q = function (k) { return root.querySelector('[data-aiw="' + k + '"]'); };
 
-  /* daftar kontrak lama masuk ke details agar halaman tetap ringkas */
-  var daftar = document.getElementById('ai-daftar');
-  var det = null;
+  /* daftar kontrak lama masuk ke details agar halaman tetap lega */
+  var daftar = document.getElementById('ai-daftar'), det = null;
   if (daftar) {
     det = E('details', 'aiw-det'); det.id = 'aiw-daftar';
-    var sm = E('summary', null, 'Daftar kontrak <span data-aiw="ndaftar"></span>');
-    det.appendChild(sm); daftar.parentNode.insertBefore(det, daftar); det.appendChild(daftar);
+    det.appendChild(E('summary', null, 'Daftar kontrak <span data-aiw="ndaftar"></span>'));
+    daftar.parentNode.insertBefore(det, daftar); det.appendChild(daftar);
     det.addEventListener('toggle', function () { if (det.open) dash.draw(); });
   }
   function bukaDaftar(kat) {
@@ -52,69 +64,142 @@
     if (det) { det.open = true; setTimeout(function () { det.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 60); }
   }
   root.addEventListener('click', function (ev) {
-    var b = ev.target.closest('[data-kat]'); if (b) { bukaDaftar(b.getAttribute('data-kat')); return; }
-    var tr = ev.target.closest('tr[data-unit]');
-    if (tr) { var u = tr.getAttribute('data-unit'); dash.setParams({ up3_ai: prm().u === u ? 'Semua' : u }); }
+    var k = ev.target.closest('[data-kat]'); if (k) { bukaDaftar(k.getAttribute('data-kat')); return; }
+    var r = ev.target.closest('[data-unit]');
+    if (r) { var u = r.getAttribute('data-unit'); dash.setParams({ up3_ai: prm().u === u ? 'Semua' : u }); }
   });
   root.addEventListener('keydown', function (ev) {
-    var tr = ev.target.closest('tr[data-unit]');
-    if (tr && (ev.key === 'Enter' || ev.key === ' ')) { ev.preventDefault(); tr.click(); }
+    var r = ev.target.closest('[data-unit],[data-kat]');
+    if (r && (ev.key === 'Enter' || ev.key === ' ')) { ev.preventDefault(); r.click(); }
   });
 
-  function mini(v, cls) { return '<span class="aiw-mini"><i class="' + cls + '" style="width:' + Math.max(0, Math.min(100, v || 0)) + '%"></i></span><em>' + PC(v) + '</em>'; }
-  function badge(n) { return n ? '<span class="aiw-pill ' + (n >= 10 ? 'bad' : 'warn') + '"><i></i>' + n + '</span>' : '<span class="aiw-pill nol">–</span>'; }
+  /* ---------- komponen ---------- */
+  /* gauge setengah lingkaran (gaya semula); busur dan angka naik beranimasi dari nilai sebelumnya (awal 0) */
+  var GC = 100, GY = 96, GR = 80;
+  function busur(v) { var a = Math.PI * (1 - Math.max(0, Math.min(v, 100)) / 100); return 'M20 ' + GY + ' A80 80 0 0 1 ' + (GC + GR * Math.cos(a)).toFixed(2) + ' ' + (GY - GR * Math.sin(a)).toFixed(2); }
+  function gauge(v, col, label, sub) {
+    return '<div class="aiw-card aiw-gauge" data-v="' + (+v || 0) + '"><svg viewBox="0 0 200 112" role="img" aria-label="' + label + ' ' + PC(v) + '">' +
+      '<path d="M20 ' + GY + ' A80 80 0 0 1 180 ' + GY + '" fill="none" stroke="' + C.abu + '" stroke-width="18" stroke-linecap="round"/>' +
+      '<path class="g-arc" d="' + busur(0.01) + '" fill="none" stroke="' + col + '" stroke-width="18" stroke-linecap="round"/>' +
+      '<text class="g-num" x="100" y="90" text-anchor="middle" font-size="34" font-weight="700" fill="#132C42">' + PC(0) + '</text></svg>' +
+      '<div class="aiw-gl">' + label + '</div><div class="aiw-gs">' + sub + '</div></div>';
+  }
+  var gaugeLast = {}, gaugeKey = '', animId = 0;
+  var diam = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function setGauge(el, v) {
+    el.querySelector('.g-arc').setAttribute('d', busur(Math.max(0.01, v)));
+    el.querySelector('.g-num').textContent = PC(v);
+  }
+  function animasiGauge(dari0) {
+    var els = [].slice.call(Q('gauges').querySelectorAll('.aiw-gauge')), id = ++animId;
+    var awal = els.map(function (el, i) { return dari0 ? 0 : (gaugeLast[i] != null ? gaugeLast[i] : 0); });
+    var akhir = els.map(function (el) { return +el.getAttribute('data-v') || 0; });
+    akhir.forEach(function (v, i) { gaugeLast[i] = v; });
+    if (diam) { els.forEach(function (el, i) { setGauge(el, akhir[i]); }); return; }
+    var t0 = null, dur = 1400;
+    function step(ts) {
+      if (id !== animId) return;
+      if (t0 == null) t0 = ts;
+      var k = Math.min(1, (ts - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+      els.forEach(function (el, i) { setGauge(el, awal[i] + (akhir[i] - awal[i]) * e); });
+      if (k < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  /* jalankan ulang dari 0 setiap kali tab Anggaran dibuka kembali */
+  var tadiTersembunyi = false;
+  if (window.IntersectionObserver) new IntersectionObserver(function (en) {
+    en.forEach(function (x) {
+      if (!x.isIntersecting) { if (!root.offsetParent) tadiTersembunyi = true; return; }
+      if (tadiTersembunyi) { tadiTersembunyi = false; animasiGauge(true); }
+    });
+  }).observe(root);
+  function donut(rows, total) {
+    var R = 70, Cc = 2 * Math.PI * R, off = 0, s = '<svg viewBox="0 0 180 180" role="img" aria-label="' + total + ' kontrak menurut progres fisik">';
+    rows.forEach(function (r) {
+      if (!r.n) return; var len = r.n / total * Cc;
+      s += '<circle cx="90" cy="90" r="' + R + '" fill="none" stroke="' + r.c + '" stroke-width="26" stroke-dasharray="' + Math.max(0, len - 2).toFixed(2) + ' ' + Cc.toFixed(2) + '" stroke-dashoffset="' + (-off).toFixed(2) + '" transform="rotate(-90 90 90)"><title>' + r.l + ': ' + r.n + '</title></circle>';
+      off += len;
+    });
+    return s + '<text x="90" y="92" text-anchor="middle" font-size="34" font-weight="700" fill="#132C42">' + total + '</text><text x="90" y="114" text-anchor="middle" font-size="13" fill="#4A5F73">kontrak</text></svg>';
+  }
+  /* sisa bayar per kontrak menurut kolom rencana bayar/selesai */
+  function proyeksi(K) {
+    var o = { nov: [0, 0], des: [0, 0], lewat: [0, 0], l2027: [0, 0], lain: [0, 0] };
+    K.forEach(function (d) {
+      var sisa = ((+d.nilai_rp || 0) - (+d.terbayar_jt || 0) * 1e6) / 1e9; if (sisa <= 0.0005) return;
+      var r = String(d.rencana || '').toLowerCase(), k = 'lain';
+      if (r.indexOf('luncur') >= 0 || r.indexOf('2027') >= 0) k = 'l2027';
+      else { for (var i = 0; i < BL.length; i++) if (r.indexOf(BL[i]) >= 0) { k = i < 10 ? 'lewat' : i === 10 ? 'nov' : 'des'; break; } }
+      o[k][0] += sisa; o[k][1]++;
+    });
+    return o;
+  }
 
   function render() {
     if (root.closest('[hidden]')) return;
     var U = data('ai_unit'); if (!U) return;
-    var L = data('ai_luncur') || [];
+    var PG = data('ai_progres') || [], KT = data('ai_kontrak') || [];
     var p = prm();
     var row = function (j, u) { for (var i = 0; i < U.length; i++) if (U[i].jenis === j && U[i].unit === u) return U[i]; return null; };
     var t = row(p.j, p.u);
-    if (!t) { Q('pagu').textContent = '—'; Q('pagu-sub').textContent = 'Tidak ada PRK ' + (p.j === 'Luncuran' ? 'lanjutan' : p.j.toLowerCase()) + ' untuk ' + nama(p.u) + '.'; Q('sbar').innerHTML = ''; Q('slab').innerHTML = ''; Q('stats').innerHTML = ''; }
-    else {
-      Q('judul').textContent = 'Anggaran Investasi Distribusi 2026';
-      Q('pagu').textContent = RP(t.pagu_miliar);
-      var m = row('Murni', p.u), l = row('Luncuran', p.u);
-      Q('pagu-sub').innerHTML = '<b>' + esc(p.u === 'Semua' ? 'Semua unit' : nama(p.u)) + '</b>' + (p.j === 'Semua' ? '' : ' · ' + (p.j === 'Murni' ? 'Murni' : 'Lanjutan')) + ' · posisi ' + tgl(t.posisi) + (p.j === 'Semua' ? '<br>Pagu murni ' + RP(m ? m.pagu_miliar : 0) + ' · lanjutan ' + RP(l ? l.pagu_miliar : 0) : '');
-      var by = t.terbayar_miliar, bb = Math.max(0, t.terkontrak_miliar - t.terbayar_miliar), sisa = Math.max(0, t.sisa_miliar), tot = by + bb + sisa || 1;
-      var w = function (v) { return (v / tot * 100).toFixed(2) + '%'; };
-      Q('sbar').innerHTML = '<i class="k1" style="width:' + w(by) + '" title="Terbayar ' + RP(by) + '"></i><i class="k2" style="width:' + w(bb) + '" title="Terkontrak, belum dibayar ' + RP(bb) + '"></i><i class="k3" style="width:' + w(sisa) + '" title="Belum terkontrak ' + RP(sisa) + '"></i>';
-      Q('sbar').setAttribute('aria-label', 'Terbayar ' + RP(by) + ', terkontrak belum dibayar ' + RP(bb) + ', belum terkontrak ' + RP(sisa));
-      Q('slab').innerHTML = '<div><b>' + RP(by) + '</b><span><i class="k1"></i>Terbayar · ' + PC(t.pct_bayar) + '</span></div>' +
-        '<div><b>' + RP(bb) + '</b><span><i class="k2"></i>Terkontrak, belum dibayar</span></div>' +
-        '<div class="r"><b>' + RP(sisa) + '</b><span><i class="k3"></i>Belum terkontrak</span></div>' +
-        (t.prk_melebihi_pagu ? '<p class="aiw-warn">' + t.prk_melebihi_pagu + ' PRK mencatat terkontrak melebihi pagu (lihat rincian per PRK).</p>' : '');
-      Q('stats').innerHTML =
-        '<div><span>Terkontrak</span><b>' + PC(t.pct_kontrak) + '</b><small>' + RP(t.terkontrak_miliar) + ' dari pagu</small></div>' +
-        '<div><span>Terbayar</span><b>' + PC(t.pct_bayar) + '</b><small>' + PC(t.pct_bayar_kontrak) + ' dari nilai terkontrak</small></div>' +
-        '<div><span>Fisik selesai</span><b>' + PC(t.pct_selesai_n) + '</b><small>' + t.n_selesai + ' dari ' + t.n_kontrak + ' kontrak</small></div>' +
-        '<div><span>Selesai, belum dibayar</span><b>' + RP(t.selesai_belum_bayar_miliar) + '</b><small>' + t.n_selesai_belum_bayar + ' kontrak siap ditagih</small></div>';
-    }
-    /* tabel per unit, untuk status terpilih */
-    var rows = U.filter(function (d) { return d.jenis === p.j && d.unit !== 'Semua'; }).sort(function (a, b) { return a.pct_bayar - b.pct_bayar; });
-    Q('rows').innerHTML = rows.map(function (d) {
-      return '<tr data-unit="' + esc(d.unit) + '" tabindex="0" class="' + (p.u === d.unit ? 'on' : '') + '" aria-selected="' + (p.u === d.unit) + '"><td class="u">' + esc(nama(d.unit)) + '</td><td class="r">' + fx(d.pagu_miliar, 1) + '</td>' +
-        '<td>' + mini(d.pct_kontrak, 'k2') + '</td><td>' + mini(d.pct_bayar, 'k1') + '</td><td>' + (d.n_kontrak ? mini(d.pct_selesai_n, 'kf') : '<em class="aiw-na">tidak ada kontrak</em>') + '</td><td class="c">' + badge(d.n_perhatian) + '</td></tr>';
-    }).join('');
-    /* perlu tindakan */
-    var act = [];
-    if (t) {
-      Q('act-sub').textContent = t.n_perhatian + ' kontrak memerlukan perhatian' + (p.u === 'Semua' ? '.' : ' di ' + nama(p.u) + '.');
-      if (t.n_fisik0) act.push(['bad', 'Fisik 0%', t.n_fisik0 + ' kontrak', RP(t.nilai_fisik0_miliar) + (t.n_fisik0_meluncur ? '; ' + t.n_fisik0_meluncur + ' di antaranya rencana bayar meluncur.' : '.'), 'g:Fisik 0%']);
-      if (t.n_lewat) act.push(['warn', 'Lewat tanggal selesai', t.n_lewat + ' kontrak', RP(t.nilai_lewat_miliar) + '; fisik belum selesai padahal tanggal selesai kontrak sudah lewat.', 'lewat']);
-      if (p.j !== 'Luncuran') {
-        var lu = null; for (var i = 0; i < L.length; i++) if (L[i].unit === p.u) lu = L[i];
-        if (lu && lu.n_meluncur) act.push(['warn', 'Meluncur ke 2027', lu.n_meluncur + ' kontrak murni', RP(lu.nilai_meluncur_miliar) + ' (' + PC(lu.pct_meluncur) + ' nilai kontrak murni); bayar murni 2026 paling tinggi ' + PC(lu.batas_bayar_pct) + ' pagu.', 'luncur']);
+    var jn = p.j === 'Semua' ? '' : (p.j === 'Murni' ? ' · Murni' : ' · Lanjutan');
+    Q('judul').textContent = 'Anggaran Investasi Distribusi 2026 · ' + (t ? RP(t.pagu_miliar) : '—');
+    Q('meta').textContent = nama(p.u) + jn + ' · posisi ' + (t ? tgl(t.posisi) : '—') + (t && t.prk_melebihi_pagu ? ' · ' + t.prk_melebihi_pagu + ' PRK terkontrak melebihi pagu' : '');
+    if (!t) {
+      gaugeKey = '';
+      Q('gauges').innerHTML = '<p class="aiw-q">Tidak ada PRK ' + (p.j === 'Luncuran' ? 'lanjutan' : p.j.toLowerCase()) + ' untuk ' + esc(nama(p.u)) + '.</p>';
+      Q('bayar').innerHTML = ''; Q('bayar-note').textContent = ''; Q('donut').innerHTML = ''; Q('tahap').innerHTML = '';
+    } else {
+      var gk = [p.u, p.j, t.pct_kontrak, t.pct_selesai_n, t.pct_bayar].join('|');
+      if (gk !== gaugeKey || !Q('gauges').querySelector('.aiw-gauge')) {
+        var pertama = !gaugeKey; gaugeKey = gk;
+        Q('gauges').innerHTML = gauge(t.pct_kontrak, C.biru, 'Terkontrak', RP(t.terkontrak_miliar) + ' · sisa ' + RP(t.sisa_miliar)) +
+          gauge(t.pct_selesai_n, C.tosca, 'Fisik selesai', t.n_selesai + ' dari ' + t.n_kontrak + ' kontrak') +
+          gauge(t.pct_bayar, C.petrol, 'Terbayar', RP(t.terbayar_miliar));
+        animasiGauge(pertama);
       }
-      if (t.n_selesai_belum_bayar) act.push(['ok', 'Siap ditagih', t.n_selesai_belum_bayar + ' kontrak', RP(t.selesai_belum_bayar_miliar) + ' sudah selesai fisik; percepat pemberkasan.', 'g:Selesai, belum terbayar']);
-      if (t.n_belum_isi) act.push(['nol', 'Progres belum diisi', t.n_belum_isi + ' kontrak', 'Lengkapi progres fisik di spreadsheet.', 'g:Belum diisi']);
-    } else Q('act-sub').textContent = '';
-    Q('act').innerHTML = act.length ? act.map(function (a) {
-      return '<li><span class="aiw-pill ' + a[0] + '"><i></i>' + a[1] + '</span><b>' + a[2] + '</b><span>' + a[3] + '</span><button type="button" class="aiw-go" data-kat="' + esc(a[4]) + '">Lihat ' + a[2] + ' →</button></li>';
-    }).join('') : '<li><span>Tidak ada kontrak yang memerlukan perhatian.</span></li>';
+
+      /* proyeksi pembayaran */
+      var K = KT.filter(function (d) { return d.jenis === p.j && (p.u === 'Semua' || d.unit === p.u); });
+      var o = proyeksi(K);
+      var cols = [['Terbayar', t.terbayar_miliar, C.petrol, 's.d. ' + tgl(t.posisi).replace(/ \d{4}$/, '')], ['Nov', o.nov[0], C.biru, o.nov[1] + ' kontrak'], ['Des', o.des[0], C.biru, o.des[1] + ' kontrak'],
+        ['Terlambat', o.lewat[0], C.salmon, o.lewat[1] + ' kontrak'], ['2027', o.l2027[0], C.kuning, o.l2027[1] + ' kontrak']];
+      var mx = Math.max.apply(null, cols.map(function (c) { return c[1]; })) || 1;
+      Q('bayar').innerHTML = cols.map(function (c) {
+        return '<div class="aiw-col" title="' + c[0] + ': ' + RP(c[1]) + '"><b>' + fx(c[1], 1) + '</b><i style="height:calc((100% - 72px) * ' + Math.max(0.01, c[1] / mx).toFixed(3) + ');background:' + c[2] + '"></i><span>' + c[0] + '</span><small>' + c[3] + '</small></div>';
+      }).join('');
+      var th = t.terbayar_miliar + o.nov[0] + o.des[0];
+      Q('bayar-note').innerHTML = 'Bila rencana Nov–Des terealisasi, terbayar 2026 mencapai <b>' + RP(th) + '</b> (' + PC(th / t.pagu_miliar * 100) + ' pagu). ' +
+        '<b>Terlambat</b>: rencana bayarnya Januari–Oktober tetapi belum dibayar. <b>2027</b>: rencana bayarnya meluncur.' + (o.lain[1] ? ' ' + o.lain[1] + ' kontrak (' + RP(o.lain[0]) + ') belum punya rencana bayar yang jelas.' : '');
+
+      /* per progres fisik */
+      var pr = PG.filter(function (d) { return d.jenis === p.j && d.unit === p.u; });
+      var rows = TAHAP.map(function (s) {
+        var n = 0, v = 0; pr.forEach(function (d) { if (d.kelompok === s[0]) { n += +d.n || 0; v += +d.nilai_miliar || 0; } });
+        return { k: s[0], l: s[1], c: s[2], n: n, v: v };
+      }).filter(function (r) { return r.n || r.k !== 'Belum diisi'; });
+      var tot = rows.reduce(function (a, r) { return a + r.n; }, 0), mxn = Math.max.apply(null, rows.map(function (r) { return r.n; })) || 1;
+      Q('donut').innerHTML = tot ? donut(rows, tot) : '';
+      Q('tahap').innerHTML = rows.map(function (r) {
+        return '<div class="aiw-tr" data-kat="g:' + esc(r.k) + '" tabindex="0" role="button" aria-label="Lihat ' + r.n + ' kontrak ' + esc(r.l) + '">' +
+          '<span class="aiw-tl"><b style="background:' + r.c + '"></b>' + r.l + '</span>' +
+          '<span class="aiw-tb"><i style="width:' + (r.n / mxn * 100).toFixed(1) + '%;background:' + r.c + '"></i></span>' +
+          '<b class="aiw-tn">' + r.n + '</b><span class="aiw-tv">' + RP(r.v) + '</span></div>';
+      }).join('');
+    }
+
+    /* per unit untuk status terpilih */
+    var us = U.filter(function (d) { return d.jenis === p.j && d.unit !== 'Semua'; }).sort(function (a, b) { return a.pct_bayar - b.pct_bayar; });
+    Q('units').innerHTML = us.map(function (d) {
+      var on = p.u === d.unit;
+      return '<div class="aiw-ur' + (on ? ' on' : '') + '" data-unit="' + esc(d.unit) + '" tabindex="0" role="button" aria-pressed="' + on + '" title="' + esc(nama(d.unit)) + ': fisik selesai ' + PC(d.pct_selesai_n) + ', terbayar ' + PC(d.pct_bayar) + '">' +
+        '<span class="aiw-un">' + esc(pendek(d.unit)) + '</span>' +
+        '<span class="aiw-ub"><i class="f" style="width:' + Math.min(100, d.n_kontrak ? d.pct_selesai_n : 0) + '%"></i><i class="b" style="width:' + Math.min(100, d.pct_bayar) + '%"></i></span>' +
+        '<b>' + PC(d.pct_bayar) + '</b></div>';
+    }).join('');
+
     var nk = t ? t.n_kontrak : 0;
-    root.querySelector('.aiw-more').textContent = 'Lihat daftar kontrak (' + nk + ') →';
     var nd = document.querySelector('[data-aiw="ndaftar"]'); if (nd) nd.textContent = '(' + nk + ' kontrak)';
   }
   dash.onData(function () { try { render(); } catch (e) { console.error('ai-web: ' + (e.stack || e)); } });

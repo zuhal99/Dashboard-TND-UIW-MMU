@@ -1,51 +1,55 @@
-/* Tab Anggaran Investasi versi web, Konsep 1 "Ringkasan Tenang" (27 Nov 2026). Dipasang oleh build_web.py. */
+/* Tab Anggaran Investasi versi web, konsep "Tiga Gauge" (27 Nov 2026). Dipasang oleh build_web.py. */
 .aiw-on #anggaran .kp-intro,.aiw-on #kartu-ai,.aiw-on #ai-r2,.aiw-on #ai-r3,.aiw-on #ai-r4,.aiw-on #ai-r4-off,.aiw-on #ai-alert{display:none!important}
-.aiw{--aw-ink:#132C42;--aw-ink2:#4A5F73;--aw-ink3:#6F8294;--aw-line:#E3EAF1;--aw-line2:#CFDBE6;--aw-k1:#20507A;--aw-k2:#8FB8DE;--aw-k3:#E6EEF6;--aw-kf:#1B89A5;color:var(--aw-ink);margin-top:0}
-.aiw b,.aiw em,.aiw small,.aiw td{font-variant-numeric:tabular-nums}
-.aiw-eyebrow{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--aw-ink3)}
-.aiw-hero{display:grid;grid-template-columns:minmax(260px,330px) minmax(0,1fr);gap:44px;align-items:end;padding:8px 0 26px}
-.aiw-big{font:400 50px/1.05 var(--font-anthropic-serif,Georgia,serif);letter-spacing:-.02em;margin:8px 0 6px;white-space:nowrap}
-.aiw-sub{font-size:13px;line-height:1.6;color:var(--aw-ink2)}
-.aiw-sbar{display:flex;gap:2px;height:14px}.aiw-sbar i{display:block;height:100%;min-width:0}
-.aiw-sbar i:first-child{border-radius:4px 0 0 4px}.aiw-sbar i:last-child{border-radius:0 4px 4px 0}
-.aiw .k1{background:var(--aw-k1)}.aiw .k2{background:var(--aw-k2)}.aiw .k3{background:var(--aw-k3);box-shadow:inset 0 0 0 1px var(--aw-line2)}.aiw .kf{background:var(--aw-kf)}
-.aiw-slab{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:12px}.aiw-slab>div{display:flex;flex-direction:column}.aiw-slab .r{text-align:right}
-.aiw-slab b{font-size:17px;font-weight:600}.aiw-slab span{font-size:12px;color:var(--aw-ink2)}
-.aiw-slab span i{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:6px}
-.aiw-warn{flex-basis:100%;margin:4px 0 0;font-size:12px;color:#A3231B}
-.aiw-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--aw-line2);border-bottom:1px solid var(--aw-line2)}
-.aiw-stats>div{padding:18px 22px;border-left:1px solid var(--aw-line)}.aiw-stats>div:first-child{border-left:0;padding-left:0}
-.aiw-stats span{display:block;font-size:12px;color:var(--aw-ink2)}
-.aiw-stats b{display:block;font:400 30px/1.25 var(--font-anthropic-serif,Georgia,serif);margin:4px 0 2px;font-weight:400}
-.aiw-stats small{color:var(--aw-ink3);font-size:12px}
-.aiw-two{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:40px;margin-top:34px}
-.aiw h2{font-size:15px;font-weight:600;margin:0;color:var(--aw-ink)}
-.aiw-note{color:var(--aw-ink2);font-size:13px;margin:2px 0 12px}
-.aiw-tw{overflow-x:auto}
-.aiw-t{width:100%;border-collapse:collapse}
-.aiw-t th{white-space:nowrap;font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--aw-ink3);text-align:left;padding:0 10px 10px;border-bottom:1px solid var(--aw-line2);background:none}
-.aiw-t td{white-space:nowrap;padding:11px 10px;border-bottom:1px solid var(--aw-line);font-size:13px}
-.aiw-t th:first-child,.aiw-t td:first-child{padding-left:0}
-.aiw-t .r{text-align:right}.aiw-t .c{text-align:center}.aiw-t .u{font-weight:500;font-size:14px}
-.aiw-t tbody tr{cursor:pointer}.aiw-t tbody tr:hover td{background:#F7FAFD}.aiw-t tbody tr:focus-visible{outline:2px solid #2E75B6;outline-offset:-2px}
-.aiw-t tbody tr.on td{background:#EAF2FA}.aiw-t tbody tr.on .u{color:#2E75B6}
-.aiw-mini{display:inline-block;width:76px;height:6px;background:var(--aw-k3);border-radius:3px;vertical-align:middle;margin-right:10px;overflow:hidden}
-.aiw-mini i{display:block;height:100%;border-radius:3px;box-shadow:none!important}
-.aiw-t em{font-style:normal}.aiw-na{color:var(--aw-ink3)}
-.aiw-pill{white-space:nowrap;display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:2px 9px;border-radius:999px}
-.aiw-pill i{width:6px;height:6px;border-radius:50%;background:currentColor}
-.aiw-pill.bad{background:#FBE9E7;color:#A3231B}.aiw-pill.warn{background:#FFF4D6;color:#7A5700}.aiw-pill.ok{background:#E3F4EA;color:#14693C}.aiw-pill.nol{color:var(--aw-ink3);font-weight:500;background:none}
-.aiw-act{background:#fff;border:1px solid var(--aw-line);border-radius:12px;padding:22px 22px 20px;align-self:start}
-.aiw-act ol{list-style:none;padding:0;margin:14px 0 16px}
-.aiw-act li{padding:12px 0;border-top:1px solid var(--aw-line);display:flex;flex-direction:column;gap:4px;align-items:flex-start}
-.aiw-act li b{font-size:16px;font-weight:600}.aiw-act li>span:not(.aiw-pill){font-size:13px;color:var(--aw-ink2)}
-.aiw-go,.aiw-more{background:none;border:0;padding:0;font:inherit;font-size:13px;font-weight:600;color:#2E75B6;cursor:pointer}
-.aiw-go{font-size:12px;margin-top:2px}.aiw-go:hover,.aiw-more:hover{text-decoration:underline}
-.aiw-det{margin-top:34px;border-top:1px solid var(--aw-line2,#CFDBE6)}
-.aiw-det>summary{cursor:pointer;padding:16px 0;font-size:15px;font-weight:600;color:#132C42}
-.aiw-det>summary span{font-weight:400;color:#6F8294;font-size:13px}
+.aiw{--aw-ink:#132C42;--aw-ink2:#4A5F73;--aw-ink3:#7D8FA0;--aw-line:#E3EAF1;--aw-track:#F0F4F8;color:var(--aw-ink);display:flex;flex-direction:column;gap:20px;font-size:15px}
+.aiw b,.aiw small,.aiw span{font-variant-numeric:tabular-nums}
+.aiw-head{display:flex;flex-direction:column;gap:2px}
+.aiw-title{font-size:26px;font-weight:600;margin:0;color:var(--aw-ink);font-family:inherit;letter-spacing:-.01em}
+.aiw-meta{margin:0;font-size:14px;color:var(--aw-ink2)}
+.aiw-card{background:#fff;border:1px solid var(--aw-line);border-radius:16px;padding:22px 24px;min-width:0}
+.aiw-card h3{font-size:17px;font-weight:600;margin:0 0 2px;color:var(--aw-ink)}
+.aiw-q{font-size:14px;color:var(--aw-ink2);margin:0 0 14px}
+.aiw-note{font-size:13.5px;color:var(--aw-ink2);margin:14px 0 0;line-height:1.5}
+.aiw-gauges{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.aiw-gauge{text-align:center;padding:20px 18px}.aiw-gauge svg{width:100%;max-width:260px;display:block;margin:0 auto}
+.aiw-gauge svg text{font-family:inherit}
+.aiw-gl{font-size:17px;font-weight:600;margin-top:4px}.aiw-gs{font-size:14px;color:var(--aw-ink2)}
+.aiw-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.aiw-lg{display:flex;gap:18px;flex-wrap:wrap;font-size:14px;color:var(--aw-ink2);margin-bottom:10px}
+.aiw-lg b{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:7px;vertical-align:-1px}
+/* per unit */
+.aiw-units{display:flex;flex-direction:column}
+.aiw-ur{display:grid;grid-template-columns:110px minmax(0,1fr) 64px;align-items:center;gap:12px;padding:6px 6px;border-radius:8px;cursor:pointer}
+.aiw-ur:hover{background:#F5F8FB}.aiw-ur.on{background:#EAF2FA}.aiw-ur:focus-visible{outline:2px solid #2E75B6;outline-offset:0}
+.aiw-un{font-size:14.5px;font-weight:600;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.aiw-ur.on .aiw-un{color:#2E75B6}
+.aiw-ub{position:relative;height:18px;background:var(--aw-track);border-radius:5px}
+.aiw-ub i{position:absolute;left:0;border-radius:5px}.aiw-ub i.f{top:0;bottom:0;background:#9CD3E2}.aiw-ub i.b{top:25%;bottom:25%;background:#216279;border-radius:4px}
+.aiw-ur>b{font-size:15px;font-weight:700}
+/* proyeksi pembayaran */
+.aiw-cols{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;height:300px;align-items:end}
+.aiw-col{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;min-width:0}
+.aiw-col b{font-size:15px;font-weight:700;margin-bottom:6px}
+.aiw-col i{display:block;width:62%;max-width:64px;border-radius:6px 6px 2px 2px;flex:0 0 auto;min-height:3px}
+.aiw-col span{font-size:14px;color:var(--aw-ink);margin-top:8px}.aiw-col small{font-size:12px;color:var(--aw-ink3);white-space:nowrap}
+/* per progres fisik */
+.aiw-pfg{display:grid;grid-template-columns:240px minmax(0,1fr);gap:36px;align-items:center}
+.aiw-donut svg{width:100%;max-width:220px;display:block;margin:0 auto}.aiw-donut svg text{font-family:inherit}
+.aiw-tr{display:grid;grid-template-columns:190px minmax(0,1fr) 54px 92px;align-items:center;gap:14px;padding:9px 6px;border-top:1px solid var(--aw-line);cursor:pointer;border-radius:6px}
+.aiw-tr:hover{background:#F5F8FB}.aiw-tr:focus-visible{outline:2px solid #2E75B6;outline-offset:0}
+.aiw-tl{font-size:15px;white-space:nowrap}.aiw-tl b{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:8px;vertical-align:-1px}
+.aiw-tb{height:16px;background:var(--aw-track);border-radius:5px;overflow:hidden}.aiw-tb i{display:block;height:100%;border-radius:5px}
+.aiw-tn{font-size:17px;text-align:right}.aiw-tv{font-size:14px;color:var(--aw-ink2);text-align:right;white-space:nowrap}
+/* daftar kontrak */
+.aiw-det{margin-top:14px;border-top:1px solid #CFDBE6}
+.aiw-det>summary{cursor:pointer;padding:16px 0;font-size:16px;font-weight:600;color:#132C42}
+.aiw-det>summary span{font-weight:400;color:#7D8FA0;font-size:14px}
 .aiw-det #ai-daftar{margin-top:0}.aiw-det #ai-daftar>h2{display:none}
-@media(max-width:1100px){.aiw-two{grid-template-columns:minmax(0,1fr)}.aiw-act{max-width:none}}
-@media(max-width:900px){.aiw-hero{grid-template-columns:minmax(0,1fr);gap:18px;padding-top:18px}.aiw-big{font-size:40px}
-.aiw-stats{grid-template-columns:1fr 1fr}.aiw-stats>div{padding:14px 14px}.aiw-stats>div:nth-child(3){border-left:0;padding-left:0}.aiw-stats>div:nth-child(n+3){border-top:1px solid var(--aw-line)}
-.aiw-stats b{font-size:24px}.aiw-t th:nth-child(2),.aiw-t td:nth-child(2),.aiw-t th:nth-child(3),.aiw-t td:nth-child(3){display:none}.aiw-t th,.aiw-t td{padding-left:6px;padding-right:6px}.aiw-slab{display:grid;grid-template-columns:1fr 1fr;gap:10px 16px}.aiw-slab .r{text-align:left}.aiw-mini{display:none}}
+@media(max-width:1100px){.aiw-row{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:900px){
+.aiw-title{font-size:22px}.aiw-card{padding:16px}
+.aiw-gauges{grid-template-columns:minmax(0,1fr);gap:12px}.aiw-gauge{display:grid;grid-template-columns:150px 1fr;align-items:center;text-align:left;gap:12px;padding:12px 16px}
+.aiw-gauge svg{max-width:150px;grid-row:span 2}.aiw-gl{align-self:end;margin:0}.aiw-gs{align-self:start}
+.aiw-ur{grid-template-columns:84px minmax(0,1fr) 56px;gap:8px;padding:6px 2px}.aiw-un{font-size:13.5px}
+.aiw-cols{height:240px;gap:6px}.aiw-col small{font-size:10.5px}.aiw-col b{font-size:13.5px}
+.aiw-pfg{grid-template-columns:minmax(0,1fr);gap:12px}.aiw-donut svg{max-width:180px}
+.aiw-tr{grid-template-columns:150px minmax(0,1fr) 40px;gap:8px}.aiw-tv{display:none}.aiw-tl{font-size:14px}}
