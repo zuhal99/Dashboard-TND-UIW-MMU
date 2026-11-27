@@ -1,0 +1,38 @@
+/* Tab Kinerja EPM versi web, Konsep 1 "Tiga Gauge" (27 Nov 2026). Dipasang oleh build_web.py. */
+.epmw-on #epm>.kp-intro,.epmw-on #filter-epm,.epmw-on #kartu-epm,.epmw-on #epm .epm-tabs,.epmw-on #epm-panel{display:none!important}
+.epmw{--ink:#132C42;--ink2:#4A5F73;--ink3:#7D8FA0;--line:#E3EAF1;--trk:#F0F4F8;color:var(--ink);display:flex;flex-direction:column;gap:20px;font-size:15px;margin:4px 0 24px}
+.epmw *{font-variant-numeric:tabular-nums}
+.epmw-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}.epmw-head h2{font-size:26px;font-weight:600;margin:0;color:var(--ink);font-family:inherit;letter-spacing:-.01em}.epmw-head p{margin:2px 0 0;font-size:14px;color:var(--ink2)}
+.epmw-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 24px;min-width:0}
+.epmw-card h3{font-size:17px;font-weight:600;margin:0 0 2px;color:var(--ink)}.epmw-q{font-size:14px;color:var(--ink2);margin:0 0 14px}
+.epmw-note{font-size:13px;color:var(--ink3);margin:-6px 0 0}
+.epmw-chips{display:flex;gap:8px;flex-wrap:wrap}.epmw-chip{all:unset;cursor:pointer;padding:7px 14px;border-radius:18px;background:#fff;border:1px solid var(--line);font-size:14px;color:var(--ink2)}.epmw-chip:hover{border-color:#B7C6D4}.epmw-chip.on{background:#2E75B6;border-color:#2E75B6;color:#fff;font-weight:600}
+.epmw-chip:focus-visible,.epmw-gc:focus-visible,.epmw-ur:focus-visible{outline:2px solid #2E75B6;outline-offset:2px}
+.epmw-g{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.epmw-gc{all:unset;box-sizing:border-box;cursor:pointer;text-align:center;display:flex;flex-direction:column;gap:2px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px 18px;min-width:0}
+.epmw-gc:hover{border-color:#B7C6D4}.epmw-gc.on{border-color:#2E75B6;box-shadow:inset 0 0 0 2px #2E75B6}
+.epmw-gc b{font-size:17px;font-weight:600;margin-top:6px}.epmw-gc span{font-size:14px;color:var(--ink2)}.epmw-gc .epmw-lama{font-size:12.5px;color:var(--ink3)}
+.epmw-gauge{width:100%;max-width:250px;display:block;margin:0 auto}.epmw-gauge text{font-family:inherit}
+.epmw-arc{transition:stroke-dasharray 1.1s cubic-bezier(.2,.7,.2,1)}
+.epmw-usul{font-size:11.5px!important;font-weight:600;color:var(--ink3)!important;background:#F0F4F8;border-radius:8px;padding:1px 7px;margin-left:6px;vertical-align:2px}
+.epmw-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:20px}
+.epmw-ur{all:unset;box-sizing:border-box;cursor:pointer;display:grid;grid-template-columns:90px minmax(0,1fr) 64px;gap:12px;align-items:center;padding:9px 6px;border-radius:8px;width:100%}
+.epmw-ur:hover{background:#F5F8FB}.epmw-ur.on{background:#EAF2FA}.epmw-ur>span:first-child{text-align:right;font-weight:600;font-size:14.5px}.epmw-ur.on>span:first-child{color:#2E75B6}.epmw-ur b{text-align:right;font-size:15px}
+.epmw-bar{position:relative;height:18px;background:var(--trk);border-radius:6px}.epmw-bar i{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:6px;transition:width 1s cubic-bezier(.2,.7,.2,1)}.epmw-bar em{position:absolute;top:-4px;bottom:-4px;left:66.67%;border-left:2px dashed #132C42;opacity:.5}
+.epmw-chart{width:100%;display:block}.epmw-chart text{font-family:inherit}
+.epmw-col{transform-box:fill-box;transform-origin:bottom;transform:scaleY(0);transition:transform .8s cubic-bezier(.2,.7,.2,1)}.epmw-go .epmw-col{transform:scaleY(1)}
+.epmw-line{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.2s ease}.epmw-go .epmw-line{stroke-dashoffset:0}
+.epmw-dot{opacity:0;transition:opacity .4s 1s}.epmw-go .epmw-dot{opacity:1}
+.epmw-klik{cursor:pointer}.epmw-col.epmw-klik:hover{opacity:.8}
+.epmw-lg{display:flex;gap:18px;flex-wrap:wrap;font-size:13.5px;color:var(--ink2);margin-top:8px}.epmw-lg b{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:7px;vertical-align:-1px}.epmw-lg b.t{height:0;border-top:3px dashed #FFC000;border-radius:0;vertical-align:3px;width:16px}
+.epmw-det{margin:0 0 12px}.epmw-det>summary{cursor:pointer;font-size:17px;font-weight:600;color:#132C42;padding:10px 0}.epmw-det>summary span{font-weight:400;color:#7D8FA0;font-size:14px}
+#epmw-laci{position:fixed;inset:0;background:rgba(19,44,66,.35);z-index:9999;display:none;justify-content:flex-end;opacity:0;transition:opacity .25s}#epmw-laci.on{opacity:1}
+.epmw-lc{width:min(560px,100%);height:100%;background:#fff;overflow:auto;padding:22px 24px;box-sizing:border-box;transform:translateX(30px);transition:transform .3s;color:#132C42;font-size:15px}#epmw-laci.on .epmw-lc{transform:none}
+.epmw-lh{display:flex;justify-content:space-between;gap:10px}.epmw-lh h3{margin:0;font-size:19px}.epmw-lh p{margin:4px 0 14px;color:#4A5F73;font-size:14px}.epmw-x{all:unset;cursor:pointer;font-size:28px;line-height:1;color:#7D8FA0;padding:0 4px}
+.epmw-t{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px;font-variant-numeric:tabular-nums}.epmw-t th{text-align:right;font-weight:600;color:#7D8FA0;font-size:12.5px;padding:7px 6px;border-bottom:1px solid #E3EAF1}.epmw-t td{text-align:right;padding:8px 6px;border-bottom:1px solid #EEF2F6}.epmw-t th:first-child,.epmw-t td:first-child{text-align:left}.epmw-tot td{font-weight:700}
+.epmw-pil{font-style:normal;color:#fff;font-weight:700;border-radius:10px;padding:2px 9px;font-size:13px}
+.epmw-split{display:flex;height:22px;border-radius:7px;overflow:hidden;gap:2px;margin-top:6px}.epmw-sm{font-size:13.5px;color:#4A5F73;margin:4px 0}
+@media (max-width:900px){.epmw-row{grid-template-columns:1fr}}
+@media (max-width:700px){.epmw-card{padding:16px}.epmw-head h2{font-size:21px}.epmw-head .kp-upbtn{padding:6px 12px}.epmw-chips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px}.epmw-chip{flex:none}
+.epmw-g{gap:8px}.epmw-gc{padding:10px 6px}.epmw-gc b{font-size:13px}.epmw-gc>span{display:none}.epmw-ur{grid-template-columns:72px minmax(0,1fr) 56px}.epmw-lc{padding:18px 16px}}
+@media (prefers-reduced-motion:reduce){.epmw-arc,.epmw-bar i,.epmw-col,.epmw-line,.epmw-dot,.epmw-lc,#epmw-laci{transition:none!important}}
