@@ -128,7 +128,7 @@
       upV.map(function (u) { return '<tr><td><b>' + u + '</b></td>' + GR.map(function (g) { var x = gs(g[0], function (r) { return r.b.u === u; });
         return x.k ? '<td><div class="mdu-tv"><span><b>' + F(x.t, g[2]) + '</b> / ' + F(x.k, g[2]) + '</span><span class="' + (x.t < x.k ? 'mdu-merah' : '') + '">' + PC(x.t / x.k) + '</span></div>' + pbar(x.t, x.k) + '</td>' : '<td class="mdu-nil">–</td>'; }).join('') + '</tr>'; }).join('') +
       (upV.length > 1 ? '<tr class="mdu-tot"><td><b>Jumlah</b></td>' + GR.map(function (g) { var x = gs(g[0]); return x.k ? '<td><b>' + F(x.t, g[2]) + '</b> / ' + F(x.k, g[2]) + ' · ' + PC(x.t / x.k) + '</td>' : '<td class="mdu-nil">–</td>'; }).join('') + '</tr>' : '') +
-      '</tbody></table></div><p class="mdu-note">JTM = SUTM (AAAC-S dan MVTIC) + SKTM (NA2XSEYBY). AAAC-S dipesan per meter penghantar, dibagi 3 (tiga fasa) menjadi kms; MVTIC, NA2XSEYBY dan LVTC adalah kabel berpilin, sehingga meter = meter sirkuit. kVA trafo = jumlah unit × kapasitas pada varian.</p></div>';
+      '</tbody></table></div><p class="mdu-note">JTM = SUTM (AAAC-S dan MVTIC) + SKTM (NA2XSEYBY). JTR = semua kabel NFA2X (LVTC dan kabel SR). AAAC-S dipesan per meter penghantar, dibagi 3 (tiga fasa) menjadi kms; MVTIC, NA2XSEYBY dan NFA2X adalah kabel berpilin, sehingga meter = meter sirkuit. kVA trafo = jumlah unit × kapasitas pada varian.</p></div>';
 
     /* volume kedatangan fisik */
     var vv = {}; R.forEach(function (r) { var x = vv[r.vr] = vv[r.vr] || { v: r.vr, q: 0, t: 0, bb: 0 }; x.q += r.b.q; x.t += r.b.t; if (r.p.tahap !== 'Terbayar') x.bb += r.n; });
