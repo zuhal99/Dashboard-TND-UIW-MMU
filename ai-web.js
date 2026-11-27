@@ -74,14 +74,52 @@
   });
 
   /* ---------- komponen ---------- */
+  /* gauge ala speedometer: busur dan jarum naik dari nilai sebelumnya (awal 0), angka ikut menghitung */
+  var GC = 100, GY = 100, GR = 80;
+  function titik(v, r) { var a = Math.PI * (1 - Math.max(0, Math.min(v, 100)) / 100); return [GC + r * Math.cos(a), GY - r * Math.sin(a)]; }
+  function busur(v) { var q = titik(v, GR); return 'M20 ' + GY + ' A80 80 0 0 1 ' + q[0].toFixed(2) + ' ' + q[1].toFixed(2); }
   function gauge(v, col, label, sub) {
-    var a = Math.PI * (1 - Math.max(0, Math.min(v || 0, 100)) / 100), x = 100 + 80 * Math.cos(a), y = 96 - 80 * Math.sin(a);
-    return '<div class="aiw-card aiw-gauge"><svg viewBox="0 0 200 112" role="img" aria-label="' + label + ' ' + PC(v) + '">' +
-      '<path d="M20 96 A80 80 0 0 1 180 96" fill="none" stroke="' + C.abu + '" stroke-width="18" stroke-linecap="round"/>' +
-      (v > 0 ? '<path d="M20 96 A80 80 0 0 1 ' + x.toFixed(1) + ' ' + y.toFixed(1) + '" fill="none" stroke="' + col + '" stroke-width="18" stroke-linecap="round"/>' : '') +
-      '<text x="100" y="90" text-anchor="middle" font-size="34" font-weight="700" fill="#132C42">' + PC(v) + '</text></svg>' +
+    var ticks = '';
+    for (var k = 0; k <= 100; k += 10) { var a = titik(k, 60), b = titik(k, k % 50 ? 64 : 68); ticks += '<line x1="' + a[0].toFixed(1) + '" y1="' + a[1].toFixed(1) + '" x2="' + b[0].toFixed(1) + '" y2="' + b[1].toFixed(1) + '" stroke="#B9C7D5" stroke-width="' + (k % 50 ? 1.2 : 2) + '"/>'; }
+    return '<div class="aiw-card aiw-gauge" data-v="' + (+v || 0) + '"><svg viewBox="0 0 200 146" role="img" aria-label="' + label + ' ' + PC(v) + '">' +
+      '<path d="M20 ' + GY + ' A80 80 0 0 1 180 ' + GY + '" fill="none" stroke="' + C.abu + '" stroke-width="16" stroke-linecap="round"/>' + ticks +
+      '<path class="g-arc" d="' + busur(0.01) + '" fill="none" stroke="' + col + '" stroke-width="16" stroke-linecap="round"/>' +
+      '<g class="g-ndl" transform="rotate(-90 ' + GC + ' ' + GY + ')"><path d="M' + (GC - 4) + ' ' + GY + ' L' + GC + ' ' + (GY - 62) + ' L' + (GC + 4) + ' ' + GY + ' Z" fill="#132C42"/></g>' +
+      '<circle cx="' + GC + '" cy="' + GY + '" r="8" fill="#132C42"/><circle cx="' + GC + '" cy="' + GY + '" r="3" fill="#fff"/>' +
+      '<text class="g-num" x="100" y="140" text-anchor="middle" font-size="30" font-weight="700" fill="#132C42">' + PC(0) + '</text></svg>' +
       '<div class="aiw-gl">' + label + '</div><div class="aiw-gs">' + sub + '</div></div>';
   }
+  var gaugeLast = {}, gaugeKey = '', animId = 0;
+  var diam = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function setGauge(el, v) {
+    el.querySelector('.g-arc').setAttribute('d', busur(Math.max(0.01, v)));
+    el.querySelector('.g-ndl').setAttribute('transform', 'rotate(' + (-90 + 180 * Math.max(0, Math.min(v, 100)) / 100).toFixed(2) + ' ' + GC + ' ' + GY + ')');
+    el.querySelector('.g-num').textContent = PC(v);
+  }
+  function animasiGauge(dari0) {
+    var els = [].slice.call(Q('gauges').querySelectorAll('.aiw-gauge')), id = ++animId;
+    var awal = els.map(function (el, i) { return dari0 ? 0 : (gaugeLast[i] != null ? gaugeLast[i] : 0); });
+    var akhir = els.map(function (el) { return +el.getAttribute('data-v') || 0; });
+    akhir.forEach(function (v, i) { gaugeLast[i] = v; });
+    if (diam) { els.forEach(function (el, i) { setGauge(el, akhir[i]); }); return; }
+    var t0 = null, dur = 1400;
+    function step(ts) {
+      if (id !== animId) return;
+      if (t0 == null) t0 = ts;
+      var k = Math.min(1, (ts - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+      els.forEach(function (el, i) { setGauge(el, awal[i] + (akhir[i] - awal[i]) * e); });
+      if (k < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  /* jalankan ulang dari 0 setiap kali tab Anggaran dibuka kembali */
+  var tadiTersembunyi = false;
+  if (window.IntersectionObserver) new IntersectionObserver(function (en) {
+    en.forEach(function (x) {
+      if (!x.isIntersecting) { if (!root.offsetParent) tadiTersembunyi = true; return; }
+      if (tadiTersembunyi) { tadiTersembunyi = false; animasiGauge(true); }
+    });
+  }).observe(root);
   function donut(rows, total) {
     var R = 70, Cc = 2 * Math.PI * R, off = 0, s = '<svg viewBox="0 0 180 180" role="img" aria-label="' + total + ' kontrak menurut progres fisik">';
     rows.forEach(function (r) {
@@ -115,12 +153,18 @@
     Q('judul').textContent = 'Anggaran Investasi Distribusi 2026 · ' + (t ? RP(t.pagu_miliar) : '—');
     Q('meta').textContent = nama(p.u) + jn + ' · posisi ' + (t ? tgl(t.posisi) : '—') + (t && t.prk_melebihi_pagu ? ' · ' + t.prk_melebihi_pagu + ' PRK terkontrak melebihi pagu' : '');
     if (!t) {
+      gaugeKey = '';
       Q('gauges').innerHTML = '<p class="aiw-q">Tidak ada PRK ' + (p.j === 'Luncuran' ? 'lanjutan' : p.j.toLowerCase()) + ' untuk ' + esc(nama(p.u)) + '.</p>';
       Q('bayar').innerHTML = ''; Q('bayar-note').textContent = ''; Q('donut').innerHTML = ''; Q('tahap').innerHTML = '';
     } else {
-      Q('gauges').innerHTML = gauge(t.pct_kontrak, C.biru, 'Terkontrak', RP(t.terkontrak_miliar) + ' · sisa ' + RP(t.sisa_miliar)) +
-        gauge(t.pct_selesai_n, C.tosca, 'Fisik selesai', t.n_selesai + ' dari ' + t.n_kontrak + ' kontrak') +
-        gauge(t.pct_bayar, C.petrol, 'Terbayar', RP(t.terbayar_miliar));
+      var gk = [p.u, p.j, t.pct_kontrak, t.pct_selesai_n, t.pct_bayar].join('|');
+      if (gk !== gaugeKey || !Q('gauges').querySelector('.aiw-gauge')) {
+        var pertama = !gaugeKey; gaugeKey = gk;
+        Q('gauges').innerHTML = gauge(t.pct_kontrak, C.biru, 'Terkontrak', RP(t.terkontrak_miliar) + ' · sisa ' + RP(t.sisa_miliar)) +
+          gauge(t.pct_selesai_n, C.tosca, 'Fisik selesai', t.n_selesai + ' dari ' + t.n_kontrak + ' kontrak') +
+          gauge(t.pct_bayar, C.petrol, 'Terbayar', RP(t.terbayar_miliar));
+        animasiGauge(pertama);
+      }
 
       /* proyeksi pembayaran */
       var K = KT.filter(function (d) { return d.jenis === p.j && (p.u === 'Semua' || d.unit === p.u); });
