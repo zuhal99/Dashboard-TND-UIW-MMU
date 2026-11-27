@@ -1,0 +1,12 @@
+/* Animasi pindah tab dan sub-tab (permintaan Zuhal 27 Nov 2026).
+   Hanya opacity + geser kecil, sehingga ukuran panel (peta Leaflet, grafik d3) tidak berubah.
+   Kelas dipasang dan dilepas oleh transisi-web.js. */
+@keyframes tx-masuk{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes tx-masuk-kecil{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.tx-in{animation:tx-masuk .28s cubic-bezier(.2,.7,.2,1) both}
+.tx-in-sub{animation:tx-masuk-kecil .22s cubic-bezier(.2,.7,.2,1) both}
+.td-tab,.sb-i,.epm-tab,.trs-tab,.rs-subtab,.hi-tab,.td-jenisbtn,.kp-segbtn{transition:background-color .2s ease,color .2s ease,border-color .2s ease,box-shadow .2s ease}
+@media (prefers-reduced-motion:reduce){
+  .tx-in,.tx-in-sub{animation:none}
+  .td-tab,.sb-i,.epm-tab,.trs-tab,.rs-subtab,.hi-tab,.td-jenisbtn,.kp-segbtn{transition:none}
+}
