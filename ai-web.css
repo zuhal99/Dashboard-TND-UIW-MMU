@@ -30,6 +30,8 @@
 .aiw-col{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;min-width:0}
 .aiw-col b{font-size:15px;font-weight:700;margin-bottom:6px}
 .aiw-col i{display:block;width:62%;max-width:64px;border-radius:6px 6px 2px 2px;flex:0 0 auto;min-height:3px}
+.aiw-col.aiw-klik{cursor:pointer;border-radius:8px;padding-bottom:4px}.aiw-col.aiw-klik:hover{background:#F5F8FB}.aiw-col.aiw-klik:focus-visible{outline:2px solid #2E75B6;outline-offset:0}
+.aiw-note a{color:#2E75B6}
 .aiw-col span{font-size:14px;color:var(--aw-ink);margin-top:8px}.aiw-col small{font-size:12px;color:var(--aw-ink3);white-space:nowrap}
 /* per progres fisik */
 .aiw-pfg{display:grid;grid-template-columns:240px minmax(0,1fr);gap:36px;align-items:center}
