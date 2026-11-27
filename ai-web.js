@@ -74,26 +74,20 @@
   });
 
   /* ---------- komponen ---------- */
-  /* gauge ala speedometer: busur dan jarum naik dari nilai sebelumnya (awal 0), angka ikut menghitung */
-  var GC = 100, GY = 100, GR = 80;
-  function titik(v, r) { var a = Math.PI * (1 - Math.max(0, Math.min(v, 100)) / 100); return [GC + r * Math.cos(a), GY - r * Math.sin(a)]; }
-  function busur(v) { var q = titik(v, GR); return 'M20 ' + GY + ' A80 80 0 0 1 ' + q[0].toFixed(2) + ' ' + q[1].toFixed(2); }
+  /* gauge setengah lingkaran (gaya semula); busur dan angka naik beranimasi dari nilai sebelumnya (awal 0) */
+  var GC = 100, GY = 96, GR = 80;
+  function busur(v) { var a = Math.PI * (1 - Math.max(0, Math.min(v, 100)) / 100); return 'M20 ' + GY + ' A80 80 0 0 1 ' + (GC + GR * Math.cos(a)).toFixed(2) + ' ' + (GY - GR * Math.sin(a)).toFixed(2); }
   function gauge(v, col, label, sub) {
-    var ticks = '';
-    for (var k = 0; k <= 100; k += 10) { var a = titik(k, 60), b = titik(k, k % 50 ? 64 : 68); ticks += '<line x1="' + a[0].toFixed(1) + '" y1="' + a[1].toFixed(1) + '" x2="' + b[0].toFixed(1) + '" y2="' + b[1].toFixed(1) + '" stroke="#B9C7D5" stroke-width="' + (k % 50 ? 1.2 : 2) + '"/>'; }
-    return '<div class="aiw-card aiw-gauge" data-v="' + (+v || 0) + '"><svg viewBox="0 0 200 146" role="img" aria-label="' + label + ' ' + PC(v) + '">' +
-      '<path d="M20 ' + GY + ' A80 80 0 0 1 180 ' + GY + '" fill="none" stroke="' + C.abu + '" stroke-width="16" stroke-linecap="round"/>' + ticks +
-      '<path class="g-arc" d="' + busur(0.01) + '" fill="none" stroke="' + col + '" stroke-width="16" stroke-linecap="round"/>' +
-      '<g class="g-ndl" transform="rotate(-90 ' + GC + ' ' + GY + ')"><path d="M' + (GC - 4) + ' ' + GY + ' L' + GC + ' ' + (GY - 62) + ' L' + (GC + 4) + ' ' + GY + ' Z" fill="#132C42"/></g>' +
-      '<circle cx="' + GC + '" cy="' + GY + '" r="8" fill="#132C42"/><circle cx="' + GC + '" cy="' + GY + '" r="3" fill="#fff"/>' +
-      '<text class="g-num" x="100" y="140" text-anchor="middle" font-size="30" font-weight="700" fill="#132C42">' + PC(0) + '</text></svg>' +
+    return '<div class="aiw-card aiw-gauge" data-v="' + (+v || 0) + '"><svg viewBox="0 0 200 112" role="img" aria-label="' + label + ' ' + PC(v) + '">' +
+      '<path d="M20 ' + GY + ' A80 80 0 0 1 180 ' + GY + '" fill="none" stroke="' + C.abu + '" stroke-width="18" stroke-linecap="round"/>' +
+      '<path class="g-arc" d="' + busur(0.01) + '" fill="none" stroke="' + col + '" stroke-width="18" stroke-linecap="round"/>' +
+      '<text class="g-num" x="100" y="90" text-anchor="middle" font-size="34" font-weight="700" fill="#132C42">' + PC(0) + '</text></svg>' +
       '<div class="aiw-gl">' + label + '</div><div class="aiw-gs">' + sub + '</div></div>';
   }
   var gaugeLast = {}, gaugeKey = '', animId = 0;
   var diam = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   function setGauge(el, v) {
     el.querySelector('.g-arc').setAttribute('d', busur(Math.max(0.01, v)));
-    el.querySelector('.g-ndl').setAttribute('transform', 'rotate(' + (-90 + 180 * Math.max(0, Math.min(v, 100)) / 100).toFixed(2) + ' ' + GC + ' ' + GY + ')');
     el.querySelector('.g-num').textContent = PC(v);
   }
   function animasiGauge(dari0) {
