@@ -138,13 +138,10 @@
   function kepala(sub) { return '<div class="kb-head"><div><h2>Kinerja Ophardist 2026</h2><p>' + sub + '</p></div><div class="kb-ups"><a class="kp-upbtn" href="' + SAIDI + '" target="_blank" rel="noopener noreferrer">SAIDI SAIFI <span aria-hidden="true">↗</span></a><a class="kp-upbtn" href="' + APKT + '" target="_blank" rel="noopener noreferrer">Gangguan APKT <span aria-hidden="true">↗</span></a></div></div>'; }
 
   var B = null, s = { u: 'UIW' }, jejak = '';
-  function spark(k, u) { var c = B.g(k, u).cap.slice(0, B.M + 1), mn = Math.min.apply(null, c.concat([95])), mx = Math.max.apply(null, c.concat([105])), W = 120, H = 30;
-    var y = function (v) { return H - 3 - (v - mn) / (mx - mn) * (H - 6); }, x = function (i) { return i / B.M * W; };
-    return '<svg viewBox="0 0 ' + W + ' ' + H + '" class="o3-sp"><line x1="0" x2="' + W + '" y1="' + y(100) + '" y2="' + y(100) + '" stroke="#B4C1CD" stroke-dasharray="3 3"/><path d="M' + c.map(function (v, i) { return x(i).toFixed(1) + ' ' + y(v).toFixed(1); }).join(' L') + '" fill="none" stroke="' + B.K[k].w + '" stroke-width="2"/></svg>'; }
   function render() {
     var M = B.M, u = s.u, J = B.D.jenis; if (!J[u]) u = s.u = 'UIW';
     root.dataset.k = 'gg';
-    var tiles = B.ORD.map(function (k) { var c = B.capNow(k, 'UIW'); return '<div class="kb-card o3-t kb-click" data-unit="UIW" data-kk="' + k + '"><span>' + B.K[k].n + ' · UIW</span><div><b>' + B.pc(c) + '</b><i class="kb-pil" style="background:' + B.st(c) + '">' + (c >= 100 ? 'hijau' : c >= 95 ? 'kuning' : 'merah') + '</i></div><small>' + B.rt(k, 'UIW') + '</small>' + spark(k, 'UIW') + '</div>'; }).join('');
+    var tiles = B.ORD.map(function (k) { var c = B.capNow(k, 'UIW'); return '<div class="kb-card o3-t kb-click" data-unit="UIW" data-kk="' + k + '"><span>' + B.K[k].n + ' · UIW</span><div><b>' + B.pc(c) + '</b><i class="kb-pil" style="background:' + B.st(c) + '">' + (c >= 100 ? 'hijau' : c >= 95 ? 'kuning' : 'merah') + '</i></div><small>' + B.rt(k, 'UIW') + '</small>' + '</div>'; }).join('');
     var mat = '<table class="o3-m"><thead><tr><th>Unit</th>' + B.ORD.map(function (k) { return '<th>' + B.K[k].n.replace('Penurunan gangguan', 'Gangguan') + '</th>'; }).join('') + '</tr></thead><tbody>' +
       B.D.unit.map(function (x) { return '<tr' + (x === 'UIW' ? ' class="kb-tot"' : '') + '><td>' + (x === 'UIW' ? 'UIW MMU' : x) + '</td>' + B.ORD.map(function (k) { var c = B.capNow(k, x);
         return '<td><button type="button" class="o3-cell kb-click" data-unit="' + x + '" data-kk="' + k + '" style="--c:' + B.st(c) + '">' + B.pc(c) + '</button></td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table>';
