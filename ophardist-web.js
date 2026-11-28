@@ -141,7 +141,7 @@
   function render() {
     var M = B.M, u = s.u, J = B.D.jenis; if (!J[u]) u = s.u = 'UIW';
     root.dataset.k = 'gg';
-    var tiles = B.ORD.map(function (k) { var c = B.capNow(k, 'UIW'); return '<div class="kb-card o3-t kb-click" data-unit="UIW" data-kk="' + k + '"><span>' + B.K[k].n + ' · UIW</span><div><b>' + B.pc(c) + '</b><i class="kb-pil" style="background:' + B.st(c) + '">' + (c >= 100 ? 'hijau' : c >= 95 ? 'kuning' : 'merah') + '</i></div><small>' + B.rt(k, 'UIW') + '</small>' + '</div>'; }).join('');
+    var tiles = B.ORD.map(function (k) { var c = B.capNow(k, 'UIW'); return '<button type="button" class="kb-card o3-t kb-click" data-unit="UIW" data-kk="' + k + '" aria-label="' + B.K[k].n + ' UIW, capaian ' + B.pc(c) + '">' + B.gauge(c, B.st(c), 220) + '<b>' + B.K[k].n + '</b><span>' + B.rt(k, 'UIW') + '</span></button>'; }).join('');
     var mat = '<table class="o3-m"><thead><tr><th>Unit</th>' + B.ORD.map(function (k) { return '<th>' + B.K[k].n.replace('Penurunan gangguan', 'Gangguan') + '</th>'; }).join('') + '</tr></thead><tbody>' +
       B.D.unit.map(function (x) { return '<tr' + (x === 'UIW' ? ' class="kb-tot"' : '') + '><td>' + (x === 'UIW' ? 'UIW MMU' : x) + '</td>' + B.ORD.map(function (k) { var c = B.capNow(k, x);
         return '<td><button type="button" class="o3-cell kb-click" data-unit="' + x + '" data-kk="' + k + '" style="--c:' + B.st(c) + '">' + B.pc(c) + '</button></td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table>';
