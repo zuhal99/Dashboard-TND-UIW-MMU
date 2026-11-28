@@ -106,3 +106,33 @@ html,body,#dash-root .td-controls{background:#F3F6FA}
 #dash-root .td .td-head{padding-top:10px;padding-bottom:10px}
 #dash-root .tw-tims img{max-width:250px}
 }
+
+/* 28 Nov 2026 (Zuhal): sidebar dan halaman menyatu, konsep 4 "Sidebar Melayang" (sidebar = kartu putih bersudut bulat di atas latar biru muda yang sama dengan halaman) */
+body.sb-on,#dash-root .td,#dash-root .td-controls{background:#EAF1F8}
+.sb-side{background:#fff!important;color:#1E3A55;box-shadow:0 1px 2px rgba(18,41,62,.06),0 8px 24px rgba(18,41,62,.08)!important}
+.sb-head{border-bottom:1px solid #EDF1F5!important}
+.sb-unit small{color:#4D6378}
+.sb-g{color:#6B7E91;opacity:1}
+.sb-i{color:#2A4560}
+.sb-i:hover{background:#F0F5FA}
+.sb-i[aria-current="page"]{background:#2E75B6!important;color:#fff!important;box-shadow:0 4px 12px rgba(46,117,182,.3)!important}
+.sb-tag{background:#EEF2F6;color:#5B6C7D}
+.sb-bot{border-top:1px solid #EDF1F5}
+.sb-upd{color:#5B6C7D}
+#dash-root .td .td-head{border-radius:18px;box-shadow:0 1px 2px rgba(18,41,62,.06),0 8px 24px rgba(18,41,62,.06)}
+#dash-root .td-tile,#dash-root .td-card{border-radius:16px;border-color:transparent}
+.web-foot{border-top:0}
+@media (min-width:901px){
+  .sb-side{top:16px;left:16px;bottom:16px;width:240px;border-radius:20px}
+  body.sb-on{padding-left:272px}
+  #dash-root .td{padding-top:16px}
+  #dash-root .td .td-head{margin:0}
+}
+@media (max-width:900px){
+  .sb-top{background:#fff!important;color:#153A5E;border-bottom:0!important;margin:10px 10px 0;border-radius:16px;box-shadow:0 4px 16px rgba(18,41,62,.1);top:10px}
+  .sb-menu{color:#153A5E}
+  .sb-topik{content:url(logo/tims-ikon.png?v=3)}
+  #dash-root .td{padding-top:12px}
+  #dash-root .td .td-head{margin:0}
+  .sb-side{border-radius:0 20px 20px 0}
+}
