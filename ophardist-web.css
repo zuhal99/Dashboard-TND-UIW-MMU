@@ -40,3 +40,42 @@
 @media (max-width:700px){.opw-jt{font-size:13px}.opw-jt th,.opw-jt td{padding:7px 4px}.opw-pj{display:none}.opw-pk{display:inline}.opw-jt td:first-child{min-width:70px}.opw-mb{max-width:70px}.opw-tg small{display:none}#kb-laci .kb-lc{padding:18px 16px}}
 .kb-lh p:empty{display:none}.kb-lh p:empty+*{margin-top:0}
 #kb-laci .opw-nav{margin-top:8px}
+/* 28 Nov 2026: 5 gauge (RPT dan Rating Negatif), klik gauge membuka rincian KPI */
+.o3 .opk-5{grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
+.opk-5 .opk-t{padding:14px 10px 12px}.opk-5 .opk-t b{font-size:15px}.opk-5 .opk-t span{font-size:12.5px}
+.opk-t{position:relative;transition:opacity .2s,transform .2s,box-shadow .2s}
+.opk-t .opk-c{font-style:normal;font-size:12px;font-weight:600;color:#2E75B6;margin-top:6px}
+.opk-t.on{border-color:#2E75B6;box-shadow:0 0 0 2px #2E75B6,0 10px 24px -12px rgba(46,117,182,.6);transform:translateY(-2px)}
+.opk-t.on::after{content:"";position:absolute;left:50%;bottom:-11px;width:18px;height:18px;background:#fff;border-right:2px solid #2E75B6;border-bottom:2px solid #2E75B6;transform:translateX(-50%) rotate(45deg)}
+.opk-t.off{opacity:.55}.opk-t.off:hover,.opk-t.off:focus-visible{opacity:1}
+.opk-isi{display:flex;flex-direction:column;gap:20px}
+.opk-isi.buka{animation:opkin .35s ease both}
+@keyframes opkin{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.opk-isi.buka{animation:none}.opk-t{transition:none}}
+.opk-jd{display:flex;justify-content:space-between;align-items:center;border-top:2px solid #2E75B6;padding-top:12px}
+.opk-jd b{font-size:17px;color:#2E75B6}
+.opk-x{all:unset;cursor:pointer;font-size:13.5px;font-weight:600;color:#4A5F73;padding:6px 12px;border-radius:8px;background:#EEF2F6}
+.opk-x:hover{background:#E3EAF1}.opk-x:focus-visible{outline:2px solid #2E75B6}
+.opk-r{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr)}
+.opk-2,.opk-rk{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:28px}
+.opk-sc{overflow-x:auto}.opk-sc .o3-m{table-layout:fixed}.opk-sc .o3-m th:first-child{width:16%}
+.opk-tr{position:relative;height:10px;background:#EEF2F6;border-radius:5px}
+.opk-tr i{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:5px;transition:width .8s cubic-bezier(.2,.8,.2,1)}
+.opk-tr em{position:absolute;left:50%;top:-3px;bottom:-3px;border-left:2px solid #132C42;opacity:.35}
+.opk-rr{display:grid;grid-template-columns:80px minmax(0,1fr) 120px 60px;align-items:center;gap:10px;padding:9px 6px;border-bottom:1px solid #EEF2F6;cursor:pointer;border-radius:6px}
+.opk-rr:hover,.opk-bar:hover,.opk-rnr:hover{background:#F5F8FB}
+.opk-rr span,.opk-bar span,.opk-rnr span{font-weight:600}.opk-rr small{color:#7D8FA0;font-size:12.5px}.opk-rr b{text-align:right}
+.opk-bars{display:flex;flex-direction:column;gap:4px}
+.opk-bar{display:grid;grid-template-columns:78px minmax(0,1fr) 52px 74px;align-items:center;gap:10px;padding:7px 6px;border-radius:6px;cursor:pointer}
+.opk-bar .opk-tr{height:14px;border-radius:7px}.opk-bar .opk-tr i{border-radius:7px}.opk-bar em{top:-4px;bottom:-4px;border-left-width:2.5px}
+.opk-bar b{text-align:right}.opk-bar small{color:#7D8FA0;text-align:right}
+.opk-rn{display:flex;flex-direction:column;gap:2px}
+.opk-rnr{display:grid;grid-template-columns:78px minmax(0,1fr) 46px 64px;align-items:center;gap:10px;padding:8px 6px;border-radius:6px;cursor:pointer}
+.opk-rnr b{text-align:right;font-variant-numeric:tabular-nums}.opk-rnr .kb-pil{text-align:center}
+.opk-dots{display:flex;gap:5px;flex-wrap:wrap}.opk-dots i{width:14px;height:14px;border-radius:50%;background:#E6EDF3;display:block}
+@media (max-width:1000px){.o3 .opk-5{grid-template-columns:repeat(6,minmax(0,1fr))}.o3 .opk-5>*{grid-column:span 2}.o3 .opk-5>*:nth-child(4){grid-column:2 / span 2}.opk-r,.opk-rk,.opk-2{grid-template-columns:1fr}}
+@media (max-width:700px){.o3 .opk-5{gap:8px}.opk-t .opk-c{font-size:10.5px;margin-top:2px}.opk-t.on::after{display:none}
+  .opk-rr{grid-template-columns:70px minmax(0,1fr) 54px}.opk-rr small{grid-column:1 / -1;order:5}
+  .opk-bar{grid-template-columns:64px minmax(0,1fr) 44px;gap:8px}.opk-bar small{display:none}
+  .opk-rnr{grid-template-columns:62px minmax(0,1fr) 34px 64px;gap:6px}.opk-rnr .kb-pil{font-size:11.5px;padding-left:4px;padding-right:4px}.opk-dots i{width:11px;height:11px}
+  .opk-sc .o3-m{font-size:12px;border-spacing:3px}.opk-sc .o3-cell{padding:7px 1px;font-size:11px}.opk-sc .o3-m th{font-size:10.5px}.opk-sc .o3-m td:first-child{font-size:12px}}

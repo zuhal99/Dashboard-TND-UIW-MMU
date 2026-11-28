@@ -1,5 +1,7 @@
-/* Tab Kinerja Ophardist versi web: Konsep 3 "Analisis Gangguan" (pilihan Zuhal 28 Nov 2026).
-   Konsep: /mnt/project-files/kinerja/ophardist/konsep/. Dipasang build_web.py.
+/* Tab Kinerja Ophardist versi web. 28 Nov 2026 (pilihan Zuhal): 5 gauge kinerja di atas, matriks ringkasan per unit di bawahnya;
+   klik satu gauge membuka bagian rincian KPI itu (klik lagi atau Tutup = kembali ke matriks). Param oph_kpi menyimpan pilihan.
+   Konsep: /mnt/project-files/kinerja/ophardist/konsep/ (rpt-ratneg/klik-kinerja). Dipasang build_web.py.
+   RPT dan Rating Negatif dari rpt-ratneg-data.js (window.__RPTRN, rpt_ratneg_extract.py).
    Menambah <section id="ophardist" data-hal="Ophardist"> dan melepas Ophardist dari section #kinerja (pola sama dengan transmisi-web.js).
    Angka dari dataset kinerja (OP01 SAIDI, OP02 SAIFI, OP05 penurunan gangguan penyulang; capaian sama dengan tabel kinerja)
    dan penurunan_gangguan (jumlah gangguan per jenis per bulan, target UIW). Filter unit grafik memakai param up3_oph. */
@@ -13,6 +15,7 @@
   var root = document.createElement('div'); root.className = 'kb o3'; sec.appendChild(root);
   var SAIDI = 'https://docs.google.com/spreadsheets/d/17_MtAtqcKHfNLopKtUFaxWnqSHwUdM-o-fsfp08ZhmM/edit#gid=1970518530';
   var APKT = 'https://docs.google.com/spreadsheets/d/1rzEIhx2K2B3JArbKAz4K7GpCdYYBlkwqAtHXSMYgvuc/edit';
+  var RPTRN = 'https://docs.google.com/spreadsheets/d/1LhWublac-_Pcz8lGAcx7OcP6D6ce6K-qCcL7A9nvalo/edit';
   var UNIT = ['Ambon', 'Masohi', 'Saumlaki', 'Sofifi', 'Ternate', 'Tobelo', 'Tual', 'UIW'], JNS = ['Permanen', 'Sementara', 'Cleansing', 'Logsheet'];
   function raw(id) { var r = dash.data(id); return r && r.status === 'ok' ? r.data : null; }
 
@@ -41,7 +44,24 @@
       for (var m = 0; m < M; m++) { if (d.kum[m] == null || !d.tgt[m]) continue; var p = m ? d.kum[m - 1] : 0, pt = m ? d.tgt[m - 1] : 0;
         d.bul[m] = d.kum[m] - (p || 0); d.tbul[m] = d.tgt[m] - (pt || 0);
         d.cap[m] = Math.round(((k === 'gg' && u === 'UIW') ? (d.pct[m] == null ? null : d.pct[m] / 5) : 2 - d.kum[m] / d.tgt[m]) * 1000) / 10; } }); });
+    tambahRptRn(D);
     cache = { kr: kr, pr: pr, D: D, B: null }; return D; }
+
+  /* RPT: kum = RPT kumulatif sheet, bul = RPT bulanan, target 30 menit, capaian 2 − R/T.
+     Rating negatif UP3: jumlah kumulatif vs kuota target kumulatif (sheet versi UP3), capaian 2 − R/T; UIW: rasio vs 0,03 (baris % sheet). */
+  function tambahRptRn(D) {
+    var X = window.__RPTRN; if (!X || !X.rpt || !X.rn) return;
+    function kos() { var a = []; for (var j = 0; j < 12; j++) a[j] = null; return a; }
+    var T = X.target_rpt || 30; D.rpt = {}; D.rn = {}; D.wo = {};
+    UNIT.forEach(function (u) { var r = X.rpt[u], n = X.rn[u]; if (!r || !n) return;
+      var a = { kum: kos(), tgt: kos(), bul: kos(), tbul: kos(), cap: kos(), pct: kos() }, c = { kum: kos(), tgt: kos(), bul: kos(), tbul: kos(), cap: kos(), pct: kos(), txt: kos() };
+      for (var m = 0; m < X.bln; m++) {
+        if (r.k[m] != null) { a.kum[m] = r.k[m]; a.tgt[m] = T; a.tbul[m] = T; a.bul[m] = r.b[m]; a.cap[m] = Math.round((2 - r.k[m] / T) * 1000) / 10; }
+        c.kum[m] = n.k[m]; c.bul[m] = n.b[m]; c.tgt[m] = n.t[m]; c.tbul[m] = n.t[m] - (m ? n.t[m - 1] : 0);
+        if (u === 'UIW' && n.pct) { c.cap[m] = n.pct[m]; c.txt[m] = n.k[m] + ' kali · rasio ' + (+n.rasio[m]).toLocaleString('id-ID', { minimumFractionDigits: 3, maximumFractionDigits: 4 }) + ' · target ' + (X.target_rasio || 0.03).toLocaleString('id-ID', { minimumFractionDigits: 3 }); }
+        else c.cap[m] = n.t[m] ? Math.round((2 - n.k[m] / n.t[m]) * 1000) / 10 : null; }
+      D.rpt[u] = a; D.rn[u] = c; D.wo[u] = r.wo; });
+    if (!D.rpt.UIW || !D.rn.UIW) { delete D.rpt; delete D.rn; } }
 
   function mkB(D) {
   var BL = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
@@ -51,7 +71,8 @@
     saidi: { n: 'SAIDI', s: 'menit/plg', w: C.biru, d: 2, ket: 'Lama padam rata-rata per pelanggan' },
     saifi: { n: 'SAIFI', s: 'kali/plg', w: C.tosca, d: 3, ket: 'Frekuensi padam rata-rata per pelanggan' },
     gg: { n: 'Penurunan gangguan', s: 'kali', w: C.petrol, d: 0, ket: 'Gangguan penyulang (kumulatif)' } };
-  var ORD = ['saidi', 'saifi', 'gg'], JN = ['Permanen', 'Sementara', 'Cleansing', 'Logsheet'], JW = [C.salmon, C.kuning, C.tosca, C.ungu];
+  if (D.rpt) { K.rpt = { n: 'RPT', s: 'menit', w: C.ungu, d: 2, ket: 'Response time gangguan di luar clear tamper' }; K.rn = { n: 'Rating negatif', s: 'kali', w: C.salmon, d: 0, ket: 'Feedback rating negatif PLN Mobile' }; }
+  var ORD = D.rpt ? ['saidi', 'saifi', 'gg', 'rpt', 'rn'] : ['saidi', 'saifi', 'gg'], JN = ['Permanen', 'Sementara', 'Cleansing', 'Logsheet'], JW = [C.salmon, C.kuning, C.tosca, C.ungu];
   function fx(v, d) { return v == null ? '—' : (+v).toLocaleString('id-ID', { minimumFractionDigits: d || 0, maximumFractionDigits: d || 0 }); }
   function val(k, v) { return fx(v, K[k].d) + ' ' + K[k].s; }
   function pc(v) { return v == null ? '—' : fx(v, 1) + '%'; }
@@ -62,6 +83,7 @@
   function capNow(k, u) { return g(k, u).cap[M]; }
   /* teks realisasi vs target; UIW penurunan gangguan mengikuti sheet (% turun terhadap 2025) */
   function rt(k, u, m) { m = m == null ? M : m; var d = g(k, u);
+    if (d.txt && d.txt[m]) return d.txt[m];
     if (k === 'gg' && u === 'UIW') return 'turun ' + fx(d.pct[m], 2) + '% dari 2025 · target turun 5%';
     return val(k, d.kum[m]) + ' · target ' + val(k, d.tgt[m]); }
 
@@ -150,39 +172,63 @@
   function chips(sel) { return '<div class="kb-chips" role="group" aria-label="Pilih unit">' + ['UIW'].concat(UP).map(function (u) { return '<button type="button" class="kb-chip' + (u === sel ? ' on' : '') + '" data-u="' + u + '" aria-pressed="' + (u === sel) + '">' + (u === 'UIW' ? 'Semua UP3' : u) + '</button>'; }).join('') + '</div>'; }
       return { D: D, K: K, C: C, ORD: ORD, JN: JN, JW: JW, BL: BL, BLN: BLN, M: M, UP: UP, fx: fx, val: val, pc: pc, st: st, nama: nama, g: g, capNow: capNow, rt: rt, gauge: gauge, ring: ring, chart: chart, legend: legend, laci: laci, bukaUnit: bukaUnit, bukaBulan: bukaBulan, bukaJenis: bukaJenis, animasi: animasi, chips: chips, komposisi: komposisi };
   }
-  function kepala(sub) { return '<div class="kb-head"><div><h2>Kinerja Ophardist 2026</h2><p>' + sub + '</p></div><div class="kb-ups"><a class="kp-upbtn" href="' + SAIDI + '" target="_blank" rel="noopener noreferrer">SAIDI SAIFI <span aria-hidden="true">↗</span></a><a class="kp-upbtn" href="' + APKT + '" target="_blank" rel="noopener noreferrer">Gangguan APKT <span aria-hidden="true">↗</span></a></div></div>'; }
+  function kepala(sub) { return '<div class="kb-head"><div><h2>Kinerja Ophardist 2026</h2><p>' + sub + '</p></div><div class="kb-ups"><a class="kp-upbtn" href="' + SAIDI + '" target="_blank" rel="noopener noreferrer">SAIDI SAIFI <span aria-hidden="true">↗</span></a><a class="kp-upbtn" href="' + APKT + '" target="_blank" rel="noopener noreferrer">Gangguan APKT <span aria-hidden="true">↗</span></a>' + (B && B.K.rpt ? '<a class="kp-upbtn" href="' + RPTRN + '" target="_blank" rel="noopener noreferrer">RPT &amp; Rating Negatif <span aria-hidden="true">↗</span></a>' : '') + '</div></div>'; }
 
-  var B = null, s = { u: 'UIW' }, jejak = '';
-  function render() {
-    var M = B.M, u = s.u, J = B.D.jenis; if (!J[u]) u = s.u = 'UIW';
-    root.dataset.k = 'gg';
-    var tiles = B.ORD.map(function (k) { var c = B.capNow(k, 'UIW'); return '<button type="button" class="kb-card o3-t kb-click" data-unit="UIW" data-kk="' + k + '" aria-label="' + B.K[k].n + ' UIW, capaian ' + B.pc(c) + '">' + B.gauge(c, B.st(c), 220) + '<b>' + B.K[k].n + '</b><span>' + B.rt(k, 'UIW') + '</span></button>'; }).join('');
-    var mat = '<table class="o3-m"><thead><tr><th>Unit</th>' + B.ORD.map(function (k) { return '<th>' + B.K[k].n.replace('Penurunan gangguan', 'Gangguan') + '</th>'; }).join('') + '</tr></thead><tbody>' +
+  var B = null, s = { u: 'UIW', k: '' }, jejak = '';
+  var PENDEK = { saidi: 'SAIDI', saifi: 'SAIFI', gg: 'Penurunan gangguan', rpt: 'RPT', rn: 'Rating negatif' };
+  var SKALA = '<div class="kb-lg"><span><b style="background:#2E9D5B"></b>≥ 100%</span><span><b style="background:#FFC000"></b>95 s.d. &lt; 100%</span><span><b style="background:#F4625E"></b>&lt; 95%</span></div>';
+  function matriks() {
+    return '<div class="opk-sc"><table class="o3-m"><thead><tr><th>Unit</th>' + B.ORD.map(function (k) { return '<th>' + PENDEK[k] + '</th>'; }).join('') + '</tr></thead><tbody>' +
       B.D.unit.map(function (x) { return '<tr' + (x === 'UIW' ? ' class="kb-tot"' : '') + '><td>' + (x === 'UIW' ? 'UIW MMU' : x) + '</td>' + B.ORD.map(function (k) { var c = B.capNow(k, x);
-        return '<td><button type="button" class="o3-cell kb-click" data-unit="' + x + '" data-kk="' + k + '" style="--c:' + B.st(c) + '">' + B.pc(c) + '</button></td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table>';
+        return '<td><button type="button" class="o3-cell kb-click" data-unit="' + x + '" data-kk="' + k + '" style="--c:' + B.st(c) + '">' + B.pc(c) + '</button></td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div>'; }
+  /* capaian per UP3, diurutkan dari terendah; batang penuh = 200%, garis tegak = 100% */
+  function peringkat(k) { return '<div class="opk-rk">' + B.UP.map(function (x) { return { u: x, c: B.capNow(k, x) }; }).sort(function (a, b) { return (a.c == null ? 1e9 : a.c) - (b.c == null ? 1e9 : b.c); }).map(function (r) {
+      return '<div class="opk-rr kb-click" data-unit="' + r.u + '" data-kk="' + k + '"><span>' + r.u + '</span><small>' + B.rt(k, r.u) + '</small><div class="opk-tr"><i data-w="' + Math.max(0, Math.min(100, (r.c || 0) / 2)).toFixed(1) + '%" style="background:' + B.st(r.c) + '"></i><em></em></div><b>' + B.pc(r.c) + '</b></div>'; }).join('') + '</div>'; }
+  function rptUP3() { var M = B.M, r = B.UP.map(function (u) { var d = B.g('rpt', u), w = (B.D.wo[u] || []).slice(0, M + 1).reduce(function (a, b) { return a + (b || 0); }, 0); return { u: u, v: d.kum[M], wo: w }; }).sort(function (a, b) { return (b.v || 0) - (a.v || 0); });
+    var mx = Math.max(36, r[0].v || 0) * 1.0;
+    return '<div class="opk-bars">' + r.map(function (x) { var c = B.capNow('rpt', x.u);
+      return '<div class="opk-bar kb-click" data-unit="' + x.u + '" data-kk="rpt"><span>' + x.u + '</span><div class="opk-tr"><i data-w="' + ((x.v || 0) / mx * 100).toFixed(1) + '%" style="background:' + B.st(c) + '"></i><em style="left:' + (30 / mx * 100).toFixed(1) + '%;border-left-style:dashed;border-color:#FFC000;opacity:1"></em></div><b>' + B.fx(x.v, 2) + '</b><small>' + B.fx(x.wo) + ' WO</small></div>'; }).join('') +
+      '</div><div class="kb-lg"><span><b style="background:#2E9D5B"></b>RPT kumulatif (menit)</span><span><b class="t"></b>Target 30 menit</span></div>'; }
+  function rnUP3() { var M = B.M, r = B.UP.map(function (u) { var d = B.g('rn', u); return { u: u, v: d.kum[M] || 0, t: d.tgt[M] || 0 }; }).sort(function (a, b) { return b.v / (b.t || 1) - a.v / (a.t || 1); });
+    return '<div class="opk-rn">' + r.map(function (x) { var c = B.capNow('rn', x.u), s = '';
+      for (var i = 0; i < Math.max(x.v, x.t); i++) s += '<i' + (i < x.v ? ' style="background:' + (x.v >= x.t ? '#C2410C' : '#F4625E') + '"' : '') + '></i>';
+      return '<div class="opk-rnr kb-click" data-unit="' + x.u + '" data-kk="rn"><span>' + x.u + '</span><div class="opk-dots">' + s + '</div><b>' + x.v + ' / ' + x.t + '</b><i class="kb-pil" style="background:' + B.st(c) + '">' + B.pc(c) + '</i></div>'; }).join('') +
+      '</div><div class="kb-lg"><span><b style="background:#F4625E"></b>Rating negatif terjadi</span><span><b style="background:#E6EDF3"></b>Sisa kuota target s.d. ' + B.BLN[M] + '</span></div>'; }
+  function bagianGangguan(u) { var M = B.M, J = B.D.jenis;
     var lonj = B.UP.map(function (x) { var b = B.g('gg', x).bul, av = 0; for (var i = 0; i < M; i++) av += b[i]; av /= M; return { u: x, b: b[M], av: av, r: b[M] / av, se: J[x].Sementara[M] || 0 }; }).sort(function (a, b) { return b.r - a.r; });
     var jt = B.UP.map(function (x) { var t = B.JN.map(function (j) { var a = 0; for (var i = 0; i <= M; i++) a += J[x][j][i] || 0; return a; }); return { u: x, t: t, n: t.reduce(function (a, b) { return a + b; }, 0) }; }).sort(function (a, b) { return b.n - a.n; }), mxn = jt[0].n;
-    root.innerHTML = kepala('Data s.d. ' + B.BLN[M] + ' 2026 · analisis gangguan penyulang') +
-      '<div class="o3-ts">' + tiles + '</div>' +
-      '<div class="o3-row"><div class="kb-card"><h3>Matriks capaian</h3><p class="kb-q">Unit × KPI s.d. ' + B.BLN[M] + '. Klik sel untuk rincian bulanan.</p>' + mat +
-        '<div class="kb-lg"><span><b style="background:#2E9D5B"></b>≥ 100%</span><span><b style="background:#FFC000"></b>95 s.d. &lt; 100%</span><span><b style="background:#F4625E"></b>&lt; 95%</span></div></div>' +
-      '<div class="kb-card" data-k="gg"><h3>Gangguan penyulang per bulan</h3><p class="kb-q">Menurut jenis. Garis putus = target per bulan. Klik bulan untuk rincian per UP3.</p>' + B.chips(u) + B.chart('gg', u, { h: 270, mode: 'jenis' }) + B.legend('gg', 'jenis', u) + '</div></div>' +
-      '<div class="o3-row"><div class="kb-card"><h3>Gangguan ' + B.BLN[M] + ' dibanding rata-rata Jan–' + B.BL[M - 1] + '</h3><p class="kb-q">Diurutkan dari kenaikan terbesar.</p>' +
-        lonj.map(function (r) { var up = r.r > 1.5; return '<div class="o3-l kb-click" data-unit="' + r.u + '" data-kk="gg"><span>' + r.u + '</span><div><b>' + B.fx(r.b) + '</b> kali <small>rata-rata ' + B.fx(r.av, 1) + ' · sementara ' + r.se + '</small></div><i class="o3-ch' + (up ? ' up' : '') + '">' + (r.r >= 1 ? '+' : '') + B.fx((r.r - 1) * 100) + '%</i></div>'; }).join('') + '</div>' +
-      '<div class="kb-card"><h3>Jenis gangguan per UP3</h3><p class="kb-q">Jumlah Januari s.d. ' + B.BLN[M] + '.</p>' +
-        jt.map(function (r) { return '<div class="o3-j kb-click" data-unit="' + r.u + '" data-kk="gg"><span>' + r.u + '</span><div class="o3-st" style="width:' + (r.n / mxn * 100) + '%">' + r.t.map(function (v, i) { return v ? '<i style="flex:' + v + ';background:' + B.JW[i] + '"></i>' : ''; }).join('') + '</div><b>' + B.fx(r.n) + '</b></div>'; }).join('') +
-        '<div class="kb-lg">' + B.JN.map(function (j, i) { return '<span><b style="background:' + B.JW[i] + '"></b>' + j + '</span>'; }).join('') + '</div></div></div>';
+    return '<div class="o3-row"><div class="kb-card" data-k="gg"><h3>Gangguan penyulang per bulan</h3><p class="kb-q">Menurut jenis. Garis putus = target per bulan. Klik bulan untuk rincian per UP3.</p>' + B.chips(u) + B.chart('gg', u, { h: 270, mode: 'jenis' }) + B.legend('gg', 'jenis', u) + '</div>' +
+      '<div class="kb-card"><h3>Jenis gangguan per UP3</h3><p class="kb-q">Jumlah Januari s.d. ' + B.BLN[M] + '.</p>' + jt.map(function (r) { return '<div class="o3-j kb-click" data-unit="' + r.u + '" data-kk="gg"><span>' + r.u + '</span><div class="o3-st" style="width:' + (r.n / mxn * 100) + '%">' + r.t.map(function (v, i) { return v ? '<i style="flex:' + v + ';background:' + B.JW[i] + '"></i>' : ''; }).join('') + '</div><b>' + B.fx(r.n) + '</b></div>'; }).join('') +
+        '<div class="kb-lg">' + B.JN.map(function (j, i) { return '<span><b style="background:' + B.JW[i] + '"></b>' + j + '</span>'; }).join('') + '</div></div></div>' +
+      '<div class="kb-card"><h3>Gangguan ' + B.BLN[M] + ' dibanding rata-rata Jan–' + B.BL[M - 1] + '</h3><p class="kb-q">Diurutkan dari kenaikan terbesar.</p><div class="opk-2">' +
+        lonj.map(function (r) { var up = r.r > 1.5; return '<div class="o3-l kb-click" data-unit="' + r.u + '" data-kk="gg"><span>' + r.u + '</span><div><b>' + B.fx(r.b) + '</b> kali <small>rata-rata ' + B.fx(r.av, 1) + ' · sementara ' + r.se + '</small></div><i class="o3-ch' + (up ? ' up' : '') + '">' + (r.r >= 1 ? '+' : '') + B.fx((r.r - 1) * 100) + '%</i></div>'; }).join('') + '</div></div>'; }
+  function bagianKpi(k, u) { var M = B.M, nm = u === 'UIW' ? 'UIW MMU' : 'UP3 ' + u, mode = k === 'rn' ? 'kum' : 'bul';
+    var kanan = k === 'rpt' ? '<div class="kb-card"><h3>RPT per UP3</h3><p class="kb-q">Kumulatif s.d. ' + B.BLN[M] + ', makin pendek makin baik.</p>' + rptUP3() + '</div>'
+      : k === 'rn' ? '<div class="kb-card"><h3>Rating negatif per UP3</h3><p class="kb-q">Jumlah s.d. ' + B.BLN[M] + ' dibanding kuota target.</p>' + rnUP3() + '</div>'
+      : '<div class="kb-card" data-k="' + k + '"><h3>' + B.K[k].n + ' kumulatif · ' + nm + '</h3><p class="kb-q">Garis putus = target kumulatif.</p>' + B.chart(k, u, { h: 260, mode: 'kum' }) + B.legend(k, 'kum', u) + '</div>';
+    return '<div class="o3-row opk-r"><div class="kb-card" data-k="' + k + '"><h3>' + B.K[k].n + (mode === 'kum' ? ' kumulatif' : ' per bulan') + ' · ' + nm + '</h3><p class="kb-q">' + B.K[k].ket + '. Garis putus = target.</p>' + B.chips(u) + B.chart(k, u, { h: 260, mode: mode }) + B.legend(k, mode, u) + '</div>' + kanan + '</div>' +
+      (k === 'rpt' || k === 'rn' ? '' : '<div class="kb-card"><h3>Capaian ' + B.K[k].n + ' per UP3</h3><p class="kb-q">Diurutkan dari capaian terendah. Batang penuh = 200%, garis tegak = 100%. Klik baris untuk rincian bulanan.</p>' + peringkat(k) + '</div>'); }
+  function render() {
+    var M = B.M, u = s.u, kk = s.k, J = B.D.jenis; if (!J[u]) u = s.u = 'UIW';
+    root.dataset.k = kk || 'gg';
+    var tiles = '<div class="o3-ts opk-ts' + (B.ORD.length === 5 ? ' opk-5' : '') + '">' + B.ORD.map(function (k) { var c = B.capNow(k, 'UIW');
+      return '<button type="button" class="kb-card o3-t opk-t' + (k === kk ? ' on' : '') + (kk && k !== kk ? ' off' : '') + '" data-ok="' + k + '" aria-expanded="' + (k === kk) + '" aria-label="' + B.K[k].n + ' UIW, capaian ' + B.pc(c) + '. ' + (k === kk ? 'Tutup rincian' : 'Lihat rincian') + '">' + B.gauge(c, B.st(c), 200) + '<b>' + B.K[k].n + '</b><span>' + B.rt(k, 'UIW') + '</span><i class="opk-c" aria-hidden="true">' + (k === kk ? 'Tutup rincian ▴' : 'Lihat rincian ▾') + '</i></button>'; }).join('') + '</div>';
+    var isi = !kk ? '<div class="kb-card"><h3>Ringkasan per unit</h3><p class="kb-q">Klik salah satu kinerja di atas untuk membuka rinciannya. Klik sel untuk rincian bulanan.</p>' + matriks() + SKALA + '</div>'
+      : '<div class="opk-jd"><b>Rincian ' + B.K[kk].n + '</b><button type="button" class="opk-x" data-ok="' + kk + '">Tutup ×</button></div>' + (kk === 'gg' ? bagianGangguan(u) : bagianKpi(kk, u));
+    root.innerHTML = kepala('Data s.d. ' + B.BLN[M] + ' 2026 · klik kinerja untuk melihat rinciannya') + tiles + '<div class="opk-isi' + (kk ? ' buka' : '') + '">' + isi + '</div>';
     B.animasi(root);
   }
 
   function gambar() {
     if (sec.hidden) return; var D = susun(); if (!D) return; if (!cache.B) cache.B = mkB(D); B = cache.B;
-    var u = dash.params().up3_oph || 'UIW'; s.u = UNIT.indexOf(u) >= 0 ? u : 'UIW';
-    var kunci = s.u + '|' + cache.kr.length + '|' + cache.pr.length + '|' + (window.innerWidth < 700); if (kunci === jejak && root.firstChild) return; jejak = kunci;
+    var pr = dash.params(), u = pr.up3_oph || 'UIW'; s.u = UNIT.indexOf(u) >= 0 ? u : 'UIW';
+    s.k = B.K[pr.oph_kpi] ? pr.oph_kpi : '';
+    var kunci = s.k + '|' + s.u + '|' + cache.kr.length + '|' + cache.pr.length + '|' + (window.innerWidth < 700); if (kunci === jejak && root.firstChild) return; jejak = kunci;
     render(); }
   root.addEventListener('click', function (e) {
     if (!B) return;
     var c = e.target.closest('.kb-chip'); if (c) { dash.setParams({ up3_oph: c.getAttribute('data-u') }); return; }
+    var t = e.target.closest('[data-ok]'); if (t) { var ok = t.getAttribute('data-ok'); dash.setParams({ oph_kpi: s.k === ok ? '' : ok }); return; }
     var k = e.target.closest('.kb-click'); if (!k) return;
     if (k.dataset.jenis) { B.bukaJenis(+k.dataset.m); return; }
     if (k.dataset.m != null && k.closest('[data-k]')) B.bukaBulan(k.closest('[data-k]').dataset.k, +k.dataset.m);
