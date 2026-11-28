@@ -1,0 +1,33 @@
+/* Tab Kinerja Ophardist versi web, Konsep 3 "Analisis Gangguan" (28 Nov 2026). Dipasang build_web.py; lihat ophardist-web.js. */
+.kb{--ink:#132C42;--ink2:#4A5F73;--ink3:#7D8FA0;--line:#E3EAF1;--trk:#F0F4F8;color:var(--ink);display:flex;flex-direction:column;gap:20px;font-size:15px;margin-top:6px}
+.kb *{font-variant-numeric:tabular-nums}
+.kb-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}.kb-head h2{font-size:26px;font-weight:600;margin:0;color:var(--ink)}.kb-head p{margin:2px 0 0;font-size:14px;color:var(--ink2)}
+.kb-up{background:#2E75B6;color:#fff!important;text-decoration:none;border-radius:20px;padding:8px 16px;font-size:14px;font-weight:600}
+.kb-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 24px;min-width:0}
+.kb-card h3{font-size:17px;font-weight:600;margin:0 0 2px}.kb-q{font-size:14px;color:var(--ink2);margin:0 0 14px}
+.kb-chips{display:flex;gap:8px;flex-wrap:wrap}.kb-chip{all:unset;cursor:pointer;padding:7px 14px;border-radius:18px;background:#fff;border:1px solid var(--line);font-size:14px;color:var(--ink2)}.kb-chip.on{background:#2E75B6;border-color:#2E75B6;color:#fff;font-weight:600}
+.kb-gauge{width:100%;display:block;margin:0 auto}.kb-arc{transition:stroke-dasharray 1.1s cubic-bezier(.2,.7,.2,1)}
+.kb-chart{width:100%;display:block}.kb-col{transform-box:fill-box;transform-origin:bottom;transform:scaleY(0);transition:transform .8s cubic-bezier(.2,.7,.2,1) var(--d)}.kb-go .kb-col,#kb-laci.on .kb-col{transform:scaleY(1)}
+.kb-line{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.2s ease}.kb-go .kb-line,#kb-laci.on .kb-line{stroke-dashoffset:0}
+.kb-dot{opacity:0;transition:opacity .4s 1s}.kb-go .kb-dot,#kb-laci.on .kb-dot{opacity:1}
+.kb-click{cursor:pointer}.kb-col.kb-click:hover{opacity:.8}.kb-dot:hover{r:8}
+.kb-lg{display:flex;gap:18px;flex-wrap:wrap;font-size:13.5px;color:var(--ink2);margin-top:8px}.kb-lg b{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:7px;vertical-align:-1px}.kb-lg b.t{height:0;border-top:3px dashed #FFC000;border-radius:0;vertical-align:3px;width:16px}
+.kb-bar{position:relative;height:18px;background:var(--trk);border-radius:6px}.kb-bar i{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:6px;transition:width 1s cubic-bezier(.2,.7,.2,1)}.kb-bar em{position:absolute;top:-4px;bottom:-4px;border-left:2px dashed #132C42;opacity:.55}
+#kb-laci{position:fixed;inset:0;background:rgba(19,44,66,.35);z-index:9999;display:flex;justify-content:flex-end;opacity:0;pointer-events:none;transition:opacity .25s}#kb-laci.on{opacity:1;pointer-events:auto}
+.kb-lc{width:min(560px,100%);height:100%;background:#fff;overflow:auto;padding:22px 24px;box-sizing:border-box;transform:translateX(30px);transition:transform .3s;color:#132C42;font-size:15px}#kb-laci.on .kb-lc{transform:none}
+.kb-lh{display:flex;justify-content:space-between;gap:10px}.kb-lh h3{margin:0;font-size:19px}.kb-lh p{margin:4px 0 14px;color:#4A5F73;font-size:14px}.kb-x{all:unset;cursor:pointer;font-size:28px;line-height:1;color:#7D8FA0}
+.kb-t{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px;font-variant-numeric:tabular-nums}.kb-t th{text-align:right;font-weight:600;color:#7D8FA0;font-size:12.5px;padding:7px 6px;border-bottom:1px solid #E3EAF1}.kb-t td{text-align:right;padding:8px 6px;border-bottom:1px solid #EEF2F6}.kb-t th:first-child,.kb-t td:first-child{text-align:left}.kb-tot td{font-weight:700}
+.kb-pil{font-style:normal;color:#fff;font-weight:700;border-radius:10px;padding:2px 9px;font-size:13px}
+.kb-split{display:flex;height:22px;border-radius:7px;overflow:hidden;gap:2px;margin-top:6px}.kb-sm{font-size:13.5px;color:#4A5F73;margin:4px 0}
+.kb-usul{font-size:11.5px;font-weight:600;color:#7D8FA0;background:#F0F4F8;border-radius:8px;padding:1px 7px;margin-left:6px;vertical-align:2px}
+@media (max-width:700px){.kb-chips{flex-wrap:nowrap;overflow-x:auto;margin:0 -4px;padding:0 4px 4px}.kb-chip{flex:none}.kb-card{padding:16px}.kb-head h2{font-size:21px}.kb-up{display:none}}
+
+/* Konsep 3 Analisis Gangguan */
+.o3-ts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.o3-t{all:unset;box-sizing:border-box;cursor:pointer;background:#fff;border:1px solid #E3EAF1;border-radius:16px;padding:18px 18px 16px;text-align:center;display:flex;flex-direction:column;gap:2px}.o3-t:hover{border-color:#2E75B6}.o3-t:focus-visible{outline:2px solid #2E75B6;outline-offset:2px}.o3-t b{font-size:16.5px;font-weight:600;margin-top:4px}.o3-t span{font-size:13.5px;color:#4A5F73}
+.o3-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:20px}.o3-m{width:100%;border-collapse:separate;border-spacing:4px;font-size:14px}.o3-m th{font-size:12.5px;color:#7D8FA0;font-weight:600;text-align:center}.o3-m th:first-child,.o3-m td:first-child{text-align:left;font-weight:600}
+.o3-cell{all:unset;cursor:pointer;display:block;text-align:center;padding:9px 4px;border-radius:8px;font-weight:700;color:#fff;background:var(--c);width:100%;box-sizing:border-box}.o3-cell:hover{filter:brightness(1.08)}.kb-tot td:first-child{color:#2E75B6}
+.o3-l{display:grid;grid-template-columns:80px minmax(0,1fr) 64px;align-items:center;gap:10px;padding:9px 6px;border-bottom:1px solid #EEF2F6;border-radius:6px}.o3-l:hover{background:#F5F8FB}.o3-l span{font-weight:600}.o3-l small{color:#7D8FA0;margin-left:6px}.o3-ch{font-style:normal;text-align:right;font-weight:700;color:#4A5F73}.o3-ch.up{color:#C2410C}
+.o3-j{display:grid;grid-template-columns:80px minmax(0,1fr) 54px;align-items:center;gap:10px;padding:7px 6px;border-radius:6px}.o3-j:hover{background:#F5F8FB}.o3-j span{font-weight:600}.o3-j b{text-align:right}.o3-st{display:flex;height:18px;border-radius:5px;overflow:hidden;gap:1px}.o3-st i{display:block}
+@media (max-width:1000px){.o3-row{grid-template-columns:1fr}}@media (max-width:700px){.o3-ts{gap:8px}.o3-t{padding:10px 6px}.o3-t b{font-size:12.5px}.o3-t span{display:none}.o3-l small{display:block;margin:0}}
+.kb-ups{display:flex;gap:8px;flex-wrap:wrap}.kb .kb-chips{margin:2px 0 10px}
+@media (max-width:700px){.kb-ups{display:none}}
