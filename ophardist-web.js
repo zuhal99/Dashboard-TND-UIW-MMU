@@ -2,7 +2,7 @@
    Konsep: /mnt/project-files/kinerja/ophardist/konsep/. Dipasang build_web.py.
    Menambah <section id="ophardist" data-hal="Ophardist"> dan melepas Ophardist dari section #kinerja (pola sama dengan transmisi-web.js).
    Angka dari dataset kinerja (OP01 SAIDI, OP02 SAIFI, OP05 penurunan gangguan penyulang; capaian sama dengan tabel kinerja)
-   dan penurunan_gangguan (jumlah gangguan per jenis per bulan, realisasi 2025 UIW). Filter unit grafik memakai param up3_oph. */
+   dan penurunan_gangguan (jumlah gangguan per jenis per bulan, target UIW). Filter unit grafik memakai param up3_oph. */
 (function () {
   'use strict';
   var kin = document.getElementById('kinerja');
@@ -90,7 +90,9 @@
     if (mode === 'jenis') { var J = D.jenis[u];
       for (var m = 0; m <= M; m++) { var y0 = P.t + h, x = P.l + m * bw + bw * .18;
         JN.forEach(function (j, ji) { var v = J[j][m] || 0; if (!v) return; var hh = v / mx * h; y0 -= hh;
-          s += '<rect class="kb-col kb-click" data-m="' + m + '" x="' + x + '" y="' + y0 + '" width="' + bw * .64 + '" height="' + hh + '" fill="' + JW[ji] + '" style="--d:' + m * 40 + 'ms"/>'; }); } }
+          s += '<rect class="kb-col" data-m="' + m + '" x="' + x + '" y="' + y0 + '" width="' + bw * .64 + '" height="' + hh + '" fill="' + JW[ji] + '" style="--d:' + m * 40 + 'ms"/>'; }); }
+      /* area klik satu bulan penuh (kolom + label bulan): membuka rincian per UP3 per jenis gangguan */
+      for (m = 0; m <= M; m++) s += '<rect class="kb-click opw-hit" data-m="' + m + '" data-jenis="1" x="' + (P.l + m * bw) + '" y="' + P.t + '" width="' + bw + '" height="' + (h + P.b) + '" rx="6"><title>' + BLN[m] + ': rincian per UP3</title></rect>'; }
     else if (mode === 'bul') ys.forEach(function (v, i) { if (v == null) return; var x = P.l + i * bw + bw * .18, y = Y(v);
       s += '<rect class="kb-col kb-click" data-m="' + i + '" x="' + x + '" y="' + y + '" width="' + bw * .64 + '" height="' + (P.t + h - y) + '" rx="5" fill="' + (tg[i] != null && v > tg[i] ? C.salmon : K[k].w) + '" style="--d:' + i * 40 + 'ms"/>'; });
     else { var pt = []; ys.forEach(function (v, i) { if (v != null) pt.push([P.l + i * bw + bw / 2, Y(v), i]); });
@@ -102,8 +104,8 @@
     var lv = mode === 'jenis' ? d.bul[M] : ys[M]; if (lv != null) s += '<text x="' + (P.l + M * bw + bw / 2) + '" y="' + (Y(lv) - 12) + '" text-anchor="middle" font-size="14" font-weight="700" fill="#132C42">' + fx(lv, mode === 'kum' || k === 'gg' ? K[k].d : K[k].d) + '</text>';
     return s + '</svg>'; }
   function legend(k, mode, u) {
-    if (mode === 'jenis') return '<div class="kb-lg">' + JN.map(function (j, i) { return '<span><b style="background:' + JW[i] + '"></b>' + j + '</span>'; }).join('') + '<span><b class="t"></b>' + (u === 'UIW' ? 'Realisasi 2025' : 'Target') + '</span></div>';
-    return '<div class="kb-lg"><span><b style="background:' + K[k].w + '"></b>' + (mode === 'bul' ? 'Realisasi per bulan' : 'Realisasi kumulatif') + '</span>' + (mode === 'bul' ? '<span><b style="background:' + C.salmon + '"></b>Melebihi target bulan itu</span>' : '') + '<span><b class="t"></b>' + (mode === 'bul' && k === 'gg' && u === 'UIW' ? 'Realisasi 2025' : 'Target') + '</span></div>'; }
+    if (mode === 'jenis') return '<div class="kb-lg">' + JN.map(function (j, i) { return '<span><b style="background:' + JW[i] + '"></b>' + j + '</span>'; }).join('') + '<span><b class="t"></b>' + 'Target' + '</span></div>';
+    return '<div class="kb-lg"><span><b style="background:' + K[k].w + '"></b>' + (mode === 'bul' ? 'Realisasi per bulan' : 'Realisasi kumulatif') + '</span>' + (mode === 'bul' ? '<span><b style="background:' + C.salmon + '"></b>Melebihi target bulan itu</span>' : '') + '<span><b class="t"></b>' + 'Target' + '</span></div>'; }
 
   function laci(judul, sub, html) {
     var o = document.getElementById('kb-laci'); if (!o) { o = document.createElement('div'); o.id = 'kb-laci'; document.body.appendChild(o);
@@ -123,6 +125,18 @@
     return r + '</tbody></table>'; }
   function bukaUnit(k, u) { var d = g(k, u); laci(K[k].n + ' · ' + nama(u), rt(k, u) + ' · capaian ' + pc(d.cap[M]),
     (k === 'gg' ? komposisi(u) : '') + '<div class="kb-lchart">' + chart(k, u, { h: 220, mode: 'bul' }) + '</div>' + legend(k, 'bul', u) + tabelUnit(k, u)); }
+  /* rincian satu bulan: gangguan per UP3 per jenis, dibanding target bulan itu (UIW: target UIW bulan itu) */
+  function bukaJenis(m) { var J = D.jenis, r25 = D.r25[m] - (m ? D.r25[m - 1] : 0);
+    var r = '<div class="opw-sc"><table class="kb-t opw-jt"><thead><tr><th>Unit</th>' + JN.map(function (j, i) { return '<th><i class="opw-dt" style="background:' + JW[i] + '"></i><span class="opw-pj">' + j + '</span><span class="opw-pk">' + ['Perm', 'Smtr', 'Clns', 'Logs'][i] + '</span></th>'; }).join('') + '<th>Total</th><th>Target</th></tr></thead><tbody>';
+    var rows = UP.map(function (u) { var t = JN.reduce(function (a, j) { return a + (J[u][j][m] || 0); }, 0); return { u: u, t: t, tg: D.gg[u].tbul[m] }; }).sort(function (a, b) { return b.t - a.t; });
+    rows.push({ u: 'UIW', t: JN.reduce(function (a, j) { return a + (J.UIW[j][m] || 0); }, 0), tg: r25 });
+    rows.forEach(function (x) { var lebih = x.tg != null && x.t > x.tg;
+      r += '<tr' + (x.u === 'UIW' ? ' class="kb-tot"' : '') + '><td>' + (x.u === 'UIW' ? 'UIW MMU' : x.u) + '<span class="opw-mb">' + JN.map(function (j, i) { var v = J[x.u][j][m] || 0; return v ? '<i style="flex:' + v + ';background:' + JW[i] + '"></i>' : ''; }).join('') + '</span></td>' +
+        JN.map(function (j) { var v = J[x.u][j][m] || 0; return '<td' + (v ? '' : ' class="opw-0"') + '>' + fx(v) + '</td>'; }).join('') +
+        '<td><b' + (lebih ? ' class="opw-up"' : '') + '>' + fx(x.t) + '</b></td><td class="opw-tg">' + (x.tg == null ? '—' : fx(x.tg)) + '' + '</td></tr>'; });
+    r += '</tbody></table></div>';
+    var nav = '<div class="opw-nav">' + (m > 0 ? '<button type="button" class="opw-jm" data-jm="' + (m - 1) + '">‹ ' + BLN[m - 1] + '</button>' : '<span></span>') + (m < M ? '<button type="button" class="opw-jm" data-jm="' + (m + 1) + '">' + BLN[m + 1] + ' ›</button>' : '<span></span>') + '</div>';
+    laci('Gangguan penyulang · ' + BLN[m] + ' 2026', '', nav + r); }
   function bukaBulan(k, m) { laci(K[k].n + ' · ' + BLN[m] + ' 2026', 'Nilai per unit pada bulan ini', tabelBulan(k, m)); }
 
   function animasi(root) {
@@ -134,7 +148,7 @@
         (function f(now) { var p = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - p, 3); t.textContent = pc(n * e); if (p < 1) requestAnimationFrame(f); })(t0); });
     }); }); }
   function chips(sel) { return '<div class="kb-chips" role="group" aria-label="Pilih unit">' + ['UIW'].concat(UP).map(function (u) { return '<button type="button" class="kb-chip' + (u === sel ? ' on' : '') + '" data-u="' + u + '" aria-pressed="' + (u === sel) + '">' + (u === 'UIW' ? 'Semua UP3' : u) + '</button>'; }).join('') + '</div>'; }
-      return { D: D, K: K, C: C, ORD: ORD, JN: JN, JW: JW, BL: BL, BLN: BLN, M: M, UP: UP, fx: fx, val: val, pc: pc, st: st, nama: nama, g: g, capNow: capNow, rt: rt, gauge: gauge, ring: ring, chart: chart, legend: legend, laci: laci, bukaUnit: bukaUnit, bukaBulan: bukaBulan, animasi: animasi, chips: chips, komposisi: komposisi };
+      return { D: D, K: K, C: C, ORD: ORD, JN: JN, JW: JW, BL: BL, BLN: BLN, M: M, UP: UP, fx: fx, val: val, pc: pc, st: st, nama: nama, g: g, capNow: capNow, rt: rt, gauge: gauge, ring: ring, chart: chart, legend: legend, laci: laci, bukaUnit: bukaUnit, bukaBulan: bukaBulan, bukaJenis: bukaJenis, animasi: animasi, chips: chips, komposisi: komposisi };
   }
   function kepala(sub) { return '<div class="kb-head"><div><h2>Kinerja Ophardist 2026</h2><p>' + sub + '</p></div><div class="kb-ups"><a class="kp-upbtn" href="' + SAIDI + '" target="_blank" rel="noopener noreferrer">SAIDI SAIFI <span aria-hidden="true">↗</span></a><a class="kp-upbtn" href="' + APKT + '" target="_blank" rel="noopener noreferrer">Gangguan APKT <span aria-hidden="true">↗</span></a></div></div>'; }
 
@@ -152,7 +166,7 @@
       '<div class="o3-ts">' + tiles + '</div>' +
       '<div class="o3-row"><div class="kb-card"><h3>Matriks capaian</h3><p class="kb-q">Unit × KPI s.d. ' + B.BLN[M] + '. Klik sel untuk rincian bulanan.</p>' + mat +
         '<div class="kb-lg"><span><b style="background:#2E9D5B"></b>≥ 100%</span><span><b style="background:#FFC000"></b>95 s.d. &lt; 100%</span><span><b style="background:#F4625E"></b>&lt; 95%</span></div></div>' +
-      '<div class="kb-card" data-k="gg"><h3>Gangguan penyulang per bulan</h3><p class="kb-q">Menurut jenis. Garis putus = ' + (u === 'UIW' ? 'realisasi 2025 per bulan' : 'target per bulan') + '. Klik kolom untuk nilai per unit.</p>' + B.chips(u) + B.chart('gg', u, { h: 270, mode: 'jenis' }) + B.legend('gg', 'jenis', u) + '</div></div>' +
+      '<div class="kb-card" data-k="gg"><h3>Gangguan penyulang per bulan</h3><p class="kb-q">Menurut jenis. Garis putus = target per bulan. Klik bulan untuk rincian per UP3.</p>' + B.chips(u) + B.chart('gg', u, { h: 270, mode: 'jenis' }) + B.legend('gg', 'jenis', u) + '</div></div>' +
       '<div class="o3-row"><div class="kb-card"><h3>Gangguan ' + B.BLN[M] + ' dibanding rata-rata Jan–' + B.BL[M - 1] + '</h3><p class="kb-q">Diurutkan dari kenaikan terbesar.</p>' +
         lonj.map(function (r) { var up = r.r > 1.5; return '<div class="o3-l kb-click" data-unit="' + r.u + '" data-kk="gg"><span>' + r.u + '</span><div><b>' + B.fx(r.b) + '</b> kali <small>rata-rata ' + B.fx(r.av, 1) + ' · sementara ' + r.se + '</small></div><i class="o3-ch' + (up ? ' up' : '') + '">' + (r.r >= 1 ? '+' : '') + B.fx((r.r - 1) * 100) + '%</i></div>'; }).join('') + '</div>' +
       '<div class="kb-card"><h3>Jenis gangguan per UP3</h3><p class="kb-q">Jumlah Januari s.d. ' + B.BLN[M] + '.</p>' +
@@ -170,8 +184,10 @@
     if (!B) return;
     var c = e.target.closest('.kb-chip'); if (c) { dash.setParams({ up3_oph: c.getAttribute('data-u') }); return; }
     var k = e.target.closest('.kb-click'); if (!k) return;
+    if (k.dataset.jenis) { B.bukaJenis(+k.dataset.m); return; }
     if (k.dataset.m != null && k.closest('[data-k]')) B.bukaBulan(k.closest('[data-k]').dataset.k, +k.dataset.m);
     else if (k.dataset.unit) B.bukaUnit(k.dataset.kk || 'gg', k.dataset.unit); });
+  document.addEventListener('click', function (e) { var b = e.target.closest('.opw-jm'); if (b && B) B.bukaJenis(+b.getAttribute('data-jm')); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { var o = document.getElementById('kb-laci'); if (o) o.classList.remove('on'); } });
   window.addEventListener('resize', function () { gambar(); });
   dash.onData(function () { try { gambar(); } catch (e) { console.error('ophardist-web: ' + (e.stack || e)); } });
