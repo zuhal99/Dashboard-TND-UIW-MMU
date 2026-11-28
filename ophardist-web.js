@@ -75,7 +75,8 @@
     return '<svg viewBox="0 0 88 88" width="' + sz + '" height="' + sz + '" class="kb-ring"><circle cx="44" cy="44" r="' + R + '" fill="none" stroke="' + C.abu + '" stroke-width="10"/>' +
       '<circle cx="44" cy="44" r="' + R + '" fill="none" stroke="' + col + '" stroke-width="10" stroke-linecap="round" transform="rotate(-90 44 44)" class="kb-arc" style="--l:' + L.toFixed(1) + ';--f:' + f.toFixed(1) + '" stroke-dasharray="0 ' + L.toFixed(1) + '"/>' +
       '<text x="44" y="' + (44 + (fs || 16) * .35) + '" text-anchor="middle" font-size="' + (fs || 16) + '" font-weight="700" fill="#132C42" class="kb-num" data-n="' + (v || 0) + '">' + pc(v) + '</text></svg>'; }
-  function nice(mx) { var rs = mx / 3, e = Math.pow(10, Math.floor(Math.log10(rs))), q = rs / e; return (q <= 1 ? 1 : q <= 2 ? 2 : q <= 2.5 ? 2.5 : q <= 5 ? 5 : 10) * e * 3; }
+  /* skala sumbu Y: langkah 1/2/2,5/5 x 10^n untuk sekitar 4 garis, puncak = kelipatan langkah terdekat di atas nilai tertinggi */
+  function nice(mx) { if (!(mx > 0)) return { mx: 1, n: 4 }; var rs = mx / 4, e = Math.pow(10, Math.floor(Math.log10(rs))), q = rs / e, st = (q <= 1 ? 1 : q <= 2 ? 2 : q <= 2.5 ? 2.5 : q <= 5 ? 5 : 10) * e, n = Math.ceil(mx / st - 1e-9); return { mx: n * st, n: n }; }
   function ylab(k, v) { return k === 'saifi' ? fx(v, v < 1 && v ? 2 : 1) : fx(v, v % 1 ? 1 : 0); }
 
   /* grafik: o.mode 'kum' = garis kumulatif + target; 'bul' = kolom per bulan + target bulanan; 'jenis' = kolom bertumpuk per jenis gangguan */
@@ -83,9 +84,9 @@
     o = o || {}; var mode = o.mode || 'kum', hp = window.innerWidth < 700, d = g(k, u), W = hp ? 380 : 640, H = hp ? 250 : (o.h || 280), P = { l: hp ? 40 : 46, r: 10, t: 26, b: 30 }, w = W - P.l - P.r, h = H - P.t - P.b, bw = w / 12;
     var ys = mode === 'kum' ? d.kum : d.bul, tg = mode === 'kum' ? d.tgt : d.tbul;
     if (k === 'gg' && u === 'UIW' && mode !== 'kum') tg = D.r25.map(function (x, i) { return x == null ? null : x - (i ? D.r25[i - 1] : 0); });
-    var mx = 0; ys.concat(tg).forEach(function (x) { if (x != null && x > mx) mx = x; }); mx = nice(mx * 1.06);
+    var mx = 0; ys.concat(tg).forEach(function (x) { if (x != null && x > mx) mx = x; }); var sk = nice(mx * 1.06); mx = sk.mx;
     var Y = function (v) { return P.t + h - v / mx * h; }, s = '<svg viewBox="0 0 ' + W + ' ' + H + '" class="kb-chart">';
-    for (var i = 0; i <= 3; i++) { var gv = mx * i / 3; s += '<line x1="' + P.l + '" x2="' + (W - P.r) + '" y1="' + Y(gv) + '" y2="' + Y(gv) + '" stroke="#EEF2F6"/><text x="' + (P.l - 8) + '" y="' + (Y(gv) + 4) + '" text-anchor="end" font-size="12" fill="#7D8FA0">' + ylab(k, gv) + '</text>'; }
+    for (var i = 0; i <= sk.n; i++) { var gv = mx * i / sk.n; s += '<line x1="' + P.l + '" x2="' + (W - P.r) + '" y1="' + Y(gv) + '" y2="' + Y(gv) + '" stroke="#EEF2F6"/><text x="' + (P.l - 8) + '" y="' + (Y(gv) + 4) + '" text-anchor="end" font-size="12" fill="#7D8FA0">' + ylab(k, gv) + '</text>'; }
     if (mode === 'jenis') { var J = D.jenis[u];
       for (var m = 0; m <= M; m++) { var y0 = P.t + h, x = P.l + m * bw + bw * .18;
         JN.forEach(function (j, ji) { var v = J[j][m] || 0; if (!v) return; var hh = v / mx * h; y0 -= hh;
